@@ -14,7 +14,7 @@ import user from "./user.svg";
 
 // category icons
 import bill from "./categories/bills.svg";
-import education from "./categories/education.svg.svg";
+import education from "./categories/education.svg";
 import entertainment from "./categories/entertainment.svg";
 import food from "./categories/food.svg";
 import health from "./categories/health.svg";
