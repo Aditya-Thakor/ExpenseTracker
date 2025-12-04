@@ -7,7 +7,6 @@ import SignIn from './pages/signup&signin/SignIn.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <ETRoutes/> */}
-    <SignIn/>
+    <ETRoutes/> 
   </StrictMode>,
 )
