@@ -54,7 +54,7 @@ export default function AddTransaction() {
             id="amount"
             type="number" 
             value={amount}
-            className="w-10 focus:w-1/2 transition ease-in text-blue-300 text-5xl bg-transparent focus:text-blue-600 focus:outline-none"
+            className="w-10 appearance-auto focus:w-1/2  transition ease-in text-blue-300 text-5xl bg-transparent focus:text-blue-600 focus:outline-none"
             onChange={(e)=>setAmount(e.target.value)}
           />
         </div>

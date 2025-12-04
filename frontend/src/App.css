@@ -41,3 +41,9 @@
     src: url('./assets/fonts/Lato-Thin.ttf') format('ttf'); 
     font-style: light;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
