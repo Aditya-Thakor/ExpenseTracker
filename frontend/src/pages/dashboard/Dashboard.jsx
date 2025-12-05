@@ -2,6 +2,9 @@ import DataCard from "../../components/Income-expense-Card/DataCard";
 import i from "../../assets/icons/index";
 import CategoryTempCard from "../../components/categoryCard/CategoryTempCard";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
+import C1 from "../../components/charts/categoryCharts/C1";
+import C2 from "../../components/charts/categoryCharts/C2";
+import MyDoughnut from "../../components/charts/categoryCharts/C3";
 export default function Dashboard() {
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
@@ -97,20 +100,31 @@ export default function Dashboard() {
             />
           </div>
         </div>
-        <div className="h-full w-2/5 flex flex-col gap-2 p-4 rounded-xl bg-white">
+        <div className="h-full w-2/5 flex flex-col gap-3 p-4 rounded-xl bg-white">
           <div className="h-1/2 w-full">
             <div className="h-[10%] flex justify-between items-center  ">
               <h2 className="text-slate-700 font-sans font-medium text-sm">
                 Category vise spending
               </h2>
             </div>
+            <div className="h-[90%] w-full">
+                <div className="h-full w-full">
+                   <MyDoughnut/>
+                </div>
+            </div>
           </div>
           <div className="h-1/2 w-full bg-white">
-           <div className="h-[10%] flex justify-between items-center  ">
+            <div className="h-[10%] flex justify-between items-center  ">
               <h2 className="text-slate-700 font-sans font-medium text-sm">
                 Monthly Expenses
               </h2>
-            </div></div>
+            </div>
+            <div className="h-[90%] w-full">
+                <div className="h-full w-full">
+                    <C2 />
+                </div>
+            </div>
+        </div>
         </div>
       </div>
     </div>
