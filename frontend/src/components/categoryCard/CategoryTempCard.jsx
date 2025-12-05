@@ -9,7 +9,7 @@ export default function CategoryTempCard({icon, name, amount}) {
         />
       </div>
       <div className="h-full w-[70%] flex flex-col pl-2">
-        <span className="text-sm font-sans font-medium text-gray-400">
+        <span className="text-sm font-sans font-medium text-slate-500">
           {name}
         </span>
         <h3 className="flex flex-col font-bold text-xl text-gray-900 ">
