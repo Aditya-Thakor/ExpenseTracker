@@ -9,7 +9,7 @@ import FancyChart from './components/charts/Demo2.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <ETRoutes/>  */}
-    <FancyChart/>
+    <ETRoutes/> 
+    {/* <FancyChart/> */}
   </StrictMode>,
 )
