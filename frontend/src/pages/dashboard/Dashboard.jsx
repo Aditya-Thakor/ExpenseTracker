@@ -5,6 +5,7 @@ import TransactionCard from "../../components/Income-expense-Card/TransactionCar
 import C1 from "../../components/charts/categoryCharts/C1";
 import C2 from "../../components/charts/categoryCharts/C2";
 import MyDoughnut from "../../components/charts/categoryCharts/C3";
+import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
 export default function Dashboard() {
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
@@ -109,8 +110,9 @@ export default function Dashboard() {
             </div>
             <div className="h-[90%] w-full">
                 <div className="h-full w-full p-2">
-                   <div className="h-full  ">
-                   <MyDoughnut/>
+                   <div className="h-full w-full ">
+                    <ExpenseDoughnutChart/>
+                   {/* <MyDoughnut/> */}
                    {/* <C2/> */}
                    </div>
                 </div>

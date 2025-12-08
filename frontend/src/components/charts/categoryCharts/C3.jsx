@@ -13,7 +13,7 @@ export default function MyDoughnut() {
     labels: ["Foods & utilyties", "Transportation", "Other"],
     datasets: [
       {
-        label: ["Other","Transportation", "Food & utilities"],
+        label: ["Other","Transportation", "Food & utilities"], // remove this label
         data: [56000, 40000, 80000],
         backgroundColor: [
           "#facc15", 
