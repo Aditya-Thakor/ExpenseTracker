@@ -8,6 +8,7 @@ import Analytics from "../pages/analytics/Analytics";
 import Profile from "../pages/profile/Profile";
 import Signup from "../pages/signup&signin/Signup";
 import SignIn from "../pages/signup&signin/SignIn";
+import Dproto from "../pages/dashboard/Dproto1";
 
 const ETRoutes = () => {
   return (

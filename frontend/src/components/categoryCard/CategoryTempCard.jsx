@@ -1,6 +1,6 @@
 export default function CategoryTempCard({icon, name, amount}) {
   return (
-    <div className="h-full  flex gap-2 p-2 bg-white shadow-lg shadow-slate-400 border border-gray-100 rounded-xl">
+    <div className="h-full  flex gap-2 p-2 bg-white shadow-lg shadow-slate-300 border border-gray-100 rounded-xl">
       <div className="h-full w-[30%] rounded-xl overflow-hidden">
         <img
           src={icon}

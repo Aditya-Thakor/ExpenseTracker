@@ -2,27 +2,40 @@ import DataCard from "../../components/Income-expense-Card/DataCard";
 import i from "../../assets/icons/index";
 import CategoryTempCard from "../../components/categoryCard/CategoryTempCard";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
+// import C1 from "../../components/charts/categoryCharts/C1";
+// import C2 from "../../components/charts/categoryCharts/C2";
+// import MyDoughnut from "../../components/charts/categoryCharts/C3";
+import {ChevronRight} from 'lucide-react'
+
+
 export default function Dashboard() {
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
+      {/* heading */}
       <div className="h-auto">
         <h1 className="text-gray-800 text-2xl font-bold">Dashboard</h1>
         <span className="text-gray-500 text-xs">
           Welcome! here is your financial overview
         </span>
       </div>
+      {/* income/expense cards */}
       <div className="h-40 flex gap-3">
         {/* <div className="h-full  min-w-60 bg-slate-600 rounded-xl"></div>   */}
         <DataCard type="expense" amount="52,999" stats="-2% from last month" />
         <DataCard type="Income" amount="92,599" stats="+8% from last month" />
-        <div className="h-full w-full flex flex-col justify-around bg-white rounded-xl px-4 py-2">
-          <div className="h-5 w-full text-right">
-            <span className="text-sm hover:text-blue-800 cursor-pointer text-blue-500">
-              View all
+        <div className="h-full w-full flex flex-col justify-between bg-transparent relative">
+          {/* <div className="h-10 w-min rounded-xl text-right">
+            <span 
+              className="h-full  text-sm flex items-center justify-end hover:text-blue-800 cursor-pointer text-blue-500 bg-white rounded-xl"
+            >
+              View all <span> <ChevronRight /></span>
             </span>
-          </div>
+          </div> */}
+          <span className="bg-white text-nowrap h-10 w-min px-4 py-5 text-sm rounded-lg flex items-center justify-between gap-3 absolute top-0 right-0">
+            View all <ChevronRight />
+          </span>
 
-          <div className="grid grid-cols-3 gap-4 ">
+          <div className=" grid grid-cols-3 gap-4 w-full absolute bottom-0 ">
             <CategoryTempCard
               icon={i.food}
               name="Food & Dining"
@@ -36,14 +49,18 @@ export default function Dashboard() {
             />
 
             <CategoryTempCard
-              icon={i.entertainment}
+              icon={i.bill}
               name="Entertainment"
               amount="3500"
             />
           </div>
         </div>
       </div>
+
+      
       <div className="h-3/4 flex gap-3">
+
+      {/* transations */}
         <div className="h-full w-3/5 flex flex-col gap-4 p-4 rounded-xl bg-white">
           <div className="h-[10%] flex justify-between items-center ">
             <h2 className="text-slate-700 font-normal text-lg">
@@ -97,21 +114,39 @@ export default function Dashboard() {
             />
           </div>
         </div>
-        <div className="h-full w-2/5 flex flex-col gap-2 p-4 rounded-xl bg-white">
+
+        {/* chrts */}
+        <div className="h-full w-2/5 flex flex-col gap-3 p-4 rounded-xl bg-white">
           <div className="h-1/2 w-full">
             <div className="h-[10%] flex justify-between items-center  ">
               <h2 className="text-slate-700 font-sans font-medium text-sm">
                 Category vise spending
               </h2>
             </div>
+            <div className="h-[90%] w-full">
+                <div className="h-full w-full p-2">
+                   <div className="h-32 w-1/2 ">
+                   {/* <MyDoughnut/> */}
+                   </div>
+                </div>
+            </div>
           </div>
           <div className="h-1/2 w-full bg-white">
-           <div className="h-[10%] flex justify-between items-center  ">
+            <div className="h-[10%] flex justify-between items-center  ">
               <h2 className="text-slate-700 font-sans font-medium text-sm">
                 Monthly Expenses
               </h2>
-            </div></div>
+            </div>
+            <div className="h-[90%] w-full">
+                <div className="h-full w-full p-2">
+                    <div className="h-full w-full ">
+                      {/* <C2 /> */}
+                    </div>
+                </div>
+            </div>
         </div>
+        </div>
+
       </div>
     </div>
   );
