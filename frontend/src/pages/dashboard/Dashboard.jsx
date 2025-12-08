@@ -6,6 +6,7 @@ import C1 from "../../components/charts/categoryCharts/C1";
 import C2 from "../../components/charts/categoryCharts/C2";
 import MyDoughnut from "../../components/charts/categoryCharts/C3";
 import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
+import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
 export default function Dashboard() {
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
@@ -48,7 +49,8 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="h-3/4 flex gap-3">
-        <div className="h-full w-3/5 flex flex-col gap-4 p-4 rounded-xl bg-white">
+      {/* transactions */}
+        <div className="h-full w-3/5 flex  flex-col gap-4 p-4 rounded-xl bg-white">
           <div className="h-[10%] flex justify-between items-center ">
             <h2 className="text-slate-700 font-normal text-lg">
               Recent transactions
@@ -101,6 +103,7 @@ export default function Dashboard() {
             />
           </div>
         </div>
+        {/* doughnut chart */}
         <div className="h-full w-2/5 flex flex-col gap-3 p-4 rounded-xl bg-white">
           <div className="h-full w-full">
             <div className="h-[10%] flex justify-between items-center  ">
@@ -118,10 +121,28 @@ export default function Dashboard() {
                    </div>
                 </div>
             </div>
-          </div>
+        </div>
+
+        
               
         </div>
       </div>
+      <div className="h-auto w-full p-4 rounded-xl bg-white">
+        <div className="flex justify-between items-center">
+           <h2 className="text-slate-700 font-normal text-lg">
+              Monthly expense
+            </h2>
+            <span className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer">
+              Details
+            </span>
+        </div>
+              <div className="h-96 w-full">
+                <div className="h-full w-full">
+                    <MonthlyExpenseBarChart/>
+                </div>
+              </div>
+      </div>
+      
     </div>
   );
 }
