@@ -10,15 +10,15 @@ import { Doughnut } from "react-chartjs-2";
 
 export default function MyDoughnut() {
   const data = {
-    labels: ["Red", "Blue", "Yellow"],
+    // labels: ["Red", "Blue", "Yellow"],
     datasets: [
       {
-        label: "Colors",
-        data: [30, 40, 30],
+        label: ["Food & utilities","Transportation", "Other"],
+        data: [56000, 40000, 80000],
         backgroundColor: [
-          "#ef4444", // red-500
-          "#3b82f6", // blue-500
           "#facc15", // yellow-400
+          "#C450D0", // red-500
+          "#219CE5", // blue-500
         ],
         borderWidth: 0,
       },

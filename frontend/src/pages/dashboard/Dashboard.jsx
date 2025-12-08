@@ -108,8 +108,10 @@ export default function Dashboard() {
               </h2>
             </div>
             <div className="h-[90%] w-full">
-                <div className="h-full w-full">
+                <div className="h-full w-full p-2">
+                   <div className="h-28 w-1/2 ">
                    <MyDoughnut/>
+                   </div>
                 </div>
             </div>
           </div>
@@ -120,8 +122,10 @@ export default function Dashboard() {
               </h2>
             </div>
             <div className="h-[90%] w-full">
-                <div className="h-full w-full">
-                    <C2 />
+                <div className="h-full w-full p-2">
+                    <div className="h-full w-full ">
+                      <C2 />
+                    </div>
                 </div>
             </div>
         </div>
