@@ -101,7 +101,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="h-full w-2/5 flex flex-col gap-3 p-4 rounded-xl bg-white">
-          <div className="h-1/2 w-full">
+          <div className="h-full w-full">
             <div className="h-[10%] flex justify-between items-center  ">
               <h2 className="text-slate-700 font-sans font-medium text-sm">
                 Category vise spending
@@ -109,26 +109,27 @@ export default function Dashboard() {
             </div>
             <div className="h-[90%] w-full">
                 <div className="h-full w-full p-2">
-                   <div className="h-28 w-1/2 ">
+                   <div className="h-full  ">
                    <MyDoughnut/>
+                   {/* <C2/> */}
                    </div>
                 </div>
             </div>
           </div>
-          <div className="h-1/2 w-full bg-white">
-            <div className="h-[10%] flex justify-between items-center  ">
-              <h2 className="text-slate-700 font-sans font-medium text-sm">
-                Monthly Expenses
-              </h2>
-            </div>
-            <div className="h-[90%] w-full">
-                <div className="h-full w-full p-2">
-                    <div className="h-full w-full ">
-                      <C2 />
+              {/* <div className="h-1/2 w-full bg-white">
+                <div className="h-[10%] flex justify-between items-center  ">
+                  <h2 className="text-slate-700 font-sans font-medium text-sm">
+                    Monthly Expenses
+                  </h2>
+                </div>
+                <div className="h-[90%] w-full">
+                    <div className="h-full w-full p-2">
+                        <div className="h-full w-full ">
+                          <C2 />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> */}
         </div>
       </div>
     </div>
