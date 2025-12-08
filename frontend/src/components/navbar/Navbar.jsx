@@ -23,7 +23,7 @@ const Navbar = () => {
         <div className="flex flex-col items-center gap-3 text-gray-400">
           <NavLink 
             to=""
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -32,7 +32,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to="category"
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -41,7 +41,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to='transaction'
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -50,7 +50,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to='analytics'
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -59,7 +59,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to='profile'
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
