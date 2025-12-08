@@ -92,14 +92,21 @@ export default function Dashboard() {
 
             <TransactionCard
               icon={i.dining}
-              tag="Shopping"
+              tag="Dinner"
               date="15 Nov 2025"
               amount="5,000"
               type="expense"
             />
             <TransactionCard
+              icon={i.train}
+              tag="Metro pass"
+              date="15 Nov 2025"
+              amount="3,000"
+              type="expense"
+            />
+            <TransactionCard
               icon={i.office}
-              tag="Shopping"
+              tag="Salary"
               date="15 Nov 2025"
               amount="55,000"
               type="income"

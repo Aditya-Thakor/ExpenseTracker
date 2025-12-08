@@ -1,7 +1,7 @@
 export default function TransactionCard({type,icon, tag, date, amount}) {
   return (
     <div 
-        className={`h-1/4 w-full flex justify-between items-center px-5 rounded-xl 
+        className={`h-1/5 w-full flex justify-between items-center px-5 rounded-xl 
         ${type==="income" ? 
             "bg-emerald-100" :
             "bg-rose-100" 
@@ -13,7 +13,7 @@ export default function TransactionCard({type,icon, tag, date, amount}) {
           <img src={icon} alt="category" />
         </div>
         <div>
-          <h3 className="text-slate-900 font-sans font-semibold text-md ">
+          <h3 className="text-slate-900 font-sans font-semibold text-lg ">
             {tag}
           </h3>
           <span className="text-xs text-slate-500">{date}</span>
