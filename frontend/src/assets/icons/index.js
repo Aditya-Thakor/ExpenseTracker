@@ -25,6 +25,8 @@ import code from "./categories/code.svg";
 import office from "./categories/office.svg";
 import dining from "./categories/dining.svg";
 import saving from "./saving.svg";
+import train from "./categories/train.svg";
+import shoppingLite from "./categories/shopping_lite.svg";
 
 export default {
   logo,
@@ -47,6 +49,8 @@ export default {
   travel,
   code,
   dining,
-  office, 
+  office,
   saving,
+  shoppingLite,
+  train,
 };
