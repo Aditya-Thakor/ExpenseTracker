@@ -21,7 +21,10 @@ export default function Dashboard() {
         <DataCard type="expense" amount="52,999" stats="-2% from last month" />
         <DataCard type="Income" amount="92,599" stats="+8% from last month" />
         <div className="h-full w-full flex flex-col justify-around bg-white rounded-xl px-4 py-2">
-          <div className="h-5 w-full text-right">
+          <div className="h-5 w-full flex justify-between items-center">
+            <span className="text-sm text-slate-400">
+              Top expenses in category
+            </span>
             <span className="text-sm hover:text-blue-800 cursor-pointer text-blue-500">
               View all
             </span>
@@ -29,21 +32,21 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-3 gap-4 ">
             <CategoryTempCard
-              icon={i.food}
-              name="Food & Dining"
-              amount="10000"
+              icon={i.bill}
+              name="Bills & Utilities"
+              amount="34,000"
             />
 
             <CategoryTempCard
               icon={i.transportation}
               name="Transportation"
-              amount="8500"
+              amount="25,000"
             />
 
             <CategoryTempCard
-              icon={i.entertainment}
-              name="Entertainment"
-              amount="3500"
+              icon={i.food}
+              name="Food & dining"
+              amount="20,000"
             />
           </div>
         </div>
