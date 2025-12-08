@@ -13,7 +13,7 @@ import {
 
 const Navbar = () => {
   return (
-    <div className="h-screen w-20 bg-white">
+    <div className="h-auto w-20 bg-white">
       <div className="h-full w-full flex flex-col items-center justify-between  py-5 border-r">
         {/* Logo */}
         <div className="h-14 w-14  flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
