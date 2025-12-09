@@ -12,16 +12,19 @@ import {
 } from "lucide-react";
 
 const Navbar = () => {
+
+  
+
   return (
-    <div className="h-auto w-20 bg-white">
-      <div className="h-full w-full flex flex-col items-center justify-between  py-5 border-r">
+    <div className="h-auto w-20 bg-white ">
+      <div className="h-full w-full flex flex-col items-center justify-between  py-5 border-r ">
         {/* Logo */}
-        <div className="h-14 w-14  flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
+        <div className="h-14 w-14 fixed flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
           <img src={icons.logo} alt="logo" className="size-10" />
         </div>
         {/* NavLinks */}
         <div className="fixed top-40">
-            <div className="flex flex-col items-center gap-3 text-gray-400">
+            <div className="flex flex-col items-center gap-3 text-slate-300">
           <NavLink 
             to=""
             className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
@@ -72,7 +75,7 @@ const Navbar = () => {
         
 
         {/* Add Transaction & LogOut */}
-        <div className="flex flex-col gap-3 items-center">
+        <div className="flex flex-col gap-3 items-center fixed bottom-0">
           <span className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white">
             <Plus className="size-6 "/>
           </span>
