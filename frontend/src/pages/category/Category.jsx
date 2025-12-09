@@ -81,7 +81,7 @@ export default function Category(){
                     />
                     <CategoryCard
                         name="Travel"
-                        amount="33,000"
+                        amount="65,000"
                         icon={i.travel}  
                         transactions="28"
                         bgfrom="#F0FDF4"                  
@@ -93,7 +93,7 @@ export default function Category(){
                     />
                     <CategoryCard
                         name="Shopping"
-                        amount="33,000"
+                        amount="42,000"
                         icon={i.shopping}  
                         transactions="28"
                         bgfrom="#FDF2F8"                  
