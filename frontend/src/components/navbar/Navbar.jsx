@@ -12,18 +12,22 @@ import {
 } from "lucide-react";
 
 const Navbar = () => {
+
+  
+
   return (
-    <div className="h-screen w-20 bg-white">
-      <div className="h-full w-full flex flex-col items-center justify-between  py-5 border-r">
+    <div className="h-auto w-20 bg-white ">
+      <div className="h-full w-full flex flex-col items-center justify-between  py-5 border-r ">
         {/* Logo */}
-        <div className="h-14 w-14  flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
+        <div className="h-14 w-14 fixed flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
           <img src={icons.logo} alt="logo" className="size-10" />
         </div>
         {/* NavLinks */}
-        <div className="flex flex-col items-center gap-3 text-gray-400">
+        <div className="fixed top-40">
+            <div className="flex flex-col items-center gap-3 text-slate-300">
           <NavLink 
             to=""
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -32,7 +36,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to="category"
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -41,7 +45,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to='transaction'
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -50,7 +54,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to='analytics'
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -59,7 +63,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink 
             to='profile'
-            className={({isActive})=>` h-12 w-12 rounded-lg flex items-center justify-center 
+            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
            ${isActive? 
            "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
            "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
@@ -67,8 +71,11 @@ const Navbar = () => {
             <UserRound />
           </NavLink>
         </div>
+        </div>
+        
+
         {/* Add Transaction & LogOut */}
-        <div className="flex flex-col gap-3 items-center">
+        <div className="flex flex-col gap-3 items-center fixed bottom-0">
           <span className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white">
             <Plus className="size-6 "/>
           </span>
