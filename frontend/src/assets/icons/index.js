@@ -29,6 +29,7 @@ import train from "./categories/train.svg";
 import shoppingLite from "./categories/shopping_lite.svg";
 import tmini from "./categories/transaction_mini.svg";
 import aup from "./categories/arrow_up.svg";
+import savingIcon from "./savingIcon.svg";
 
 export default {
   logo,
@@ -57,4 +58,5 @@ export default {
   train,
   aup,
   tmini,
+  savingIcon
 };
