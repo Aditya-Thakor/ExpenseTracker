@@ -24,7 +24,7 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
 
       {/* amount data */}
       <div className="h-1/4 w-full">
-        <span className="text-lg text-slate-700">{name}</span>
+        <span className="text-md font-sans font-medium text-slate-500">{name}</span>
         <h3 className="h-full text-4xl text-slate-900 font-medium">
           Rs. {amount}
         </h3>
