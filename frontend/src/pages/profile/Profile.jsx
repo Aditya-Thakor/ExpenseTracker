@@ -9,12 +9,38 @@ import {
   EyeOff,
   KeyRound,
   ChevronDown,
+  Dot,
+  ChevronUp,
 } from "lucide-react";
 import DataCard2 from "../../components/Income-expense-Card/DataCard2";
 import i from "../../assets/icons/index";
 import Userdata from "./Data";
+import { useState } from "react";
 
 export default function Profile() {
+  // password hide&show
+  const [hide, setHide] = useState(false);
+  const showPassword = () => {
+    return hide ? (
+      <span className="tracking-widest">98243835</span>
+    ) : (
+      <span className="flex">
+        <Dot />
+        <Dot />
+        <Dot />
+        <Dot />
+        <Dot />
+        <Dot />
+        <Dot />
+        <Dot />
+      </span>
+    );
+  };
+  // ------------------------------------------------
+
+  // change password
+  const [visible, setVisible] = useState(false);
+
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
       {/* Heading */}
@@ -158,51 +184,65 @@ export default function Profile() {
             {/* <ShieldEllipsis /> */}
           </div>
           <div className="h-full w-full flex flex-col gap-5">
-            <div className="h-1/5 w-full flex items-center gap-5 border rounded-md shadow-sm px-4">
+            <div className="h-14 w-full flex items-center gap-5 border rounded-md shadow-sm px-4">
               <div className="h-full w-1/4 flex items-center gap-2 text-gray-700 text-lg ">
                 <ShieldEllipsis />
                 <span>Password</span>
               </div>
               <div className="h-3/4 w-3/4 flex items-center justify-between px-3 border rounded-lg">
-                <span>98243835</span>
-                <button>
-                  <EyeOff />
+                {/* <span>98243835</span> */}
+                {showPassword()}
+                <button onClick={() => setHide(!hide)}>
+                  {hide ? <EyeOff /> : <Eye />}
                 </button>
               </div>
             </div>
 
-            <div className="h-4/5 w-full border rounded-md">
-              <div className="h-1/5 w-full flex justify-between items-center gap-5  rounded-md  px-4">
-                <div className="h-full w-4/5 flex items-center gap-3 text-gray-700 text-lg ">
-                  <KeyRound className="size-5" />
-                  <span>Change password</span>
+            <div className="h-4/5 w-full  rounded-md ">
+              {visible ? (
+                <div className="h-1/5 w-full border flex justify-between items-center gap-5  rounded-md  px-4">
+                  <div className="h-full w-4/5 flex items-center gap-3 text-gray-700 text-lg ">
+                    <KeyRound className="size-5" />
+                    <span>Change password</span>
+                  </div>
+                  <div className="h-4/5 flex items-center ">
+                    <button onClick={()=>setVisible(!visible)}>
+                      <ChevronDown />
+                    </button>
+                  </div>
                 </div>
-                <div className="h-4/5 flex items-center ">
-                  <button>
-                    <ChevronDown />
+              ) : (
+                <div className="h-full w-full border flex flex-col gap-3 justify-between  rounded-md  p-4">
+                  <div className="h-1/5 w-full flex justify-between items-center gap-5  rounded-md mb-2 ">
+                    <div className="h-full w-4/5 flex items-center gap-3 text-gray-700 text-lg ">
+                      <KeyRound className="size-5" />
+                      <span>Change password</span>
+                    </div>
+                    <div className="h-4/5 flex items-center ">
+                      <button onClick={()=>setVisible(!visible)}>
+                        <ChevronUp />
+                      </button>
+                    </div>
+                  </div>
+                  <span h-auto w-full>
+                    <input
+                      type="text"
+                      placeholder="New password"
+                      className=" w-full border rounded-md p-2"
+                    />
+                  </span>
+                  <span h-auto w-full>
+                    <input
+                      type="text"
+                      placeholder="Confirm password"
+                      className=" w-full border rounded-md p-2"
+                    />
+                  </span>
+                  <button className="w-full text-white font-medium bg-green-500 hover:bg-green-600 py-2 rounded-md">
+                    Change password
                   </button>
                 </div>
-              </div>
-
-              <div className="h-1/2 w-full flex flex-col gap-3 justify-between  rounded-md  p-4">
-                <span h-auto w-full>
-                  <input
-                    type="text"
-                    placeholder="New password"
-                    className=" w-full border rounded-md p-2"
-                  />
-                </span>
-                <span h-auto w-full>
-                  <input
-                    type="text"
-                    placeholder="Confirm password"
-                    className=" w-full border rounded-md p-2"
-                  />
-                </span>
-                <button className="w-full text-white font-medium bg-green-500 hover:bg-green-600 py-2 rounded-md">
-                  Change password
-                </button>
-              </div>
+              )}
             </div>
           </div>
         </div>
