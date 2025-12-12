@@ -1,8 +1,9 @@
 const express = require('express');
 const  cors =require ('cors');
 const connectDB = require('./db/index');
-
+const multer = require('multer')
 const app = express();
+const upload = multer();
 const port = 5000;
 
 app.use(cors());
@@ -13,17 +14,17 @@ app.get('/', (req,res)=>{
 
 })
 
-app.post('/usersdata', async (req,res)=>{
+app.post('/usersdata',upload.none(), async (req,res)=>{
     console.log('user info request');
 
-    data= req.body;
+   const data= req.body;
 
     const db = await connectDB();
 
     const userData = await db.collection('usersdata').insertOne({
-        username: "Aditya",
-        email:"a@expense.com",
-        password:"123214"
+        username: data.username,
+        email:data.email,
+        password:data.password
     });
     console.log(userData);
     res.send('user added successfully!!')
