@@ -2,6 +2,7 @@ import { Download } from "lucide-react";
 import Heading from "../../components/heading/Heading";
 import Datacard from "../../components/summaryCards/Datacard";
 import i from "../../assets/icons/index";
+import InEx from "../../components/charts/analyticsCharts/InvsEx";
 
 export default function Analytics(){
     return(
@@ -78,11 +79,12 @@ export default function Analytics(){
                                 Income vs Expenses Trend
                             </span>
                             <span className="text-xs text-gray-400">
-                                Last 6 months overview
+                                Last  6 months overview
+                                
                             </span>
                         </div>
-                    <div className="h-[85%] w-full bg-green-50">
-
+                    <div className="h-[85%] w-full ">
+                           <InEx/>
                     </div>
                 </div>
                 <ChartCard title="Expense by Category" subtag="Current month distribution" />
