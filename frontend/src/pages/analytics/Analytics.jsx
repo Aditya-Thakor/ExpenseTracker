@@ -3,6 +3,7 @@ import Heading from "../../components/heading/Heading";
 import Datacard from "../../components/summaryCards/Datacard";
 import i from "../../assets/icons/index";
 import InEx from "../../components/charts/analyticsCharts/InvsEx";
+import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPieChart";
 
 export default function Analytics(){
     return(
@@ -87,7 +88,11 @@ export default function Analytics(){
                            <InEx/>
                     </div>
                 </div>
-                <ChartCard title="Expense by Category" subtag="Current month distribution" />
+                <ChartCard 
+                    title="Expense by Category" 
+                    subtag="Current month distribution" 
+                    chart={<CategoryPieChart/>}
+                />
                 <ChartCard title="Monthly Spending Pattern" subtag="Expense trend over time" />
                 <ChartCard title="Top 5 Spending Categories" subtag="Highest expense categories" />
             </div>
@@ -104,7 +109,7 @@ const FilterBtn = ({name})=>{
     )
 }
 
-const ChartCard = ({title, subtag})=>{
+const ChartCard = ({title, subtag,chart})=>{
     return(
         <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
                         <div className="h-[15%] w-full flex flex-col">
@@ -115,8 +120,8 @@ const ChartCard = ({title, subtag})=>{
                                 {subtag}
                             </span>
                         </div>
-                    <div className="h-[85%] w-full bg-green-50">
-
+                    <div className="h-[85%] w-full ">
+                        {chart}
                     </div>
         </div>
     )
