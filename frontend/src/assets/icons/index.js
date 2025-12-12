@@ -31,6 +31,12 @@ import tmini from "./categories/transaction_mini.svg";
 import aup from "./categories/arrow_up.svg";
 import savingIcon from "./savingIcon.svg";
 
+import travelLight from "./categories/Group 704.svg";
+import billLight from "./categories/Group 705.svg";
+import transportationLight from "./categories/Group 706.svg";
+import foodlight from "./categories/Group 707.svg";
+import shoppinglight from "./categories/Group 708.svg";
+
 export default {
   logo,
   category,
@@ -58,5 +64,10 @@ export default {
   train,
   aup,
   tmini,
-  savingIcon
+  savingIcon,
+  travelLight,
+  foodlight,
+  transportationLight,
+  billLight,
+  shoppinglight,
 };
