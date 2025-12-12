@@ -30,6 +30,7 @@ import shoppingLite from "./categories/shopping_lite.svg";
 import tmini from "./categories/transaction_mini.svg";
 import aup from "./categories/arrow_up.svg";
 import aupWhite from "./categories/Group 628.svg";
+import aupRed from "./categories/Group 628.svg";
 import savingIcon from "./savingIcon.svg";
 
 import travelLight from "./categories/Group 704.svg";
@@ -63,7 +64,7 @@ export default {
   saving,
   shoppingLite,
   train,
-  aup, aupWhite,
+  aup, aupWhite, aupRed,
   tmini,
   savingIcon,
   travelLight,
