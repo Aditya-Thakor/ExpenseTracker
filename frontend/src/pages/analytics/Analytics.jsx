@@ -4,6 +4,7 @@ import Datacard from "../../components/summaryCards/Datacard";
 import i from "../../assets/icons/index";
 import InEx from "../../components/charts/analyticsCharts/InvsEx";
 import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPieChart";
+import Barchart from "../../components/charts/analyticsCharts/Barchart";
 
 export default function Analytics(){
     return(
@@ -64,6 +65,7 @@ export default function Analytics(){
                     <span>Time period : </span>
                 </div>
                 <div className="h-full w-[calc(100%-80px)] grid grid-cols-5 gap-5  ">
+                    {/* Add Navlink instead of btns.. */}
                     <FilterBtn name="This week" />
                     <FilterBtn name="1 Month" />
                     <FilterBtn name="3 Month" />
@@ -93,7 +95,11 @@ export default function Analytics(){
                     subtag="Current month distribution" 
                     chart={<CategoryPieChart/>}
                 />
-                <ChartCard title="Monthly Spending Pattern" subtag="Expense trend over time" />
+                <ChartCard 
+                    title="Monthly Spending Pattern" 
+                    subtag="Expense trend over time" 
+                    chart={<Barchart/>}
+                />
                 <ChartCard title="Top 5 Spending Categories" subtag="Highest expense categories" />
             </div>
         </div>
