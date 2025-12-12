@@ -113,6 +113,7 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
+            bg="whitebg"
             category="Income"
           />
           <TransactionCard
@@ -121,6 +122,7 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
+            bg="whitebg"
             category="Income"
           />
           <TransactionCard
@@ -129,6 +131,7 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
+            bg="whitebg"
             category="Income"
           />
           <TransactionCard
@@ -137,6 +140,7 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
+            bg="whitebg"
             category="Income"
           />
           <TransactionCard
@@ -145,6 +149,16 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
+            bg="whitebg"
+            category="Income"
+          />
+          <TransactionCard
+            icon={i.code}
+            tag="Freelance work"
+            date="16 Nov 2025"
+            amount="12,000"
+            type="whitebg"
+            bg="whitebg"
             category="Income"
           />
           <TransactionCard
@@ -153,6 +167,7 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
+            bg="whitebg"
             category="Income"
           />
           <TransactionCard
@@ -161,14 +176,7 @@ export default function Transaction() {
             date="16 Nov 2025"
             amount="12,000"
             type="income"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
+            bg="whitebg"
             category="Income"
           />
       </div>

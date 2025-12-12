@@ -1,4 +1,4 @@
-export default function TransactionCard({type,icon, tag, date, amount, category="Other"}) {
+export default function TransactionCard({type,icon, tag, date, amount,bg, category="Other"}) {
   return (
     <div 
         className={`h-auto max-h-20 w-full flex justify-between items-center px-5 py-3 rounded-xl 
@@ -6,6 +6,7 @@ export default function TransactionCard({type,icon, tag, date, amount, category=
             "bg-emerald-100" :
             "bg-rose-100" 
         }
+        ${bg==="whitebg"? "bg-white" : ""}
         `}
     >
       <div className="flex items-center gap-4">
