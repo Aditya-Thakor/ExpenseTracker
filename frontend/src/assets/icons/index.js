@@ -29,7 +29,19 @@ import train from "./categories/train.svg";
 import shoppingLite from "./categories/shopping_lite.svg";
 import tmini from "./categories/transaction_mini.svg";
 import aup from "./categories/arrow_up.svg";
+import aupWhite from "./categories/Group 628.svg";
+import aupRed from "./categories/Group 631.svg";
 import savingIcon from "./savingIcon.svg";
+
+import travelLight from "./categories/Group 704.svg";
+import billLight from "./categories/Group 705.svg";
+import transportationLight from "./categories/Group 706.svg";
+import foodlight from "./categories/Group 707.svg";
+import shoppinglight from "./categories/Group 708.svg";
+
+//others
+
+import calendar from "./Group 637.svg";
 
 export default {
   logo,
@@ -56,7 +68,13 @@ export default {
   saving,
   shoppingLite,
   train,
-  aup,
+  aup, aupWhite, aupRed,
   tmini,
-  savingIcon
+  savingIcon,
+  travelLight,
+  foodlight,
+  transportationLight,
+  billLight,
+  shoppinglight,
+  calendar
 };
