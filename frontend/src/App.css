@@ -41,3 +41,10 @@
     src: url('./assets/fonts/Lato-Thin.ttf') format('ttf'); 
     font-style: light;
 }
+
+/* number input's arrow hide */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
