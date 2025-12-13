@@ -1,27 +1,29 @@
 import { IndianRupee } from "lucide-react";
 import React, { useState } from "react";
 
-export default function AddTransactionModal() {
-  const [open, setOpen] = useState(false);
+export default function AddTransactionModal({open,onClose}) {
+  // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [type, setType] = useState("income");
 
   const closeModal = () => {
-    setOpen(false);
+    onClose()
+    // setOpen(false);
     setStep(1);
     setType("income");
   };
+  if (!open) return null;
 
   return (
     <div>
-      <button
-        onClick={() => setOpen(true)}
+      {/* <button
+        onClick={() => closeModal}
         className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
       >
         Add Transaction
-      </button>
+      </button> */}
         {/* if open=true && step=1 ? add amount model else details model */}
-      {open && (
+      
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           {step === 1 && (
             <div className="h-3/4 w-full max-w-sm flex flex-col justify-between rounded-xl bg-white p-6 shadow-lg">
@@ -43,7 +45,7 @@ export default function AddTransactionModal() {
                     onClick={() => setType("income")}
                     className={`flex-1 rounded-lg border px-4 py-2 font-medium transition ${
                       type === "income"
-                        ? "border-green-600 bg-green-600 text-white"
+                        ? "border-green-500 bg-green-600 text-white"
                         : "border-gray-300 text-gray-600 hover:bg-gray-100"
                     }`}
                   >
@@ -53,7 +55,7 @@ export default function AddTransactionModal() {
                     onClick={() => setType("expense")}
                     className={`flex-1 rounded-lg border px-4 py-2 font-medium transition ${
                       type === "expense"
-                        ? "border-red-600 bg-red-600 text-white"
+                        ? "border-red-500 bg-red-600 text-white"
                         : "border-gray-300 text-gray-600 hover:bg-gray-100"
                     }`}
                   >
@@ -153,7 +155,7 @@ export default function AddTransactionModal() {
             </div>
           )}
         </div>
-      )}
+     
     </div>
   );
 }

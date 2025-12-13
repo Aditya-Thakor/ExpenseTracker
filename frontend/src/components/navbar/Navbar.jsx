@@ -1,4 +1,4 @@
-import React from "react";
+import React, {  useState } from "react";
 import {Link, NavLink} from "react-router-dom"
 import icons from "../../assets/icons/index";
 import {
@@ -10,9 +10,10 @@ import {
   UserRound,
   Wallet,
 } from "lucide-react";
+import AddTransactionModal from "../addTransactions/modelDemoz/D1";
 
 const Navbar = () => {
-
+  const [showmodal,setShowmodal]= useState(false)
   
 
   return (
@@ -76,7 +77,10 @@ const Navbar = () => {
 
         {/* Add Transaction & LogOut */}
         <div className="flex flex-col gap-3 items-center fixed bottom-0">
-          <span className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white">
+          <span 
+            className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
+            onClick={()=>setShowmodal(true)}
+          >
             <Plus className="size-6 "/>
           </span>
           <Link
@@ -86,6 +90,12 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
+
+      {/* add transaction modal */}
+            <AddTransactionModal
+              open={showmodal}
+              onClose ={()=>setShowmodal(false)}
+            />
     </div>
   );
 };
