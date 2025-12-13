@@ -20,7 +20,7 @@ export default function AddTransactionModal() {
       >
         Add Transaction
       </button>
-
+        {/* if open=true && step=1 ? add amount model else details model */}
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           {step === 1 && (
@@ -64,11 +64,11 @@ export default function AddTransactionModal() {
 
             {/* add amount */}
               <div className="mb-6 flex items-center justify-center relative">
-                <IndianRupee className="size-9 absolute left-1/4 pl-2" />
+                <IndianRupee className="size-9 text-gray-700 absolute left-1/4 pl-2" />
                 <input
                   type="number"
                   placeholder="0.00"
-                  className="w-40 h-9 pl-10  border rounded-lg  pr-0 py-7 text-start tracking-wide text-3xl focus:border-blue-600 focus:outline-none"
+                  className="w-40 h-9 pl-10  border rounded-lg  pr-0 py-7 text-start tracking-wide text-3xl text-blue-600 focus:border-blue-600 focus:outline-none"
                 />
               </div>
 
@@ -82,10 +82,10 @@ export default function AddTransactionModal() {
             </div>
           )}
 
-          {/* STEP 2 */}
+          {/* details model */}
           {step === 2 && (
-            <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
-              {/* Header */}
+            <div className="h-3/4 w-full max-w-sm flex flex-col justify-between rounded-xl bg-white p-6 shadow-lg">
+             
               <div className="mb-4 flex items-start justify-between">
                 <h2 className="text-lg font-semibold">
                   {type === "expense" ? "Add Expense" : "Add Income"}
@@ -107,11 +107,16 @@ export default function AddTransactionModal() {
                 />
 
                 {type === "expense" ? (
-                  <select className="w-full rounded-lg border px-4 py-2 focus:border-blue-600 focus:outline-none">
+                  <select className="w-full overflow-hidden overflow-y-scroll rounded-lg border px-4 py-2 focus:border-blue-600 focus:outline-none">
                     <option value="">Select Category</option>
                     <option>Food</option>
+                    <option>Bills & utilities</option>
+                    <option>travel</option>
                     <option>Transport</option>
+                    <option>Healthcare</option>
                     <option>Shopping</option>
+                    <option>Education</option>
+                    <option>Entertainment</option>
                   </select>
                 ) : (
                   <input
@@ -127,7 +132,7 @@ export default function AddTransactionModal() {
                 />
               </div>
 
-              {/* Footer */}
+              {/* btns */}
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={() => setStep(1)}
