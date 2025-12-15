@@ -79,6 +79,40 @@ app.get("/usersdata/transactions", async (req, res) => {
   res.end();
 });
 
+
+// Category 
+
+app.post("/category/addcategory", upload.none(), async(req,res)=>{
+  console.log(req.body);
+  const data = req.body;
+
+  try {
+    const db =await connectDB();
+    const categories = await db.collection("categories").insertOne({
+      name:data.name,
+      icon: data.icon,
+      bgtype: data.bgType,
+      color1: data.color1,
+      color2:data.color2
+    });
+    res.send("Category added successfully..")
+    // res.json(categories);
+    
+  } catch (error) {
+    console.log('Error at create Category ', error);
+    throw(error);
+  }
+  // res.end();
+})
+
+app.get("/categories", async(req,res)=>{
+  const db = await connectDB();
+  const data = await db.collection("categories").find().toArray();
+
+  res.json(data);
+  res.end();
+})
+
 app.listen(port, () => {
   console.log(`Server started at ${port} PORT.`);
 });
