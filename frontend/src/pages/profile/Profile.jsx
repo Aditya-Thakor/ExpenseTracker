@@ -16,8 +16,12 @@ import DataCard2 from "../../components/Income-expense-Card/DataCard2";
 import i from "../../assets/icons/index";
 import Userdata from "./Data";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
+
+  const navigate = useNavigate();
+
   // password hide&show
   const [hide, setHide] = useState(false);
   const showPassword = () => {
@@ -68,8 +72,11 @@ export default function Profile() {
             <span className="text-xl font-medium text-gray-800">
               Aditya Thakor
             </span>
-            <span className="flex justify-center items-center bg-blue-500 py-2 px-2 text-white rounded-full cursor-pointer">
-              <UserRoundPen className="size-4" />
+            <span 
+              onClick={()=>navigate('/profile/editprofile')}
+              className="flex justify-center items-center bg-blue-500 py-2 px-2 text-white rounded-full cursor-pointer">
+              <UserRoundPen 
+               className="size-4" />
             </span>
           </div>
           {/* other data */}

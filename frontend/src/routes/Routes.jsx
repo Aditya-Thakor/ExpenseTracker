@@ -9,6 +9,8 @@ import Profile from "../pages/profile/Profile";
 import Signup from "../pages/signup&signin/Signup";
 import SignIn from "../pages/signup&signin/SignIn";
 import Dproto from "../pages/dashboard/Dproto1";
+import EditProfile from "../pages/profile/editProfile";
+import ProfileOutlet from "../pages/profile/ProfileOutlet";
 
 const ETRoutes = () => {
   return (
@@ -19,7 +21,10 @@ const ETRoutes = () => {
           <Route path="category" element={<Category/>}/>
           <Route path="transaction" element={<Transaction/>}/>
           <Route path="analytics" element={<Analytics/>}/>
-          <Route path="profile" element={<Profile/>}/>
+          <Route path="profile" element={<ProfileOutlet/>}>
+            <Route path="" element={<Profile/>} />
+            <Route path="editprofile" element={<EditProfile/>} />
+          </Route>
         </Route>
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<SignIn/>}></Route>
