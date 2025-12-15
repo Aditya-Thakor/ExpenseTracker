@@ -13,6 +13,7 @@ import transaction from "./transaction.svg";
 import user from "./user.svg";
 
 // category icons
+import categoryIcon from "./categories/Group 1174.svg";
 import bill from "./categories/bills.svg";
 import education from "./categories/education.svg";
 import entertainment from "./categories/entertainment.svg";
@@ -76,5 +77,6 @@ export default {
   transportationLight,
   billLight,
   shoppinglight,
-  calendar
+  calendar,
+  categoryIcon
 };
