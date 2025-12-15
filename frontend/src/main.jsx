@@ -9,7 +9,7 @@ import AddTransaction from './components/addTransactions/AddTransaction.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ETRoutes/> 
-    {/* <AddTransaction/> */}
+    {/* <ETRoutes/>  */}
+    <AddTransaction/>
   </StrictMode>,
 )
