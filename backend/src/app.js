@@ -40,6 +40,21 @@ app.get("/usersdata", async (req, res) => {
   res.end();
 });
 
+// Login 
+app.post("/signin", upload.none(), async(req,res)=>{
+  const userdata = req.body;
+  try {
+    const db = await connectDB();
+    const userLog = await db.collection("usersdata").find(u=>u.email === userdata.email && u.password === userdata.password).toArray();
+
+    res.json(userLog)
+    res.send("User logedin...")
+  } catch (error) {
+    console.log('Invelid User',error);
+  }
+})
+
+
 // add transactions
 app.post("/usersdata/transactions", upload.none(), async (req, res) => {
   // const data = req.body;
