@@ -3,8 +3,8 @@ import img from "../../assets/images/index";
 import { useNavigate } from "react-router-dom";
 export default function SignIn() {
   const navigate = useNavigate();
-  const [email,setEmail]=useState('');
-  const [password,setPassword]=useState('');
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
 
   const formData = new FormData();
   formData.append("email", email);
