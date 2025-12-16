@@ -43,16 +43,30 @@ app.get("/usersdata", async (req, res) => {
 // Login 
 app.post("/signin", upload.none(), async(req,res)=>{
   const userdata = req.body;
+  console.log(userdata);
   try {
     const db = await connectDB();
-    const userLog = await db.collection("usersdata").find(u=>u.email === userdata.email && u.password === userdata.password).toArray();
+    const userLog = await db.collection("usersdata").findOne({email:userdata.email});
 
-    res.json(userLog)
-    res.send("User logedin...")
+    if(!userLog){
+      return res.status(401).json({
+        message:"Invelid email"
+      });
+    }
+
+    if(userLog.password != userdata.password){
+      return res.status(401).json({message:"Invelid Password"});
+    }
+
+    res.status(200).json({
+      message:"Login Succesfull..",
+      userLog
+    });
+
   } catch (error) {
     console.log('Invelid User',error);
   }
-})
+});
 
 
 // add transactions

@@ -1,9 +1,13 @@
 import { useState } from "react";
 import img from "../../assets/images/index";
+import {useNavigate} from "react-router-dom"
+
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleUser = async () => {
     const formData = new FormData();
@@ -94,7 +98,10 @@ export default function Signup() {
               <div className="text-gray-600 mt-5">
                 <span className="flex gap-2 text-xs">
                   Already have an Account?
-                  <span className="font-semibold underline text-blue-900 cursor-pointer hover:font-bold hover:text-sm hover:text-blue-700">
+                  <span 
+                    className="font-semibold underline text-blue-900 cursor-pointer hover:font-bold hover:text-sm hover:text-blue-700"
+                    onClick={()=>navigate('/signin')}
+                  >
                     SignIn
                   </span>
                 </span>
