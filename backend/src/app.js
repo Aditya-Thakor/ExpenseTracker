@@ -40,34 +40,82 @@ app.get("/usersdata", async (req, res) => {
   res.end();
 });
 
-// Login 
-app.post("/signin", upload.none(), async(req,res)=>{
+// Login
+app.post("/signin", upload.none(), async (req, res) => {
   const userdata = req.body;
   console.log(userdata);
   try {
     const db = await connectDB();
-    const userLog = await db.collection("usersdata").findOne({email:userdata.email});
+    const userLog = await db
+      .collection("usersdata")
+      .findOne({ email: userdata.email });
 
-    if(!userLog){
+    if (!userLog) {
       return res.status(401).json({
-        message:"Invelid email"
+        message: "Invelid email",
       });
     }
 
-    if(userLog.password != userdata.password){
-      return res.status(401).json({message:"Invelid Password"});
+    if (userLog.password != userdata.password) {
+      return res.status(401).json({ message: "Invelid Password" });
     }
 
     res.status(200).json({
-      message:"Login Succesfull..",
-      userLog
+      message: "Login Succesfull..",
+      userLog,
     });
-
   } catch (error) {
-    console.log('Invelid User',error);
+    console.log("Invelid User", error);
   }
 });
 
+app.post("/usersdata/user/editprofile", upload.none(), async (req, res) => {
+  console.log(req.body);
+  const data = req.body;
+
+  try {
+    const db = await connectDB();
+    const update = await db.collection("usersdata").updateOne(
+      { _id: new ObjectId(data.userId) },
+      {
+        $set: {
+          username: data.username,
+          email: data.email,
+          fullname: data.fullname,
+          role: data.role,
+          address: data.address,
+        },
+      }
+    );
+
+    res.status(200).json({
+      message: "User data Updated Successfully!!",
+      update,
+    });
+  } catch (error) {
+    console.error("error at updating userdata", error);
+  }
+});
+
+app.post("/usersdata/user/updatepassword", upload.none(), async (req, res) => {
+  const data = req.body
+  console.log(data);
+  try{
+    const db= await connectDB();
+    const updatePass = await db.collection("usersdata").updateOne(
+      { _id: new ObjectId(data.userId) },
+      {
+        $set: { password: data.password },
+      }
+    );
+    res.status(200).json({
+      message:"Password changed successfull..",
+      updatePass
+    })
+  }catch(error){
+    console.log('error at changing password', error);
+  }
+  });
 
 // add transactions
 app.post("/usersdata/transactions", upload.none(), async (req, res) => {
@@ -108,39 +156,37 @@ app.get("/usersdata/transactions", async (req, res) => {
   res.end();
 });
 
+// Category
 
-// Category 
-
-app.post("/category/addcategory", upload.none(), async(req,res)=>{
+app.post("/category/addcategory", upload.none(), async (req, res) => {
   console.log(req.body);
   const data = req.body;
 
   try {
-    const db =await connectDB();
+    const db = await connectDB();
     const categories = await db.collection("categories").insertOne({
-      name:data.name,
+      name: data.name,
       icon: data.icon,
       bgtype: data.bgType,
       color1: data.color1,
-      color2:data.color2
+      color2: data.color2,
     });
-    res.send("Category added successfully..")
+    res.send("Category added successfully..");
     // res.json(categories);
-    
   } catch (error) {
-    console.log('Error at create Category ', error);
-    throw(error);
+    console.log("Error at create Category ", error);
+    throw error;
   }
   // res.end();
-})
+});
 
-app.get("/categories", async(req,res)=>{
+app.get("/categories", async (req, res) => {
   const db = await connectDB();
   const data = await db.collection("categories").find().toArray();
 
   res.json(data);
   res.end();
-})
+});
 
 app.listen(port, () => {
   console.log(`Server started at ${port} PORT.`);

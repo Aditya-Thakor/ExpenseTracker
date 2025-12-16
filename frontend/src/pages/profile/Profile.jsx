@@ -12,21 +12,25 @@ import {
   Dot,
   ChevronUp,
 } from "lucide-react";
+
 import DataCard2 from "../../components/Income-expense-Card/DataCard2";
 import i from "../../assets/icons/index";
 import Userdata from "./Data";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile() {
 
+export default function Profile() {
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  // console.log(user);
+  
   // password hide&show
   const [hide, setHide] = useState(false);
   const showPassword = () => {
     return hide ? (
-      <span className="tracking-widest">98243835</span>
+      <span className="tracking-widest">{user.password}</span>
     ) : (
       <span className="flex">
         <Dot />
@@ -44,6 +48,35 @@ export default function Profile() {
 
   // change password
   const [visible, setVisible] = useState(false);
+  const [pass1, setPass1]=useState("");
+  const [pass2, setPass2]= useState("");
+  const [password, setPassword]=useState("")
+
+  const changePassword = async()=>{
+
+    if(pass1!==pass2 && pass1.length==0 && pass2.length==0){
+      return alert("password not metched!!")
+    }setPassword(pass1)
+
+    const formData = new FormData();
+    formData.append("password", password)
+    formData.append("userId", user._id)
+
+    const updatePass = await fetch('http://localhost:5000/usersdata/user/updatepassword',{
+      method:'post',
+      body: formData
+    })
+
+    const updated = await updatePass.json();
+
+    if(updatePass.ok){
+      const updatePassword = {...user, password}
+      localStorage.setItem("user", JSON.stringify(updatePassword));
+    }else {
+      console.log("Something goes wrong!!!");
+    }
+
+  }
 
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
@@ -70,33 +103,38 @@ export default function Profile() {
           {/* Display name & edit pfp */}
           <div className="h-[30%] w-full flex justify-between items-center  ">
             <span className="text-xl font-medium text-gray-800">
-              Aditya Thakor
+              {/* Aditya Thakor */}
+              {user.fullname}
             </span>
-            <span 
-              onClick={()=>navigate('/profile/editprofile')}
-              className="flex justify-center items-center bg-blue-500 py-2 px-2 text-white rounded-full cursor-pointer">
-              <UserRoundPen 
-               className="size-4" />
+            <span
+              onClick={() => navigate("/profile/editprofile")}
+              className="flex justify-center items-center bg-blue-500 py-2 px-2 text-white rounded-full cursor-pointer"
+            >
+              <UserRoundPen className="size-4" />
             </span>
           </div>
           {/* other data */}
           <div className="h-[70%] w-full flex justify-between items-center">
             <div className="flex flex-col gap-2">
               <span className="hover:text-blue-500 cursor-pointer">
-                @aditya_01
+                {/* @aditya_01 */}
+                {user.username}
               </span>
               <span className="font-medium text-slate-600 ">
-                MERN stack developer
+                {/* MERN stack developer */}
+                {user.role}
               </span>
             </div>
             <div className="text-sm flex flex-col gap-2">
               <span className="flex items-center hover:text-blue-500 cursor-pointer gap-2">
                 <Mail className="size-4" />
-                as@tracker.com
+                {/* as@tracker.com */}
+                {user.email}
               </span>
               <span className="flex items-center hover:text-blue-500 cursor-pointer gap-2">
                 <Linkedin className="size-4" />
-                @asmern_22
+                {/* @asmern_22 */}
+                {user.username}
               </span>
             </div>
           </div>
@@ -161,7 +199,10 @@ export default function Profile() {
             <span className="text-lg font-medium text-gray-800">
               Personal details
             </span>
-            <button className="flex items-center bg-blue-500 px-2 py-0.5 text-white rounded-lg text-sm gap-1">
+            <button
+               className="flex items-center bg-blue-500 px-2 py-0.5 text-white rounded-lg text-sm gap-1"
+               onClick={()=>navigate('/profile/editprofile')}
+            >
               <UserRoundPen className="size-4" />
               Edit
             </button>
@@ -174,10 +215,10 @@ export default function Profile() {
                             <span className="text-lg font-medium text-gray-800">Aditya Thakor</span>
                         </div> */}
 
-            <Userdata title="Full name" data="Aditya Thakor" />
+            <Userdata title="Full name" data={user.fullname} />
 
-            <Userdata title="Email address" data="as@tracker.com" />
-            <Userdata title="Address" data="tcp india, Mehsana" />
+            <Userdata title="Email address" data={user.email} />
+            <Userdata title="Address" data={"tcp india, Mehsana"} />
             <Userdata title="State" data="Gujarat" />
             <Userdata title="Country" data="India" />
             <Userdata title="PIN" data="380010" />
@@ -213,7 +254,7 @@ export default function Profile() {
                     <span>Change password</span>
                   </div>
                   <div className="h-4/5 flex items-center ">
-                    <button onClick={()=>setVisible(!visible)}>
+                    <button onClick={() => setVisible(!visible)}>
                       <ChevronDown />
                     </button>
                   </div>
@@ -226,7 +267,7 @@ export default function Profile() {
                       <span>Change password</span>
                     </div>
                     <div className="h-4/5 flex items-center ">
-                      <button onClick={()=>setVisible(!visible)}>
+                      <button onClick={() => setVisible(!visible)}>
                         <ChevronUp />
                       </button>
                     </div>
@@ -235,6 +276,8 @@ export default function Profile() {
                     <input
                       type="text"
                       placeholder="New password"
+                      value={pass1}
+                      onChange={(e)=>setPass1(e.target.value)}
                       className=" w-full border rounded-md p-2"
                     />
                   </span>
@@ -242,10 +285,15 @@ export default function Profile() {
                     <input
                       type="text"
                       placeholder="Confirm password"
+                      value={pass2}
+                      onChange={(e)=>setPass2(e.target.value)}
                       className=" w-full border rounded-md p-2"
                     />
                   </span>
-                  <button className="w-full text-white font-medium bg-green-500 hover:bg-green-600 py-2 rounded-md">
+                  <button 
+                    className="w-full text-white font-medium bg-green-500 hover:bg-green-600 py-2 rounded-md"
+                    onClick={changePassword}
+                  >
                     Change password
                   </button>
                 </div>
