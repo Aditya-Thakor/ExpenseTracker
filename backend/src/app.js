@@ -69,9 +69,33 @@ app.post("/signin", upload.none(), async (req, res) => {
   }
 });
 
-app.post("/usersdata/user/editprofile", upload.none(), async (req, res) => {
+app.use("../public/profileImages", express.static(path.join(__dirname, 'profileImages')));
+
+const uploadDir = path.join(__dirname,"profileImages");
+if(!fs.existsSync(uploadDir)){
+  fs.mkdirSync(uploadDir);
+}
+
+const storage= multer.diskStorage({
+  destination: function (req,file,cb){
+    cb(null, '../public/profileImages');
+  },
+  filename: function(req,file,cb){
+    cb(null, file.originalname);
+  }
+});
+
+const pfpUpload = multer({storage:storage});
+
+app.post("/usersdata/user/editprofile", pfpUpload.single('file'), async (req, res) => {
   console.log(req.body);
+  
+  if(!req.file){  
+    console.log('file not found');
+    return res.status(400).send("No file uploaded");
+  }
   const data = req.body;
+
 
   try {
     const db = await connectDB();
@@ -84,6 +108,7 @@ app.post("/usersdata/user/editprofile", upload.none(), async (req, res) => {
           fullname: data.fullname,
           role: data.role,
           address: data.address,
+          // pfp:req.file.originalname
         },
       }
     );
