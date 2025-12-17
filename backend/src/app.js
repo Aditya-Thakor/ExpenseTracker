@@ -150,7 +150,7 @@ app.post("/usersdata/user/updatepassword", upload.none(), async (req, res) => {
 app.post("/usersdata/transactions", upload.none(), async (req, res) => {
   // const data = req.body;
   console.log(req.body);
-  const { type, amount, description, incomeFrom, category, date } = req.body;
+  const { userId, type, amount, description, incomeFrom, category, date } = req.body;
 
   try {
     const db = await connectDB();
@@ -164,7 +164,7 @@ app.post("/usersdata/transactions", upload.none(), async (req, res) => {
       date: new Date(date),
     };
     const update = await db.collection("usersdata").updateOne(
-      { _id: new ObjectId("693c0c7f7badfd7ae01a78be") },
+      { _id: new ObjectId(userId) },
       {
         $push: { transactions: transaction },
       }

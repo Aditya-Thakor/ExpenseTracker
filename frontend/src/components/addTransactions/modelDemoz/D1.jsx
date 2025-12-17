@@ -3,6 +3,9 @@ import React, { useState } from "react";
 
 export default function AddTransactionModal({ open, onClose }) {
   // const [open, setOpen] = useState(false);
+  const user =JSON.parse(localStorage.getItem("user"));
+  // console.log(user._id);
+  
   const [step, setStep] = useState(1);
   const [type, setType] = useState("income");
 
@@ -15,6 +18,7 @@ export default function AddTransactionModal({ open, onClose }) {
   const handleTransaction = async()=>{
     const formData = new FormData();
 
+    formData.append("userId",user._id);
     formData.append("type", type);
     formData.append("amount", amount);
     formData.append("description", description);
