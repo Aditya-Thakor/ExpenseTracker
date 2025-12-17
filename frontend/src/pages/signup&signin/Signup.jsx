@@ -24,6 +24,9 @@ export default function Signup() {
       body:formData
     })
 
+    if(postData.ok){
+      navigate('/signin'); // add it in set time out if mongodb give invalit email or pass.
+    }
     
     console.log(await postData.text());
     
