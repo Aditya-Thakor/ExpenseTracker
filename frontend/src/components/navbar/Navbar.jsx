@@ -84,7 +84,7 @@ const Navbar = () => {
             <Plus className="size-6 "/>
           </span>
           <Link
-            to='signup'
+            to='signin'
            className="h-12 w-12 text-gray-400 hover:bg-red-100 hover:text-red-500 rounded-lg flex items-center justify-center">
             <LogOut /> 
           </Link>
