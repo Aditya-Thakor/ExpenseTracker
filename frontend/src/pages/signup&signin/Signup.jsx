@@ -15,9 +15,9 @@ export default function Signup() {
     formData.append("email", email);
     formData.append("password", password);
 
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
 
     const postData = await fetch ('http://localhost:5000/usersdata',{
       method:'post',
@@ -28,7 +28,7 @@ export default function Signup() {
       navigate('/signin'); // add it in set time out if mongodb give invalit email or pass.
     }
     
-    console.log(await postData.text());
+    // console.log(await postData.text());
     
   };
 

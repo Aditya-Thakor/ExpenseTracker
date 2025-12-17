@@ -67,7 +67,7 @@ export default function EditProfile() {
     );
 
     const updated = await editProfile.json();
-    console.log(updated);
+    // console.log(updated);
 
     if (editProfile.ok && updated.updatedUser) {
       // const updatedata = {
