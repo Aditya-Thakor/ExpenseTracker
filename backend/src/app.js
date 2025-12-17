@@ -87,7 +87,23 @@ const storage= multer.diskStorage({
   }
 });
 
+app.use("/categoryIcon", express.static(path.join(__dirname,"categoryIcon")));
+const uploadIconDir = path.join(__dirname,"categoryIcon");
+if(!fs.existsSync(uploadIconDir)){
+  fs.mkdirSync(uploadIconDir);
+}
+
+const iconStorage = multer.diskStorage({
+  destination: function (req,file,cb){
+    cb(null,uploadIconDir);
+  },
+  filename: function(req,file,cb){
+    cb(null, file.originalname);
+  }
+});
+
 const pfpUpload = multer({storage:storage});
+const iconUpload = multer({storage:iconStorage});
 
 app.post("/usersdata/user/editprofile", pfpUpload.single('file'), async (req, res) => {
   console.log(req.body);
@@ -126,6 +142,7 @@ app.post("/usersdata/user/editprofile", pfpUpload.single('file'), async (req, re
   }
 });
 
+// update password
 app.post("/usersdata/user/updatepassword", upload.none(), async (req, res) => {
   const data = req.body
   console.log(data);
@@ -187,15 +204,20 @@ app.get("/usersdata/transactions", async (req, res) => {
 
 // Category
 
-app.post("/category/addcategory", upload.none(), async (req, res) => {
-  console.log(req.body);
+app.post("/category/addcategory",upload.none() , async (req, res) => {
+  console.log(req.body); //iconUpload.single('file')
+  // if(!req.file){
+  //   console.log('file not found');
+  //   return res.status(400).send("No file uploaded");
+  // }
   const data = req.body;
 
   try {
     const db = await connectDB();
     const categories = await db.collection("categories").insertOne({
       name: data.name,
-      icon: data.icon,
+      // icon: req.file.originalname,
+      icon:data.icon,
       bgtype: data.bgType,
       color1: data.color1,
       color2: data.color2,

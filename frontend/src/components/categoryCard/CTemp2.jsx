@@ -1,7 +1,10 @@
+// import { useEffect, useState } from "react";
 import i from "../../assets/icons/index";
 export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgto,border,shadow, pbgfrom, pbgto}) {
 // fetch category data and replace with props 
 // track how many transactions are made in each category (get transactions, expense of total and progress)
+
+
 
     const colors = {
         background: `linear-gradient(to bottom right , ${bgfrom}, ${bgto})`,
