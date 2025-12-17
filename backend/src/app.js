@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./db/index");
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const { ObjectId } = require("mongodb");
 const app = express();
 const upload = multer();
@@ -69,7 +71,7 @@ app.post("/signin", upload.none(), async (req, res) => {
   }
 });
 
-app.use("../public/profileImages", express.static(path.join(__dirname, 'profileImages')));
+app.use("/profileImages", express.static(path.join(__dirname, 'profileImages')));
 
 const uploadDir = path.join(__dirname,"profileImages");
 if(!fs.existsSync(uploadDir)){
@@ -78,7 +80,7 @@ if(!fs.existsSync(uploadDir)){
 
 const storage= multer.diskStorage({
   destination: function (req,file,cb){
-    cb(null, '../public/profileImages');
+    cb(null, uploadDir);
   },
   filename: function(req,file,cb){
     cb(null, file.originalname);
@@ -108,14 +110,16 @@ app.post("/usersdata/user/editprofile", pfpUpload.single('file'), async (req, re
           fullname: data.fullname,
           role: data.role,
           address: data.address,
-          // pfp:req.file.originalname
+          pfp:req.file.originalname
         },
       }
     );
 
+    const updatedUser = await db.collection("usersdata").findOne({_id:new ObjectId(data.userId)})
+
     res.status(200).json({
       message: "User data Updated Successfully!!",
-      update,
+      updatedUser,
     });
   } catch (error) {
     console.error("error at updating userdata", error);

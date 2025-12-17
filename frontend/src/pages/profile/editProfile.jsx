@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function EditProfile() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-//   useEffect(() => {}, [user]);
-
+  //   useEffect(() => {}, [user]);
 
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState("");
@@ -17,11 +16,11 @@ export default function EditProfile() {
   const [role, setRole] = useState(user.role);
 
   // adrress
-  const [at, setAt] = useState(user.address.at);
-  const [city, setCity] = useState(user.address.city);
-  const [state, setState] = useState(user.address.state);
-  const [country, setCountry] = useState(user.address.country);
-  const [pincode, setPincode] = useState(user.address.pincode);
+  const [at, setAt] = useState(user.address?.at || "didn't added");
+  const [city, setCity] = useState(user.address?.city || "didn't added");
+  const [state, setState] = useState(user.address?.state || "didn't added");
+  const [country, setCountry] = useState(user.address?.country || "didn't added");
+  const [pincode, setPincode] = useState(user.address?.pincode || "didn't added");
 
   const handleFileref = () => {
     fileInputRef.current.click();
@@ -52,6 +51,7 @@ export default function EditProfile() {
     formData.append("fullname", fullname);
     formData.append("role", role);
     formData.append("address", address);
+    formData.append("file", file);
     formData.append("userId", user._id);
 
     // for (const [key,value] of formData) {
@@ -69,9 +69,17 @@ export default function EditProfile() {
     const updated = await editProfile.json();
     console.log(updated);
 
-    if (editProfile.ok) {
-      const updatedata = { ...user, username, email, fullname, role, address };
-      localStorage.setItem("user", JSON.stringify(updatedata));
+    if (editProfile.ok && updated.updatedUser) {
+      // const updatedata = {
+      //   ...user,
+      //   username,
+      //   email,
+      //   fullname,
+      //   role,
+      //   address,
+      //   pfp: updated.pfp || user.pfp,
+      // };
+      localStorage.setItem("user", JSON.stringify(updated.updatedUser)); //add navigate to profile
     } else {
       console.log("Something goes wrong!!!");
     }
@@ -106,7 +114,13 @@ export default function EditProfile() {
             {/* change profile img */}
             <div className="h-full w-40 bg-transparent flex justify-center relative rounded-2xl overflow-hidden ">
               <img
-                src={preview || i.pfp1}
+                src={
+                  preview
+                    ? preview
+                    : user?.pfp
+                    ? `http://localhost:5000/profileImages/${user.pfp}`
+                    : i.pfp1
+                }
                 alt="pfp"
                 className="h-full w-full object-cover relative"
               />

@@ -1,5 +1,5 @@
 import Heading from "../../components/heading/Heading";
-import pfp from "../../assets/images/index";
+import pf from "../../assets/images/index";
 import {
   UserRoundPen,
   Mail,
@@ -19,13 +19,16 @@ import Userdata from "./Data";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Profile() {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  // console.log(user);
-  
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  console.log(user);
+  const profile = user?.pfp;
+  console.log(profile);
+
   // password hide&show
   const [hide, setHide] = useState(false);
   const showPassword = () => {
@@ -48,35 +51,37 @@ export default function Profile() {
 
   // change password
   const [visible, setVisible] = useState(false);
-  const [pass1, setPass1]=useState("");
-  const [pass2, setPass2]= useState("");
-  const [password, setPassword]=useState("")
+  const [pass1, setPass1] = useState("");
+  const [pass2, setPass2] = useState("");
+  const [password, setPassword] = useState("");
 
-  const changePassword = async()=>{
-
-    if(pass1!==pass2 && pass1.length==0 && pass2.length==0){
-      return alert("password not metched!!")
-    }setPassword(pass1)
+  const changePassword = async () => {
+    if (pass1 !== pass2 && pass1.length == 0 && pass2.length == 0) {
+      return alert("password not metched!!");
+    }
+    setPassword(pass1);
 
     const formData = new FormData();
-    formData.append("password", password)
-    formData.append("userId", user._id)
+    formData.append("password", password);
+    formData.append("userId", user._id);
 
-    const updatePass = await fetch('http://localhost:5000/usersdata/user/updatepassword',{
-      method:'post',
-      body: formData
-    })
+    const updatePass = await fetch(
+      "http://localhost:5000/usersdata/user/updatepassword",
+      {
+        method: "post",
+        body: formData,
+      }
+    );
 
     const updated = await updatePass.json();
 
-    if(updatePass.ok){
-      const updatePassword = {...user, password}
+    if (updatePass.ok) {
+      const updatePassword = { ...user, password };
       localStorage.setItem("user", JSON.stringify(updatePassword));
-    }else {
+    } else {
       console.log("Something goes wrong!!!");
     }
-
-  }
+  };
 
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
@@ -91,7 +96,11 @@ export default function Profile() {
         <div className="h-full w-[10%] flex justify-center items-center ">
           <div className="h-full w-full rounded-2xl p-2 bg-white ">
             <img
-              src={pfp.pfp6}
+              src={
+                profile
+                  ? `http://localhost:5000/profileImages/${profile}`
+                  : pf.pfp1
+              }
               alt="profile image"
               className="rounded-2xl h-full w-full"
             />
@@ -104,7 +113,7 @@ export default function Profile() {
           <div className="h-[30%] w-full flex justify-between items-center  ">
             <span className="text-xl font-medium text-gray-800">
               {/* Aditya Thakor */}
-              {user.fullname}
+              {user?.fullname || user?.username.toUpperCase()}
             </span>
             <span
               onClick={() => navigate("/profile/editprofile")}
@@ -200,8 +209,8 @@ export default function Profile() {
               Personal details
             </span>
             <button
-               className="flex items-center bg-blue-500 px-2 py-0.5 text-white rounded-lg text-sm gap-1"
-               onClick={()=>navigate('/profile/editprofile')}
+              className="flex items-center bg-blue-500 px-2 py-0.5 text-white rounded-lg text-sm gap-1"
+              onClick={() => navigate("/profile/editprofile")}
             >
               <UserRoundPen className="size-4" />
               Edit
@@ -215,7 +224,7 @@ export default function Profile() {
                             <span className="text-lg font-medium text-gray-800">Aditya Thakor</span>
                         </div> */}
 
-            <Userdata title="Full name" data={user.fullname} />
+            <Userdata title="Full name" data={user?.fullname || user?.username.toUpperCase()} />
 
             <Userdata title="Email address" data={user.email} />
             <Userdata title="Address" data={"tcp india, Mehsana"} />
@@ -277,7 +286,7 @@ export default function Profile() {
                       type="text"
                       placeholder="New password"
                       value={pass1}
-                      onChange={(e)=>setPass1(e.target.value)}
+                      onChange={(e) => setPass1(e.target.value)}
                       className=" w-full border rounded-md p-2"
                     />
                   </span>
@@ -286,11 +295,11 @@ export default function Profile() {
                       type="text"
                       placeholder="Confirm password"
                       value={pass2}
-                      onChange={(e)=>setPass2(e.target.value)}
+                      onChange={(e) => setPass2(e.target.value)}
                       className=" w-full border rounded-md p-2"
                     />
                   </span>
-                  <button 
+                  <button
                     className="w-full text-white font-medium bg-green-500 hover:bg-green-600 py-2 rounded-md"
                     onClick={changePassword}
                   >
