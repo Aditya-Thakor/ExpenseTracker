@@ -187,7 +187,11 @@ app.post("/usersdata/transactions", upload.none(), async (req, res) => {
       }
     );
 
-    res.send("transaction added successfully!!");
+    // res.send("transaction added successfully!!");
+    res.status(200).json({
+      message:"transaction added successfully!!",
+      transaction
+    })
   } catch (error) {
     console.log("Error at adding transaction", error);
     throw error;

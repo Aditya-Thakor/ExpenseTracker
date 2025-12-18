@@ -1,6 +1,6 @@
 // import { useEffect, useState } from "react";
 import i from "../../assets/icons/index";
-export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgto,border,shadow, pbgfrom, pbgto}) {
+export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgto,border,shadow, pbgfrom, pbgto,pr}) {
 // fetch category data and replace with props 
 // track how many transactions are made in each category (get transactions, expense of total and progress)
 
@@ -13,6 +13,7 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
     }
     const pcolor ={
         background: `linear-gradient(to right , ${pbgfrom}, ${pbgto})`,
+        with:`calc(100%-${pr}%) `
     }
     
   return (
@@ -46,16 +47,16 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
         <div className="h-1/2 flex items-center gap-2 text-sm ">
             <span className="h-full px-3 bg-white rounded-xl flex items-center gap-3">
                 <img src={i.aup} alt="arrow up" className="h-1/2" />
-                21%
+                {Math.round(pr)}%
             </span>
             <span className="text-slate-700 font-lato">of  Total</span>
         </div>
       </div>
 
       {/* progress bar */}
-      <div className="h-2 rounded-xl bg-white relative overflow-hidden">
+      <div className="h-2 w-full rounded-xl bg-white relative overflow-hidden">
         <span 
-            className="h-full w-1/4 rounded-xl absolute "
+            className={`h-full w-10 rounded-xl absolute `}
             style={pcolor}
         ></span>
       </div>
