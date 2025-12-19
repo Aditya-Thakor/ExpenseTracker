@@ -1,3 +1,4 @@
+// import i from "../../assets/icons/index";
 export default function CategoryTempCard({icon, name, amount}) {
   return (
     <div className="h-20 max-h-full  flex gap-2 p-2 bg-white shadow-md shadow-slate-300 border border-gray-100 rounded-xl">

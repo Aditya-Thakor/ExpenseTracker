@@ -7,10 +7,104 @@ import C2 from "../../components/charts/categoryCharts/C2";
 import MyDoughnut from "../../components/charts/categoryCharts/C3";
 import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
 import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 export default function Dashboard() {
-
   const navigate = useNavigate();
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const userId = localUser._id;
+  // console.log(userId);
+  const [user, setUser] = useState(null);
+  const [trans, setTransactions]= useState([]);
+  const [recentTransactions, setRecentTrans]= useState([]);
+  const [topExCategories, setTopExCate]= useState([]);
+
+  const [expenses, setExpenses]=useState([]);
+  const [totalEx,setTotalEx]=useState(0);
+  const [incomes,setIncomes]=useState([]);
+  const [totalIn,setTotalIn]= useState(0); 
+
+
+
+  useEffect(() => {
+    async function fetchUser() {
+      await fetch("http://localhost:5000/usersdata/")
+        .then((res) => res.json())
+        .then((data) => {
+          let usr = data.find((i) => i._id === userId);
+          // console.log(user);
+          setUser(usr);
+        })
+        .catch((error) => {
+          console.log("error at fetching userdata at dashboard", error);
+        });
+    }
+    fetchUser()
+
+  }, [userId]);
+
+  useEffect(()=>{
+    console.log("user updated!!!",user); 
+    if(user===null) return;
+
+    const getTransactions=()=>{
+
+      const tr = user?.transactions;
+      // console.log("tr-",tr);
+      setTransactions(tr);
+      const recentT = [...tr].sort((a,b)=>new Date(b.date)- new Date(a.date)).slice(0,5);
+      // console.log("recents", recentT);
+      setRecentTrans(recentT);
+
+      
+      const ex = tr.filter(e=>e.type==="expense")
+      // console.log("ex-",ex);
+      setExpenses(ex); 
+      // console.log(expenses);
+      const inc = tr.filter(i=>i.type==="income")
+      // console.log(inc);
+      setIncomes(inc);
+      
+      const tl = expenses.reduce((sum,num)=>{
+        return sum + Number(num.amount)
+      },0)
+      // console.log('total-',tl);
+      setTotalEx(tl);
+
+      const ct = trans.reduce((cate, tex)=>{
+          if(tex.type==="expense"){
+            cate[tex.category]= (cate[tex.category]||0)+tex.amount;
+          }
+          return cate;
+      },{});
+      // console.log("ct- ", ct);
+      const sortCate = Object.entries(ct).sort((a,b)=>b[1]-a[1]).slice(0,3); 
+      // console.log(sortCate);
+      
+      const top3 = sortCate.map(([category,total])=>(
+        {category, total}
+      ))
+      // console.log(top3);
+      setTopExCate(top3);
+      
+      
+
+      
+      
+
+      const tIn = incomes.reduce((sum,num)=>{
+        return sum + Number(num.amount)
+      },0);
+      // console.log(tIn);
+      setTotalIn(tIn);
+
+      
+      
+      
+    }
+    getTransactions();
+
+  },[user])
 
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
@@ -22,23 +116,32 @@ export default function Dashboard() {
       </div>
       <div className="h-40 flex gap-3">
         {/* <div className="h-full  min-w-60 bg-slate-600 rounded-xl"></div>   */}
-        <DataCard type="expense" amount="52,999" stats="-2% from last month" />
-        <DataCard type="Income" amount="92,599" stats="+8% from last month" />
+        <DataCard type="expense" amount={totalEx} stats="-2% from last month" />
+        <DataCard type="Income" amount={totalIn} stats="+8% from last month" />
         <div className="h-full w-full flex flex-col justify-around bg-white rounded-xl px-4 py-2">
           <div className="h-5 w-full flex justify-between items-center">
             <span className="text-sm text-slate-400">
               Top expenses in category
             </span>
-            <span 
+            <span
               className="text-sm hover:text-blue-800 cursor-pointer text-blue-500"
-              onClick={()=>navigate('/category')}
+              onClick={() => navigate("/category")}
             >
               View all
             </span>
           </div>
 
           <div className="grid grid-cols-3 gap-4 ">
-            <CategoryTempCard
+            {
+              topExCategories.map((c)=>(
+                 <CategoryTempCard
+                    icon={i[c.category]}
+                    name={c.category.toUpperCase()}
+                    amount={c.total}
+                  />
+              ))
+            }
+            {/* <CategoryTempCard
               icon={i.bill}
               name="Bills & Utilities"
               amount="34,000"
@@ -54,20 +157,20 @@ export default function Dashboard() {
               icon={i.food}
               name="Food & dining"
               amount="20,000"
-            />
+            /> */}
           </div>
         </div>
       </div>
       <div className="h-3/4 flex gap-3">
-      {/* transactions */}
+        {/* transactions */}
         <div className="h-full w-3/5 flex  flex-col gap-4 p-4 rounded-xl bg-white">
           <div className="h-[10%] flex justify-between items-center ">
             <h2 className="text-slate-700 font-normal text-lg">
               Recent transactions
             </h2>
-            <span 
+            <span
               className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
-              onClick={()=>navigate('/transaction')}
+              onClick={() => navigate("/transaction")}
             >
               View all
             </span>
@@ -91,8 +194,20 @@ export default function Dashboard() {
                     </div>
                 </div> 
             */}
-
-            <TransactionCard
+            {
+              recentTransactions.map((tr)=>(
+                <TransactionCard
+                  icon={tr.type==="expense"? i.expense:i.income}
+                  tag={tr.description}
+                  date={tr.date.replace("T00:00:00.000Z","")}
+                  amount={tr.amount}
+                  type={tr.type}
+                  category={tr.type==="expense"? tr.category : tr.incomeFrom}
+                />
+              ))
+            }
+            
+            {/* <TransactionCard
               icon={i.code}
               tag="Freelance work"
               date="16 Nov 2025"
@@ -120,7 +235,7 @@ export default function Dashboard() {
               date="15 Nov 2025"
               amount="55,000"
               type="income"
-            />
+            /> */}
           </div>
         </div>
         {/* doughnut chart */}
@@ -130,50 +245,44 @@ export default function Dashboard() {
               <h2 className="text-slate-700 font-normal text-lg">
                 Category vise spending
               </h2>
-              <span 
-                  className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
-                  onClick={()=>navigate('/analytics')}
-                >
-              View all
+              <span
+                className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+                onClick={() => navigate("/analytics")}
+              >
+                View all
               </span>
             </div>
             <div className="h-[90%] w-full">
-                <div className="h-full w-full p-2">
-                   <div className="h-full w-full ">
-                    <ExpenseDoughnutChart/>
-                   </div>
+              <div className="h-full w-full p-2">
+                <div className="h-full w-full ">
+                  <ExpenseDoughnutChart />
                 </div>
+              </div>
             </div>
-        </div>
-
-        
-              
+          </div>
         </div>
       </div>
       <div className="h-auto w-full p-4 rounded-xl bg-white">
         <div className="flex justify-between items-center">
-           <h2 className="text-slate-700 font-normal text-lg">
-              Monthly expense
-            </h2>
-            <span 
-              className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
-              onClick={()=>navigate('/analytics')}
-            >
-              Details
-            </span>
+          <h2 className="text-slate-700 font-normal text-lg">
+            Monthly expense
+          </h2>
+          <span
+            className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+            onClick={() => navigate("/analytics")}
+          >
+            Details
+          </span>
         </div>
-              <div className="h-96 w-full">
-                <div className="h-full w-full">
-                    <MonthlyExpenseBarChart/>
-                </div>
-              </div>
+        <div className="h-96 w-full">
+          <div className="h-full w-full">
+            <MonthlyExpenseBarChart />
+          </div>
+        </div>
       </div>
-      
     </div>
   );
 }
-
-
 
 // prototyped code (date: 10/12)
 //  <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
@@ -191,7 +300,7 @@ export default function Dashboard() {
 //         <DataCard type="Income" amount="92,599" stats="+8% from last month" />
 //         <div className="h-full w-full flex flex-col justify-between bg-transparent relative">
 //           {/* <div className="h-10 w-min rounded-xl text-right">
-//             <span 
+//             <span
 //               className="h-full  text-sm flex items-center justify-end hover:text-blue-800 cursor-pointer text-blue-500 bg-white rounded-xl"
 //             >
 //               View all <span> <ChevronRight /></span>
@@ -223,7 +332,6 @@ export default function Dashboard() {
 //         </div>
 //       </div>
 
-      
 //       <div className="h-3/4 flex gap-3">
 
 //       {/* transations */}
@@ -237,7 +345,7 @@ export default function Dashboard() {
 //             </span>
 //           </div>
 //           <div className="h-[90%] w-full flex flex-col gap-4">
-//             {/* 
+//             {/*
 //                 <div className="h-1/4 w-full flex justify-between items-center px-5 bg-emerald-100 rounded-xl">
 //                     <div className="flex items-center gap-4">
 //                         <div>
@@ -253,7 +361,7 @@ export default function Dashboard() {
 //                     <div>
 //                         <h2 className="text-xl text-green-600"> 12,000</h2>
 //                     </div>
-//                 </div> 
+//                 </div>
 //             */}
 
 //             <TransactionCard
