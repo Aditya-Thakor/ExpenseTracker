@@ -7,7 +7,11 @@ import C2 from "../../components/charts/categoryCharts/C2";
 import MyDoughnut from "../../components/charts/categoryCharts/C3";
 import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
 import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
+import {useNavigate} from 'react-router-dom'
 export default function Dashboard() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
       <div className="h-auto">
@@ -25,7 +29,10 @@ export default function Dashboard() {
             <span className="text-sm text-slate-400">
               Top expenses in category
             </span>
-            <span className="text-sm hover:text-blue-800 cursor-pointer text-blue-500">
+            <span 
+              className="text-sm hover:text-blue-800 cursor-pointer text-blue-500"
+              onClick={()=>navigate('/category')}
+            >
               View all
             </span>
           </div>
@@ -58,7 +65,10 @@ export default function Dashboard() {
             <h2 className="text-slate-700 font-normal text-lg">
               Recent transactions
             </h2>
-            <span className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer">
+            <span 
+              className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+              onClick={()=>navigate('/transaction')}
+            >
               View all
             </span>
           </div>
@@ -120,7 +130,10 @@ export default function Dashboard() {
               <h2 className="text-slate-700 font-normal text-lg">
                 Category vise spending
               </h2>
-              <span className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer">
+              <span 
+                  className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+                  onClick={()=>navigate('/analytics')}
+                >
               View all
               </span>
             </div>
@@ -142,7 +155,10 @@ export default function Dashboard() {
            <h2 className="text-slate-700 font-normal text-lg">
               Monthly expense
             </h2>
-            <span className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer">
+            <span 
+              className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+              onClick={()=>navigate('/analytics')}
+            >
               Details
             </span>
         </div>
