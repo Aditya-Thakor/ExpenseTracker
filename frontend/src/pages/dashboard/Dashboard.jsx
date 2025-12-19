@@ -105,7 +105,14 @@ export default function Dashboard() {
     getTransactions();
 
   },[user])
-
+  // const labels=["a","b","c","d"]
+  const labels = ()=>{
+    return topExCategories.map(n=>n.category);
+  }
+  // const datas=["54511","34511","43222","55433"]
+  const datas = ()=>{
+     return topExCategories.map(n=>n.total);
+  }
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
       <div className="h-auto">
@@ -255,7 +262,7 @@ export default function Dashboard() {
             <div className="h-[90%] w-full">
               <div className="h-full w-full p-2">
                 <div className="h-full w-full ">
-                  <ExpenseDoughnutChart />
+                  <ExpenseDoughnutChart lbls={labels()} cdata={datas()} />
                 </div>
               </div>
             </div>

@@ -9,7 +9,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function ExpenseDoughnutChart() {
+export default function ExpenseDoughnutChart({lbls, cdata}) {
 
     const chartRef = useRef();
     const [gradient, setGredient] = useState([]);
@@ -41,6 +41,16 @@ export default function ExpenseDoughnutChart() {
         
     },[])
 
+  const newData = {
+    labels:lbls,
+    datasets:[
+      {
+        data:cdata,
+        backgroundColor: gradient.length? gradient : ["#EC4899", "#3B82F6", "#F59E0B", "#6B7280"] ,
+        borderWidth: 0,
+      }
+    ]
+  }
   const data = {
     labels: [
       "Bills & Utilities",
@@ -69,7 +79,7 @@ export default function ExpenseDoughnutChart() {
 
   return (
     <div className="w-full p-5 max-w-md mx-auto">
-      <Doughnut ref={chartRef} data={data} options={options} />
+      <Doughnut ref={chartRef} data={newData} options={options} />
     </div>
   );
 }
