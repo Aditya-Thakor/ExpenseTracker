@@ -4,16 +4,37 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 export default function EditProfile() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-    useEffect(() => {}, [user]);
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const userId = localUser._id;
+
+  const [user,setUser]= useState(null);
+    // useEffect(() => {
+      
+    // }, [user]);
+     useEffect(() => {
+      async function fetchUser() {
+        await fetch("http://localhost:5000/usersdata/")
+          .then((res) => res.json())
+          .then((data) => {
+            let usr = data.find((i) => i._id === userId);
+            // console.log(user);
+            setUser(usr);
+          })
+          .catch((error) => {
+            console.log("error at fetching userdata at dashboard", error);
+          });
+      }
+      fetchUser()
+  
+    }, [userId]);
 
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState(null);
-  const [fullname, setFullName] = useState(user.fullname);
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
-  const [role, setRole] = useState(user.role);
+  const [fullname, setFullName] = useState(user?.fullname);
+  const [username, setUsername] = useState(user?.username);
+  const [email, setEmail] = useState(user?.email);
+  const [role, setRole] = useState(user?.role);
 
   // adrress
   const [at, setAt] = useState(user?.address?.at || "didn't added");
@@ -147,7 +168,7 @@ export default function EditProfile() {
                 >
                   <span>Change Full name : </span>
                   <input
-                    placeholder={user.fullname}
+                    placeholder={user?.fullname}
                     value={fullname}
                     onChange={(e) => setFullName(e.target.value)}
                     type="text"
@@ -163,7 +184,7 @@ export default function EditProfile() {
                   <span>Change username : </span>
                   <input
                     value={username}
-                    placeholder={user.username}
+                    placeholder={user?.username}
                     onChange={(e) => setUsername(e.target.value)}
                     type="text"
                     className="rounded-md p-2 border"
@@ -177,7 +198,7 @@ export default function EditProfile() {
                 >
                   <span>Change email address : </span>
                   <input
-                    placeholder={user.email}
+                    placeholder={user?.email}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="text"
@@ -192,7 +213,7 @@ export default function EditProfile() {
                 >
                   <span>Change role : </span>
                   <input
-                    placeholder={user.role}
+                    placeholder={user?.role}
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     type="text"
@@ -210,7 +231,7 @@ export default function EditProfile() {
                 <textarea
                   id="adrress"
                   rows={2}
-                  className="border text-black rounded-md"
+                  className="border text-gray-400 rounded-md"
                   value={at}
                   onChange={(e) => setAt(e.target.value)}
                 />
