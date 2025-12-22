@@ -1,9 +1,121 @@
 import Heading from "../../components/heading/Heading";
-import { Plus, Search } from "lucide-react";
+import { NutIcon, Plus, Search } from "lucide-react";
 import i from "../../assets/icons/index";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
+import { useEffect, useState } from "react";
 
 export default function Transaction() {
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  const userId = localUser._id;
+
+  const [user,setUser]=useState(null);
+  const [trans, setTransactions]= useState([]);
+  const [recentTransactions, setRecentTrans]= useState([]);
+
+  const [expenses, setExpenses]=useState([]);
+  const [totalEx,setTotalEx]=useState(0);
+  const [incomes,setIncomes]=useState([]);
+  const [totalIn,setTotalIn]= useState(0); 
+
+  
+  const [filteredTr, setFilterdTr]=useState([]);
+  const [filterType, setFilterType]= useState("all")
+
+  useEffect(() => {
+      async function fetchUser() {
+        await fetch("http://localhost:5000/usersdata/")
+          .then((res) => res.json())
+          .then((data) => {
+            let usr = data.find((i) => i._id === userId);
+            // console.log(user);
+            setUser(usr);
+          })
+          .catch((error) => {
+            console.log("error at fetching userdata at dashboard", error);
+          });
+      }
+      fetchUser()
+  
+    }, [userId]);
+
+  useEffect(()=>{
+    console.log("user updated!!!",user); 
+    if(user===null) return;
+
+    const getTransactions = ()=>{
+      const tr = user?.transactions;
+      setTransactions(tr);
+
+      const recentT = [...trans].sort((a,b)=>new Date(b.date)- new Date(a.date))
+      setRecentTrans(recentT);
+
+      const ex = recentT.filter(e=>e.type==="expense")
+      // console.log("ex-",ex);
+      setExpenses(ex); 
+      // console.log(expenses);
+      const inc = recentT.filter(i=>i.type==="income")
+      // console.log(inc);
+      setIncomes(inc);
+
+
+
+      
+      const tl = expenses.reduce((sum,num)=>{
+        return sum + Number(num.amount)
+      },0)
+      // console.log('total-',tl);
+      setTotalEx(tl);
+
+      const tIn = incomes.reduce((sum,num)=>{
+        return sum + Number(num.amount)
+      },0);
+      // console.log(tIn);
+      setTotalIn(tIn);
+
+      if (filterType==='all') {
+        setFilterdTr(null)
+        setFilterdTr(recentT)
+      }
+      if (filterType==='income') {
+        setFilterdTr(null)
+        setFilterdTr(incomes)
+      }
+      if (filterType==='expense') {
+        setFilterdTr(null)
+        setFilterdTr(expenses)
+      }
+
+      
+      
+
+    }
+    getTransactions()
+    
+  },[user, filterType])  
+  
+  const netBalance =()=>{
+    if(!totalIn && !totalEx)return;
+    
+    return totalIn - totalEx ;
+  }
+  // console.log("filterBy-",filterType);
+  
+  const handleTransactions = (tr)=>{
+    if (!tr) return;
+     return <TransactionCard
+            icon={i[tr.type]}
+            tag={tr.description}
+            date={tr.date.replace("T00:00:00.000Z","")}
+            amount={tr.amount}
+            type={tr.type}
+            bg="whitebg"
+            category={tr.type==="expense"? tr.category : tr.incomeFrom}
+          />
+  }
+  
+
+
+
   const styles = {
     boxShadow: `0px 3px 10px rgba(59, 130, 246, 0.7)`,
   };
@@ -28,8 +140,8 @@ export default function Transaction() {
       <div className="h-24 w-full grid grid-cols-3 gap-4 ">
         {/* <div className="h-full w-full bg-white rounded-xl"></div> */}
         <Datacard
-          name="Total Income"
-          amount="87,000"
+          name="Total Expense"
+          amount={totalEx}
           icon={i.expense}
           bgfrom="#F6D1D1"
           bgto="#F9DEC6"
@@ -40,7 +152,7 @@ export default function Transaction() {
         />
         <Datacard
           name="Total Income"
-          amount="1,88,000"
+          amount={totalIn}
           icon={i.income}
           bgfrom="#D2F9DE"
           bgto="#ACF6D3"
@@ -51,7 +163,7 @@ export default function Transaction() {
         />
         <Datacard
           name="Net Balance"
-          amount="34,000"
+          amount={netBalance()}
           icon={i.transaction}
           bgfrom="#CCE2FF"
           bgto="#CCFCFF"
@@ -73,7 +185,11 @@ export default function Transaction() {
           />
         </div>
         <div>
-          <select className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]">
+          <select 
+            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            value={filterType}
+            onChange={(e)=>setFilterType(e.target.value)}
+          >
             <option value="all">All type</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
@@ -106,8 +222,21 @@ export default function Transaction() {
 
       {/* transactions */}
       <div className="h-screen overflow-y-scroll grid grid-cols-1 gap-3 p-4">
-        
-          <TransactionCard
+        {
+          filteredTr.map((tr)=>(
+          //   <TransactionCard
+          //   icon={i[tr.type]}
+          //   tag={tr.description}
+          //   date={tr.date.replace("T00:00:00.000Z","")}
+          //   amount={tr.amount}
+          //   type={tr.type}
+          //   bg="whitebg"
+          //   category={tr.type==="expense"? tr.category : tr.incomeFrom}
+          // />
+          handleTransactions(tr)
+          ))
+        }
+          {/* <TransactionCard
             icon={i.code}
             tag="Freelance work"
             date="16 Nov 2025"
@@ -115,8 +244,8 @@ export default function Transaction() {
             type="income"
             bg="whitebg"
             category="Income"
-          />
-          <TransactionCard
+          /> */}
+          {/* <TransactionCard
             icon={i.code}
             tag="Freelance work"
             date="16 Nov 2025"
@@ -178,7 +307,7 @@ export default function Transaction() {
             type="income"
             bg="whitebg"
             category="Income"
-          />
+          /> */}
       </div>
     </div>
   );
