@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function EditProfile() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-  //   useEffect(() => {}, [user]);
+    useEffect(() => {}, [user]);
 
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState("");
@@ -16,11 +16,11 @@ export default function EditProfile() {
   const [role, setRole] = useState(user.role);
 
   // adrress
-  const [at, setAt] = useState(user.address?.at || "didn't added");
-  const [city, setCity] = useState(user.address?.city || "didn't added");
-  const [state, setState] = useState(user.address?.state || "didn't added");
-  const [country, setCountry] = useState(user.address?.country || "didn't added");
-  const [pincode, setPincode] = useState(user.address?.pincode || "didn't added");
+  const [at, setAt] = useState(user?.address?.at || "didn't added");
+  const [city, setCity] = useState(user?.address?.city || "didn't added");
+  const [state, setState] = useState(user?.address?.state || "didn't added");
+  const [country, setCountry] = useState(user?.address?.country || "didn't added");
+  const [pincode, setPincode] = useState(user?.address?.pincode || "didn't added");
 
   const handleFileref = () => {
     fileInputRef.current.click();
