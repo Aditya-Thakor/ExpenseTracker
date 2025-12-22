@@ -20,7 +20,10 @@ export default function Transaction() {
 
   
   const [filteredTr, setFilterdTr]=useState([]);
-  const [filterType, setFilterType]= useState("all");
+  const [filterType, setFilterType]= useState('all');
+  const [filterCategory,setFilterCategory]=useState('all');
+  const [filterDate, setFilterDate]= useState('all');
+
 
   const [showmodal,setShowmodal]=useState(false);
 
@@ -63,29 +66,32 @@ export default function Transaction() {
 
 
       
-      const tl = expenses.reduce((sum,num)=>{
+      const tl = ex.reduce((sum,num)=>{
         return sum + Number(num.amount)
       },0)
       // console.log('total-',tl);
       setTotalEx(tl);
 
-      const tIn = incomes.reduce((sum,num)=>{
+      const tIn = inc.reduce((sum,num)=>{
         return sum + Number(num.amount)
       },0);
       // console.log(tIn);
       setTotalIn(tIn);
 
-      if (filterType==='all') {
-        setFilterdTr(null)
+      if (filterType==='all') { 
         setFilterdTr(recentT)
       }
-      if (filterType==='income') {
-        setFilterdTr(null)
+      if (filterType==='income') { 
         setFilterdTr(incomes)
       }
-      if (filterType==='expense') {
-        setFilterdTr(null)
+      if (filterType==='expense') { 
         setFilterdTr(expenses)
+      }
+
+      if(filterCategory==='all'){
+        return filteredTr;
+      }else{
+        return setFilterdTr(filteredTr.filter(t=>t.category===filterCategory));
       }
 
       
@@ -94,7 +100,7 @@ export default function Transaction() {
     }
     getTransactions()
     
-  },[user, filterType])  
+  },[user, filterType,filterCategory])  
   
   const netBalance =()=>{
     if(!totalIn && !totalEx)return;
@@ -200,26 +206,34 @@ export default function Transaction() {
           </select>
         </div>
         <div>
-          <select className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]">
+          <select 
+            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            value={filterCategory}
+            onChange={(e)=>setFilterCategory(e.target.value)}
+          >
             <option value="all">All categories</option>
-            <option value="income">Bills & Utilities</option>
-            <option value="expense">Food </option>
-            <option value="expense">Transportation </option>
-            <option value="expense">Travel </option>
-            <option value="expense">Education </option>
-            <option value="expense">Healthcare</option>
-            <option value="expense">Entertainment</option>
+            <option value="bills&utilities">Bills & Utilities</option>
+            <option value="food">Food </option>
+            <option value="transportation">Transportation </option>
+            <option value="travel">Travel </option>
+            <option value="education">Education </option>
+            <option value="health">Healthcare</option>
+            <option value="entertainment">Entertainment</option>
           </select>
         </div>
         <div>
-          <select className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]">
+          <select 
+            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            value={filterDate}
+            onChange={(e)=>setFilterDate(e.target.value)}
+          >
             <option value="all">Short by date</option>
-            <option value="income">Today</option>
-            <option value="expense">Yesterday</option>
-            <option value="expense"> 1 month</option>
-            <option value="expense"> 3 months</option>
-            <option value="expense"> 6 months</option>
-            <option value="expense"> 1 year</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="1m"> 1 month</option>
+            <option value="3m"> 3 months</option>
+            <option value="6m"> 6 months</option>
+            <option value="1y"> 1 year</option>
           </select>
         </div>
       </div>
@@ -227,7 +241,17 @@ export default function Transaction() {
       {/* transactions */}
       <div className="h-screen overflow-y-scroll grid grid-cols-1 gap-3 p-4">
         {
-          filteredTr.map((tr)=>(
+          !filteredTr? recentTransactions.map((tr)=>(
+            <TransactionCard
+              icon={i[tr.type]}
+              tag={tr.description}
+              date={tr.date.replace("T00:00:00.000Z","")}
+              amount={tr.amount}
+              type={tr.type}
+              bg="whitebg"
+              category={tr.type==="expense"? tr.category : tr.incomeFrom}
+            />
+          )): filteredTr.map((tr)=>(
           //   <TransactionCard
           //   icon={i[tr.type]}
           //   tag={tr.description}
@@ -240,6 +264,20 @@ export default function Transaction() {
           handleTransactions(tr)
           ))
         }
+        {/* {
+          filteredTr.map((tr)=>(
+          //   <TransactionCard
+          //   icon={i[tr.type]}
+          //   tag={tr.description}
+          //   date={tr.date.replace("T00:00:00.000Z","")}
+          //   amount={tr.amount}
+          //   type={tr.type}
+          //   bg="whitebg"
+          //   category={tr.type==="expense"? tr.category : tr.incomeFrom}
+          // />
+          handleTransactions(tr)
+          ))
+        } */}
           {/* <TransactionCard
             icon={i.code}
             tag="Freelance work"
