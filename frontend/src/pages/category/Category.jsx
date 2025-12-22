@@ -49,6 +49,11 @@ export default function Category() {
         .reduce((sum, e) => sum + Number(e.amount), 0)
      )
 
+     setBillEx(ex.filter((e)=>e.category==="bills&utilities"));
+     setBillsTotal(
+      ex.filter((e)=>e.category==="bills&utilities").reduce((sum,e)=>sum+Number(e.amount),0)
+     )
+
     setTravelEx(ex.filter((e) => e.category === "travel"));
     setTravelTotal(
       ex
