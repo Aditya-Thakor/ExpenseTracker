@@ -1,8 +1,9 @@
 import Heading from "../../components/heading/Heading";
-import { NutIcon, Plus, Search } from "lucide-react";
+import { NutIcon, Plus, Search, UserStar } from "lucide-react";
 import i from "../../assets/icons/index";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
 import { useEffect, useState } from "react";
+import AddTransactionModal from "../../components/addTransactions/modelDemoz/D1";
 
 export default function Transaction() {
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -19,7 +20,9 @@ export default function Transaction() {
 
   
   const [filteredTr, setFilterdTr]=useState([]);
-  const [filterType, setFilterType]= useState("all")
+  const [filterType, setFilterType]= useState("all");
+
+  const [showmodal,setShowmodal]=useState(false);
 
   useEffect(() => {
       async function fetchUser() {
@@ -131,6 +134,7 @@ export default function Transaction() {
         <button
           className=" h-min flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB]  "
           style={styles}
+          onClick={()=>setShowmodal(true)}
         >
           <Plus className="size-5" />
           <span>Add new transaction</span>
@@ -309,6 +313,10 @@ export default function Transaction() {
             category="Income"
           /> */}
       </div>
+        <AddTransactionModal
+          open={showmodal}
+          onClose ={()=>setShowmodal(false)}
+        />
     </div>
   );
 }
