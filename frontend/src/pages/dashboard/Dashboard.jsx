@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [trans, setTransactions]= useState([]);
   const [recentTransactions, setRecentTrans]= useState([]);
   const [topExCategories, setTopExCate]= useState([]);
+  // const [otherCate, setOtherCate]=useState([]);
 
   const [expenses, setExpenses]=useState([]);
   const [totalEx,setTotalEx]=useState(0);
@@ -86,11 +87,11 @@ export default function Dashboard() {
       ))
       // console.log(top3);
       setTopExCate(top3);
-      
-      
 
-      
-      
+      // const otherCate = expenses.filter(e=>e.category == topExCategories[0]?.category 
+      // )
+      // console.log("otr-",otherCate);
+      // setOtherCate(otherCate);
 
       const tIn = incomes.reduce((sum,num)=>{
         return sum + Number(num.amount)
@@ -98,20 +99,33 @@ export default function Dashboard() {
       // console.log(tIn);
       setTotalIn(tIn);
 
-      
-      
-      
     }
     getTransactions();
-
+  
   },[user])
   // const labels=["a","b","c","d"]
+  
+  // console.log("otr-",otherCate);
+  
+  // console.log(topExCategories);
+  
+  
   const labels = ()=>{
-    return topExCategories.map(n=>n.category);
+    const topct= topExCategories.map(n=>n.category)
+    const lbl = [...topct,"Other"]
+    return lbl
+    // return topExCategories.map(n=>n.category) || "Other";
   }
   // const datas=["54511","34511","43222","55433"]
   const datas = ()=>{
-     return topExCategories.map(n=>n.total);
+    const topstotal = topExCategories.map(n=>n.total)
+    const total = topstotal.reduce((sum,num)=>{return sum+Number(num)},0)
+    const otherTotal = totalEx - total
+    // console.log("tttt=",otherTotal);
+    
+    const dt = [...topstotal,otherTotal]
+    return dt;
+    //  return topExCategories.map(n=>n.total) || "50000";
   }
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
