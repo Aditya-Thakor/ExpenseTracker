@@ -140,8 +140,9 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-3 gap-4 ">
             {
-              topExCategories.map((c)=>(
+              topExCategories.map((c,ind)=>(
                  <CategoryTempCard
+                    key={ind}
                     icon={i[c.category]}
                     name={c.category.toUpperCase()}
                     amount={c.total}
@@ -204,6 +205,7 @@ export default function Dashboard() {
             {
               recentTransactions.map((tr)=>(
                 <TransactionCard
+                  key={tr._id}
                   icon={tr.type==="expense"? i.expense:i.income}
                   tag={tr.description}
                   date={tr.date.replace("T00:00:00.000Z","")}
