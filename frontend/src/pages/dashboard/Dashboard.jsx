@@ -112,7 +112,7 @@ export default function Dashboard() {
   
   const labels = ()=>{
     const topct= topExCategories.map(n=>n.category)
-    const lbl = [...topct,"Other"]
+    const lbl = [...topct,"other"]
     return lbl
     // return topExCategories.map(n=>n.category) || "Other";
   }
