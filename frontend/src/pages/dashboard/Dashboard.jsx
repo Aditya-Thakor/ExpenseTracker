@@ -26,6 +26,7 @@ export default function Dashboard() {
   const [totalIn,setTotalIn]= useState(0); 
 
 
+  const [vahover,setVaHover]=useState(null)
 
   useEffect(() => {
     async function fetchUser() {
@@ -145,7 +146,7 @@ export default function Dashboard() {
               Top expenses in category
             </span>
             <span
-              className="text-sm hover:text-blue-800 cursor-pointer text-blue-500"
+              className="text-sm py-0.5 px-2 cursor-pointer text-blue-500 hover:bg-blue-500 hover:text-white hover:rounded-xl transition-all ease-in-out"
               onClick={() => navigate("/category")}
             >
               View all
@@ -191,10 +192,13 @@ export default function Dashboard() {
               Recent transactions
             </h2>
             <span
-              className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+              className="text-xs relative text-blue-500 hover:text-blue-800 transition-all ease-in-out cursor-pointer"
               onClick={() => navigate("/transaction")}
+              onMouseEnter={()=>setVaHover('trans')}
+              onMouseLeave={()=>setVaHover(null)}
             >
-              View all
+               <span>View all</span>
+               <span className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${vahover==='trans'? 'w-11':'w-0'}`}></span>
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-4">
@@ -269,10 +273,13 @@ export default function Dashboard() {
                 Category vise spending
               </h2>
               <span
-                className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+                className="text-xs relative text-blue-500 hover:text-blue-800 cursor-pointer"
                 onClick={() => navigate("/analytics")}
+                onMouseEnter={()=>setVaHover('cate')}
+                onMouseLeave={()=>setVaHover(null)}
               >
-                View all
+                <span>View all</span>
+               <span className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${vahover==='cate'? 'w-11':'w-0'}`}></span>
               </span>
             </div>
             <div className="h-[90%] w-full">
@@ -291,10 +298,13 @@ export default function Dashboard() {
             Monthly expense
           </h2>
           <span
-            className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer"
+            className="text-xs relative text-blue-500 hover:text-blue-800 cursor-pointer"
             onClick={() => navigate("/analytics")}
+            onMouseEnter={()=>setVaHover('deta')}
+            onMouseLeave={()=>setVaHover(null)}
           >
-            Details
+           <span>Details</span>
+               <span className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${vahover==='deta'? 'w-11':'w-0'}`}></span>
           </span>
         </div>
         <div className="h-96 w-full">
