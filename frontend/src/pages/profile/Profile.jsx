@@ -19,6 +19,8 @@ import Userdata from "./Data";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+// Main function-----------------------------------------------------------------
 export default function Profile() {
   const navigate = useNavigate();
 
@@ -224,7 +226,10 @@ export default function Profile() {
                             <span className="text-lg font-medium text-gray-800">Aditya Thakor</span>
                         </div> */}
 
-            <Userdata title="Full name" data={user?.fullname || user?.username.toUpperCase()} />
+            <Userdata
+              title="Full name"
+              data={user?.fullname || user?.username.toUpperCase()}
+            />
 
             <Userdata title="Email address" data={user.email} />
             <Userdata title="Address" data={"tcp india, Mehsana"} />
@@ -256,7 +261,7 @@ export default function Profile() {
             </div>
 
             <div className="h-4/5 w-full  rounded-md ">
-              {visible ? (
+              {!visible ? (
                 <div className="h-1/5 w-full border flex justify-between items-center gap-5  rounded-md  px-4">
                   <div className="h-full w-4/5 flex items-center gap-3 text-gray-700 text-lg ">
                     <KeyRound className="size-5" />
