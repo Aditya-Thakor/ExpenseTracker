@@ -16,9 +16,8 @@ import {
 import DataCard2 from "../../components/Income-expense-Card/DataCard2";
 import i from "../../assets/icons/index";
 import Userdata from "./Data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 // Main function-----------------------------------------------------------------
 export default function Profile() {
@@ -27,15 +26,34 @@ export default function Profile() {
   // const user = JSON.parse(localStorage.getItem("user"));
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
-  // console.log(user);
-  const profile = user?.pfp;
-  // console.log(profile);
+  // console.log(user)
+  
+  const [etUser,setEtUser]= useState(null);
+  const profile = etUser?.pfp;
+  useEffect(() => {
+      async function fetchUser() {
+        await fetch("http://localhost:5000/usersdata/")
+          .then((res) => res.json())
+          .then((data) => {
+            let usr = data.find((i) => i._id === user._id);
+            // console.log(user);
+            setEtUser(usr);
+          })
+          .catch((error) => {
+            console.log("error at fetching userdata at dashboard", error);
+          });
+      }
+      fetchUser()
 
-  // password hide&show
+    }, []);
+
+    // console.log("et-",etUser);
+    
+  // password hide&show ----------------------------------------------------
   const [hide, setHide] = useState(false);
   const showPassword = () => {
     return hide ? (
-      <span className="tracking-widest">{user.password}</span>
+      <span className="tracking-widest">{etUser.password}</span>
     ) : (
       <span className="flex">
         <Dot />
@@ -65,7 +83,7 @@ export default function Profile() {
 
     const formData = new FormData();
     formData.append("password", password);
-    formData.append("userId", user._id);
+    formData.append("userId", etUser._id);
 
     const updatePass = await fetch(
       "http://localhost:5000/usersdata/user/updatepassword",
@@ -84,6 +102,8 @@ export default function Profile() {
       console.log("Something goes wrong!!!");
     }
   };
+
+//---------------------------------------------------------------------  
 
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
@@ -115,7 +135,7 @@ export default function Profile() {
           <div className="h-[30%] w-full flex justify-between items-center  ">
             <span className="text-xl font-medium text-gray-800">
               {/* Aditya Thakor */}
-              {user?.fullname || user?.username.toUpperCase()}
+              {etUser?.fullname || etUser?.username.toUpperCase()}
             </span>
             <span
               onClick={() => navigate("/profile/editprofile")}
@@ -129,23 +149,23 @@ export default function Profile() {
             <div className="flex flex-col gap-2">
               <span className="hover:text-blue-500 cursor-pointer">
                 {/* @aditya_01 */}
-                {user.username}
+                {etUser?.username}
               </span>
               <span className="font-medium text-slate-600 ">
                 {/* MERN stack developer */}
-                {user.role}
+                {etUser?.role}
               </span>
             </div>
             <div className="text-sm flex flex-col gap-2">
               <span className="flex items-center hover:text-blue-500 cursor-pointer gap-2">
                 <Mail className="size-4" />
                 {/* as@tracker.com */}
-                {user.email}
+                {etUser?.email}
               </span>
               <span className="flex items-center hover:text-blue-500 cursor-pointer gap-2">
                 <Linkedin className="size-4" />
                 {/* @asmern_22 */}
-                {user.username}
+                {etUser?.username}
               </span>
             </div>
           </div>
@@ -228,14 +248,14 @@ export default function Profile() {
 
             <Userdata
               title="Full name"
-              data={user?.fullname || user?.username.toUpperCase()}
+              data={etUser?.fullname || etUser?.username.toUpperCase() || "not available"}
             />
 
-            <Userdata title="Email address" data={user.email} />
-            <Userdata title="Address" data={"tcp india, Mehsana"} />
-            <Userdata title="State" data="Gujarat" />
-            <Userdata title="Country" data="India" />
-            <Userdata title="PIN" data="380010" />
+            <Userdata title="Email address" data={etUser?.email || "not available"} />
+            <Userdata title="Address" data={etUser?.address.at || etUser?.address.city || "not available"} />
+            <Userdata title="State" data={etUser?.state || "not available"} />
+            <Userdata title="Country" data={etUser?.country || "not available"} />
+            <Userdata title="PIN" data={etUser?.pincode || "not available"} />
           </div>
         </div>
         <div className="h-full w-2/5 rounded-xl p-5 flex flex-col gap-5 bg-white">
