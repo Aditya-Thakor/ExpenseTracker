@@ -45,9 +45,9 @@ export default function ExpenseDoughnutChart({lbls, cdata}) {
         entertainment.addColorStop(0,"#6366F1");
         entertainment.addColorStop(1,"#A855F7");
 
-        const health = ctx.createLinearGradient(0,0,0,300);
-        health.addColorStop(0,"#EF4444");
-        health.addColorStop(1,"#F97316");
+        const healthcare = ctx.createLinearGradient(0,0,0,300);
+        healthcare.addColorStop(0,"#EF4444");
+        healthcare.addColorStop(1,"#F97316");
 
         const education = ctx.createLinearGradient(0,0,0,300);
         education.addColorStop(0,"#EAB308"); 
@@ -58,7 +58,7 @@ export default function ExpenseDoughnutChart({lbls, cdata}) {
         other.addColorStop(1,"#64748B");
 
         const grd = {
-          bill, trans,travel,shopping, food,entertainment,health,education,other
+          bill, trans,travel,shopping, food,entertainment,healthcare,education,other
         }
         const fl = lbls.map((d)=> {
           return grd[d]
