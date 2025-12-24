@@ -319,7 +319,7 @@ export default function Category() {
           healthEx? <CategoryCard
             name="Healthcare"
             amount={healthTotal}
-            icon={i.health}
+            icon={i.healthcare}
             transactions={healthEx.length}
             bgfrom="#FEF2F2"
             bgto="#FFF7ED"
