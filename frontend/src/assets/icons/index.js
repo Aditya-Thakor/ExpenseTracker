@@ -18,7 +18,7 @@ import bill from "./categories/bills.svg";
 import education from "./categories/education.svg";
 import entertainment from "./categories/entertainment.svg";
 import food from "./categories/food.svg";
-import health from "./categories/health.svg";
+import healthcare from "./categories/health.svg";
 import shopping from "./categories/shopping.svg";
 import transportation from "./categories/transportation.svg";
 import travel from "./categories/travel.svg";
@@ -59,7 +59,7 @@ export default {
   education,
   entertainment,
   food,
-  health,
+  healthcare,
   shopping,
   transportation,
   travel,
