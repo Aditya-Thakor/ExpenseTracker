@@ -8,25 +8,28 @@ import MyDoughnut from "../../components/charts/categoryCharts/C3";
 import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
 import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import TransactionContext from "../../context/TransactionContext";
 export default function Dashboard() {
   const navigate = useNavigate();
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
   // console.log(userId);
   const [user, setUser] = useState(null);
-  const [trans, setTransactions]= useState([]);
-  const [recentTransactions, setRecentTrans]= useState([]);
-  const [topExCategories, setTopExCate]= useState([]);
+  // const [trans, setTransactions] = useState([]);
+  const [recent5tr, setRecent5tr] = useState([]);
+  const [topExCategories, setTopExCate] = useState([]);
   // const [otherCate, setOtherCate]=useState([]);
 
-  const [expenses, setExpenses]=useState([]);
-  const [totalEx,setTotalEx]=useState(0);
-  const [incomes,setIncomes]=useState([]);
-  const [totalIn,setTotalIn]= useState(0); 
+  // const [expenses, setExpenses] = useState([]);
+  // const [totalEx, setTotalEx] = useState(0);
+  // const [incomes,setIncomes]=useState([]);
+  // const [totalIn,setTotalIn]= useState(0);
 
+  const {transactions,totalExpense, totalIncome } =
+    useContext(TransactionContext);
 
-  const [vahover,setVaHover]=useState(null)
+  const [vahover, setVaHover] = useState(null);
 
   useEffect(() => {
     async function fetchUser() {
@@ -41,105 +44,113 @@ export default function Dashboard() {
           console.log("error at fetching userdata at dashboard", error);
         });
     }
-    fetchUser()
-
+    fetchUser();
   }, [userId]);
 
-  useEffect(()=>{
-    console.log("user updated!!!",user); 
-    if(user===null) return;
+  useEffect(() => {
+    console.log("user updated!!!", user);
+    if (user === null) return;
 
-    const getTransactions=()=>{
-
+    const getTransactions = () => {
       const tr = user?.transactions;
       // console.log("tr-",tr);
-      setTransactions(tr);
-      const recentT = [...tr].sort((a,b)=>new Date(b.date)- new Date(a.date)).slice(0,5);
+      // setTransactions(tr);
+      const recentT = [...tr]
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5);
       // console.log("recents", recentT);
-      setRecentTrans(recentT);
+      setRecent5tr(recentT);
 
-      
-      const ex = tr.filter(e=>e.type==="expense")
+      // const ex = tr.filter((e) => e.type === "expense");
       // console.log("ex-",ex);
-      setExpenses(ex); 
+      // setExpenses(ex);
       // console.log(expenses);
-      const inc = tr.filter(i=>i.type==="income")
+      // const inc = tr.filter((i) => i.type === "income");
       // console.log(inc);
-      setIncomes(inc);
-      
-      const tl = expenses.reduce((sum,num)=>{
-        return sum + Number(num.amount)
-      },0)
-      // console.log('total-',tl);
-      setTotalEx(tl);
+      // setIncomes(inc);
 
-      const ct = trans.reduce((cate, tex)=>{
-          if(tex.type==="expense"){
-            cate[tex.category]= (cate[tex.category]||0)+tex.amount;
-          }
-          return cate;
-      },{});
+      // const tl = expenses.reduce((sum,num)=>{
+      //   return sum + Number(num.amount)
+      // },0)
+      // // console.log('total-',tl);
+      // setTotalEx(tl);
+
+      const ct = transactions.reduce((cate, tex) => {
+        if (tex.type === "expense") {
+          cate[tex.category] = (cate[tex.category] || 0) + tex.amount;
+        }
+        return cate;
+      }, {});
       // console.log("ct- ", ct);
-      const sortCate = Object.entries(ct).sort((a,b)=>b[1]-a[1]).slice(0,3); 
+      const sortCate = Object.entries(ct)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
       // console.log(sortCate);
-      
-      const top3 = sortCate.map(([category,total])=>(
-        {category, total}
-      ))
+
+      const top3 = sortCate.map(([category, total]) => ({ category, total }));
       // console.log(top3);
       setTopExCate(top3);
 
-      // const otherCate = expenses.filter(e=>e.category == topExCategories[0]?.category 
+      // const otherCate = expenses.filter(e=>e.category == topExCategories[0]?.category
       // )
       // console.log("otr-",otherCate);
       // setOtherCate(otherCate);
 
-      const tIn = incomes.reduce((sum,num)=>{
-        return sum + Number(num.amount)
-      },0);
+      // const tIn = incomes.reduce((sum, num) => {
+      //   return sum + Number(num.amount);
+      // }, 0);
       // console.log(tIn);
-      setTotalIn(tIn);
-
-    }
+      // setTotalIn(tIn);
+    };
     getTransactions();
-  
-  },[user])
+  }, [user]);
   // const labels=["a","b","c","d"]
-  
+
   // console.log("otr-",otherCate);
-  
+
   // console.log(topExCategories);
-  
-  
-  const labels = ()=>{
-    const topct= topExCategories.map(n=>n.category)
-    const lbl = [...topct,"other"]
-    return lbl
+
+  const labels = () => {
+    const topct = topExCategories.map((n) => n.category);
+    const lbl = [...topct, "other"];
+    return lbl;
     // return topExCategories.map(n=>n.category) || "Other";
-  }
+  };
   // const datas=["54511","34511","43222","55433"]
-  const datas = ()=>{
-    const topstotal = topExCategories.map(n=>n.total)
-    const total = topstotal.reduce((sum,num)=>{return sum+Number(num)},0)
-    const otherTotal = totalEx - total
+  const datas = () => {
+    const topstotal = topExCategories.map((n) => n.total);
+    const total = topstotal.reduce((sum, num) => {
+      return sum + Number(num);
+    }, 0);
+    const otherTotal = totalExpense - total;
     // console.log("tttt=",otherTotal);
-    
-    const dt = [...topstotal,otherTotal]
+
+    const dt = [...topstotal, otherTotal];
     return dt;
     //  return topExCategories.map(n=>n.total) || "50000";
-  }
+  };
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
       <div className="h-auto">
         <h1 className="text-gray-800 text-2xl font-bold">Dashboard</h1>
+        {/* <h2>{n}{tex}</h2> */}
         <span className="text-gray-500 text-xs">
           Welcome! here is your financial overview
         </span>
       </div>
       <div className="h-40 flex gap-3">
         {/* <div className="h-full  min-w-60 bg-slate-600 rounded-xl"></div>   */}
-        <DataCard type="expense" amount={totalEx} stats="-2% from last month" />
-        <DataCard type="Income" amount={totalIn} stats="+8% from last month" />
+        <DataCard
+          type="expense"
+          amount={totalExpense}
+          stats="-2% from last month"
+        />
+        <DataCard
+          type="Income"
+          amount={totalIncome}
+          stats="+8% from last month"
+        />
         <div className="h-full w-full flex flex-col justify-around bg-white rounded-xl px-4 py-2">
           <div className="h-5 w-full flex justify-between items-center">
             <span className="text-sm text-slate-400">
@@ -154,16 +165,14 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-3 gap-4 ">
-            {
-              topExCategories.map((c,ind)=>(
-                 <CategoryTempCard
-                    key={ind}
-                    icon={i[c.category]}
-                    name={c.category.toUpperCase()}
-                    amount={c.total}
-                  />
-              ))
-            }
+            {topExCategories.map((c, ind) => (
+              <CategoryTempCard
+                key={ind}
+                icon={i[c.category]}
+                name={c.category.toUpperCase()}
+                amount={c.total}
+              />
+            ))}
             {/* <CategoryTempCard
               icon={i.bill}
               name="Bills & Utilities"
@@ -194,11 +203,15 @@ export default function Dashboard() {
             <span
               className="text-xs relative text-blue-500 hover:text-blue-800 transition-all ease-in-out cursor-pointer"
               onClick={() => navigate("/transaction")}
-              onMouseEnter={()=>setVaHover('trans')}
-              onMouseLeave={()=>setVaHover(null)}
+              onMouseEnter={() => setVaHover("trans")}
+              onMouseLeave={() => setVaHover(null)}
             >
-               <span>View all</span>
-               <span className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${vahover==='trans'? 'w-11':'w-0'}`}></span>
+              <span>View all</span>
+              <span
+                className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${
+                  vahover === "trans" ? "w-11" : "w-0"
+                }`}
+              ></span>
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-4">
@@ -220,20 +233,18 @@ export default function Dashboard() {
                     </div>
                 </div> 
             */}
-            {
-              recentTransactions.map((tr)=>(
-                <TransactionCard
-                  key={tr._id}
-                  icon={tr.type==="expense"? i.expense:i.income}
-                  tag={tr.description}
-                  date={tr.date.replace("T00:00:00.000Z","")}
-                  amount={tr.amount}
-                  type={tr.type}
-                  category={tr.type==="expense"? tr.category : tr.incomeFrom}
-                />
-              ))
-            }
-            
+            {recent5tr.map((tr) => (
+              <TransactionCard
+                key={tr._id}
+                icon={tr.type === "expense" ? i.expense : i.income}
+                tag={tr.description}
+                date={tr.date.replace("T00:00:00.000Z", "")}
+                amount={tr.amount}
+                type={tr.type}
+                category={tr.type === "expense" ? tr.category : tr.incomeFrom}
+              />
+            ))}
+
             {/* <TransactionCard
               icon={i.code}
               tag="Freelance work"
@@ -275,11 +286,15 @@ export default function Dashboard() {
               <span
                 className="text-xs relative text-blue-500 hover:text-blue-800 cursor-pointer"
                 onClick={() => navigate("/analytics")}
-                onMouseEnter={()=>setVaHover('cate')}
-                onMouseLeave={()=>setVaHover(null)}
+                onMouseEnter={() => setVaHover("cate")}
+                onMouseLeave={() => setVaHover(null)}
               >
                 <span>View all</span>
-               <span className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${vahover==='cate'? 'w-11':'w-0'}`}></span>
+                <span
+                  className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${
+                    vahover === "cate" ? "w-11" : "w-0"
+                  }`}
+                ></span>
               </span>
             </div>
             <div className="h-[90%] w-full">
@@ -300,11 +315,15 @@ export default function Dashboard() {
           <span
             className="text-xs relative text-blue-500 hover:text-blue-800 cursor-pointer"
             onClick={() => navigate("/analytics")}
-            onMouseEnter={()=>setVaHover('deta')}
-            onMouseLeave={()=>setVaHover(null)}
+            onMouseEnter={() => setVaHover("deta")}
+            onMouseLeave={() => setVaHover(null)}
           >
-           <span>Details</span>
-               <span className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${vahover==='deta'? 'w-11':'w-0'}`}></span>
+            <span>Details</span>
+            <span
+              className={`h-px absolute bottom-0 left-0 rounded-full transition-all ease-linear bg-blue-800 ${
+                vahover === "deta" ? "w-11" : "w-0"
+              }`}
+            ></span>
           </span>
         </div>
         <div className="h-96 w-full">
