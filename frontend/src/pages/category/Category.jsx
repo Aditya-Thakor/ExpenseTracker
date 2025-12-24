@@ -4,15 +4,16 @@ import SummaryCardTemp from "../../components/summaryCards/Temp1";
 import CategoryCard from "../../components/categoryCard/CTemp2";
 import i from "../../assets/icons/index";
 import AddCategoryModal from "../../components/addCategory/AddCategoryModal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import TransactionContext from "../../context/TransactionContext";
 // import { data } from "react-router-dom";
 export default function Category() {
   const [modalVisible, setModalVisible] = useState(false);
 
   // const [user,setUser]=useState(null);
   // const [categories, setCategories] = useState([]);
-  const [expenses, setExpenses] = useState([]);
-  const [totalEx, setTotalEx] = useState(0);
+  // const [expenses, setExpenses] = useState([]);
+  // const [totalEx, setTotalEx] = useState(0);
   const [foodEx, setFoodEx] = useState([]);
   const [foodTotal, setFoodTotal] = useState(0);
   const [billEx, setBillEx] = useState([]);
@@ -21,12 +22,20 @@ export default function Category() {
   const [travelTotal, setTravelTotal] = useState(0);
   const [shoppingEx, setShoppingEx] = useState([]);
   const [shoppingTotal, setShoppingTotal] = useState(0);
+  const [transportEx,setTransportEx]=useState([]);
+  const [transportTotal,setTransportTotal]=useState(0);
+  const [entertainmentEx,setEntertainmentEx]=useState([]);
+  const [entertainmentTotal,setEntertainmentTotal]= useState(0);
+  const [healthEx,setHealthEx]=useState([]);
+  const [healthTotal,setHealthTotal]=useState(0);
+  const [educationEx,setEducationEx]=useState([])
+  const [educationTotal, setEducationTotal]=useState(0);
 
-  const userData = JSON.parse(localStorage.getItem("user"));
+  // const userData = JSON.parse(localStorage.getItem("user"));
   // console.log("user-",userData.transactions);
-
+  const { totalExpense, expenses } = useContext(TransactionContext);
   useEffect(() => {
-    if (!userData.transactions) return;
+    // if (!userData.transactions) return;
     // fetch("http://localhost:5000/usersdata/")
     // .then((res)=>res.json())
     // .then((data)=>{
@@ -35,39 +44,57 @@ export default function Category() {
     // })
     // .catch((err)=>{
     //   console.log(err);
-      
+
     // })
 
-    const ex = userData.transactions.filter((e) => e.type === "expense");
-    setExpenses(ex);
-    setTotalEx(ex.reduce((sum,e)=>sum+Number(e.amount),0));
+    // const ex = userData.transactions.filter((e) => e.type === "expense");
+    // setExpenses(ex);
+    // setTotalEx(ex.reduce((sum,e)=>sum+Number(e.amount),0));
+    const filterCategories = async () => {
+      setFoodEx(expenses?.filter((e) => e.category === "food"));
+      setFoodTotal(
+        expenses
+          .filter((e) => e.category === "food")
+          .reduce((sum, e) => sum + Number(e.amount), 0)
+      );
 
-     setFoodEx(ex.filter((e)=>e.category==="food"));
-     setFoodTotal(
-      ex
-        .filter((e) => e.category === "food")
-        .reduce((sum, e) => sum + Number(e.amount), 0)
-     )
+      setBillEx(expenses.filter((e) => e.category === "bills&utilities"));
+      setBillsTotal(
+        expenses
+          .filter((e) => e.category === "bills&utilities")
+          .reduce((sum, e) => sum + Number(e.amount), 0)
+      );
 
-     setBillEx(ex.filter((e)=>e.category==="bills&utilities"));
-     setBillsTotal(
-      ex.filter((e)=>e.category==="bills&utilities").reduce((sum,e)=>sum+Number(e.amount),0)
-     )
+      setTravelEx(expenses.filter((e) => e.category === "travel"));
+      setTravelTotal(
+        expenses
+          .filter((e) => e.category === "travel")
+          .reduce((sum, e) => sum + Number(e.amount), 0)
+      );
 
-    setTravelEx(ex.filter((e) => e.category === "travel"));
-    setTravelTotal(
-      ex
-        .filter((e) => e.category === "travel")
-        .reduce((sum, e) => sum + Number(e.amount), 0)
-    );
+      setShoppingEx(expenses.filter((e) => e.category === "shopping"));
+      setShoppingTotal(
+        expenses
+          .filter((e) => e.category === "shopping")
+          .reduce((sum, e) => sum + Number(e.amount), 0)
+      );
 
-    setShoppingEx(ex.filter((e) => e.category === "shopping"));
-    setShoppingTotal(
-      ex
-        .filter((e) => e.category === "shopping")
-        .reduce((sum, e) => sum + Number(e.amount), 0)
-    );
-  }, []);
+      setTransportEx(expenses.filter((e)=>e.category==="transportation"));
+      setTransportTotal(expenses.filter((e)=>e.category==="transportation").reduce((sum,e)=>sum+Number(e.amount),0));
+
+      setEntertainmentEx(expenses.filter((e)=>e.category==="entertainment"));
+      setEntertainmentTotal(expenses.filter((e)=>e.category==="entertainment").reduce((sum,e)=>sum+Number(e.amount),0));
+
+      setHealthEx(expenses.filter((e)=>e.category==="healthcare"));
+      setHealthTotal(expenses.filter((e)=>e.category==="healthcare").reduce((sum,e)=>sum+Number(e.amount),0));
+
+      setEducationEx(expenses.filter(e=>e.category==="education"));
+      setEducationTotal(expenses.filter(e=>e.category==="education").reduce((sum,e)=>sum+Number(e.amount),0));
+      
+
+    };
+    filterCategories();
+  }, [expenses]);
   // console.log(expenses);
   // console.log(travelTotal);
 
@@ -173,7 +200,7 @@ export default function Category() {
           />
           <SummaryCardTemp
             title="Total spending"
-            data={`Rs. ${totalEx}`}
+            data={`Rs. ${totalExpense}`}
             bgfrom="#E4D6FF"
             bgto="#F5CDE2"
             border="#D7C3F5"
@@ -217,18 +244,6 @@ export default function Category() {
             pr={(foodEx.length / expenses.length) * 100}
           />
           <CategoryCard
-            name="Transportation"
-            amount="38,000"
-            icon={i.transportation}
-            transactions="21"
-            bgfrom="#EFF6FF"
-            bgto="#ECFEFF"
-            border="#DBEAFE"
-            shadow="#DBEAFE"
-            pbgfrom="#3B82F6"
-            pbgto="#06B6D4"
-          />
-          <CategoryCard
             name="Bills & Utilities"
             amount={billsTotal}
             icon={i.bill}
@@ -254,6 +269,23 @@ export default function Category() {
             pbgto="#10B981"
             pr={(travelEx.length / expenses.length) * 100}
           />
+         {transportEx? 
+          <CategoryCard
+          name="Transportation"
+          amount={transportTotal}
+          icon={i.transportation}
+          transactions={transportEx.length}
+          bgfrom="#EFF6FF"
+          bgto="#ECFEFF"
+          border="#DBEAFE"
+          shadow="#DBEAFE"
+          pbgfrom="#3B82F6"
+          pbgto="#06B6D4"
+          pr={(transportEx.length / expenses.length) * 100}
+          />
+          : ''
+        }
+
           <CategoryCard
             name="Shopping"
             amount={shoppingTotal}
@@ -267,42 +299,54 @@ export default function Category() {
             pbgto="#F43F5E"
             pr={(shoppingEx.length / expenses.length) * 100}
           />
-          <CategoryCard
+
+        {
+          entertainmentEx? <CategoryCard
             name="Entertainment"
-            amount="28,000"
+            amount={entertainmentTotal}
             icon={i.entertainment}
-            transactions="11"
+            transactions={entertainmentEx.length}
             bgfrom="#EEF2FF"
             bgto="#FAF5FF"
             border="#E0E7FF"
             shadow="#E0E7FF"
             pbgfrom="#6366F1"
             pbgto="#A855F7"
-          />
-          <CategoryCard
+            pr={(entertainmentEx.length / expenses.length) * 100}
+          /> : ""
+        }
+        {
+          healthEx? <CategoryCard
             name="Healthcare"
-            amount="15,000"
+            amount={healthTotal}
             icon={i.health}
-            transactions="12"
+            transactions={healthEx.length}
             bgfrom="#FEF2F2"
             bgto="#FFF7ED"
             border="#FEE2E2"
             shadow="#FEE2E2"
             pbgfrom="#EF4444"
             pbgto="#F97316"
+            pr={(healthEx.length / expenses.length) * 100}
           />
-          <CategoryCard
+          :''
+        }
+          {
+            educationEx? <CategoryCard
             name="Education"
-            amount="18,000"
+            amount={educationTotal}
             icon={i.education}
-            transactions="28"
+            transactions={educationEx.length}
             bgfrom="#FEFCE8"
             bgto="#FFFBEB"
             border="#FEF9C3"
             shadow="#FEF9C3"
             pbgfrom="#F97316"
             pbgto="#F59E0B"
-          />
+            pr={(educationEx.length / expenses.length) * 100}
+          />:''
+          }
+          
           {/* <CategoryCard
             name={categories[0].name}
             amount="18,000"

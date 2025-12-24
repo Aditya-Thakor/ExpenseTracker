@@ -13,7 +13,7 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
     }
     const pcolor ={
         background: `linear-gradient(to right , ${pbgfrom}, ${pbgto})`,
-        with:`calc(100%-${pr}%) `
+        width:`${pr}% `
     }
     
   return (
@@ -47,7 +47,7 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
         <div className="h-1/2 flex items-center gap-2 text-sm ">
             <span className="h-full px-3 bg-white rounded-xl flex items-center gap-3">
                 <img src={i.aup} alt="arrow up" className="h-1/2" />
-                {Math.round(pr)}%
+                {!pr?0:Math.round(pr)}%
             </span>
             <span className="text-slate-700 font-lato">of  Total</span>
         </div>
@@ -56,7 +56,7 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
       {/* progress bar */}
       <div className="h-2 w-full rounded-xl bg-white relative overflow-hidden">
         <span 
-            className={`h-full w-10 rounded-xl absolute `}
+            className={`h-full  rounded-xl absolute `}
             style={pcolor}
         ></span>
       </div>

@@ -80,6 +80,7 @@ function App() {
       value={{
         n: etusername,
         o: other, 
+        user:user,
 
         transactions: transactions,
         setTransactions: setTransactions,
