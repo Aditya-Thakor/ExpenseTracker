@@ -17,8 +17,9 @@ export default function EditProfile() {
         .then((res) => res.json())
         .then((data) => {
           let usr = data.find((i) => i._id === userId);
-          // console.log(user);
+          
           setUser(usr);
+          // console.log(user);
         })
         .catch((error) => {
           console.log("error at fetching userdata at dashboard", error);
@@ -30,21 +31,17 @@ export default function EditProfile() {
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState(null);
-  const [fullname, setFullName] = useState(user?.fullname);
+  const [fullname, setFullName] = useState('');
   const [username, setUsername] = useState(user?.username);
-  const [email, setEmail] = useState(user?.email);
-  const [role, setRole] = useState(user?.role);
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
 
   // adrress
-  const [at, setAt] = useState(user?.address?.at || "didn't added");
-  const [city, setCity] = useState(user?.address?.city || "didn't added");
-  const [state, setState] = useState(user?.address?.state || "didn't added");
-  const [country, setCountry] = useState(
-    user?.address?.country || "didn't added"
-  );
-  const [pincode, setPincode] = useState(
-    user?.address?.pincode || "didn't added"
-  );
+  const [at, setAt] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [pincode, setPincode] = useState('');
 
   const handleFileref = () => {
     fileInputRef.current.click();
@@ -60,8 +57,15 @@ export default function EditProfile() {
   };
 
   const editUser = async () => {
+    if(!fullname)return alert("add fullname"); 
+    if(!username)return alert("add username"); 
+    if(!email)return alert("add email"); 
+    if(!role)return alert("add role"); 
+    
+    
+    
     const formData = new FormData();
-
+    
     const address = {
       at,
       city,
@@ -69,6 +73,8 @@ export default function EditProfile() {
       country,
       pincode,
     };
+    
+    if(!address)return alert("add address or complete address"); 
 
     formData.append("username", username);
     formData.append("email", email);
@@ -104,6 +110,7 @@ export default function EditProfile() {
       //   pfp: updated.pfp || user.pfp,
       // };
       localStorage.setItem("user", JSON.stringify(updated.updatedUser)); //add navigate to profile
+      navigate('/profile')
     } else {
       console.log("Something goes wrong!!!");
     }
@@ -125,7 +132,7 @@ export default function EditProfile() {
           <div className="h-[90%] w-full flex flex-col gap-3 rounded-xl bg-white p-3">
             <div className="h-10 w-full flex justify-between items-center">
               <span className="text-xl font-semibold text-gray-800">
-                Edit profile
+                Edit profile  
               </span>
               <button
                 className="px-4 py-0.5 text-center bg-green-500 text-white rounded-lg font-medium"
@@ -172,7 +179,7 @@ export default function EditProfile() {
                   >
                     <span>Change Full name : </span>
                     <input
-                      placeholder={user?.fullname}
+                      placeholder={user.fullname}
                       value={fullname}
                       onChange={(e) => setFullName(e.target.value)}
                       type="text"
@@ -235,7 +242,8 @@ export default function EditProfile() {
                   <textarea
                     id="adrress"
                     rows={2}
-                    className="border text-gray-400 rounded-md"
+                    className="border px-2 py-1 text-gray-400 rounded-md"
+                    // placeholder={user?.address.at}
                     value={at}
                     onChange={(e) => setAt(e.target.value)}
                   />
@@ -251,6 +259,7 @@ export default function EditProfile() {
                     <input
                       id="city"
                       type="text"
+                      placeholder={user?.address.city}
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       className="rounded-md p-2 border"
@@ -266,6 +275,7 @@ export default function EditProfile() {
                     <input
                       id="state"
                       type="text"
+                      placeholder={user?.address.state}
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       className="rounded-md p-2 border"
@@ -281,6 +291,7 @@ export default function EditProfile() {
                     <input
                       id="country"
                       type="text"
+                      placeholder={user.address.country}
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
                       className="rounded-md p-2 border"
@@ -296,6 +307,7 @@ export default function EditProfile() {
                     <input
                       id="pincode"
                       type="text"
+                      placeholder={user.address.pincode}
                       value={pincode}
                       onChange={(e) => setPincode(e.target.value)}
                       className="rounded-md p-2 border"

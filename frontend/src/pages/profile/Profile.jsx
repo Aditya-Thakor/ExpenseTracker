@@ -45,9 +45,9 @@ export default function Profile() {
       }
       fetchUser()
 
-    }, []);
+    }, [user._id]);
 
-    // console.log("et-",etUser);
+    console.log("et-",etUser);
     
   // password hide&show ----------------------------------------------------
   const [hide, setHide] = useState(false);
@@ -252,7 +252,7 @@ export default function Profile() {
             />
 
             <Userdata title="Email address" data={etUser?.email || "not available"} />
-            <Userdata title="Address" data={etUser?.address.at || etUser?.address.city || "not available"} />
+            <Userdata title="Address" data={etUser?.address?.at || etUser?.address?.city || "not available"} />
             <Userdata title="State" data={etUser?.state || "not available"} />
             <Userdata title="Country" data={etUser?.country || "not available"} />
             <Userdata title="PIN" data={etUser?.pincode || "not available"} />
