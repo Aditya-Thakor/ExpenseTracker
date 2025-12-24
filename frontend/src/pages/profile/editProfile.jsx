@@ -67,13 +67,13 @@ export default function EditProfile() {
     const formData = new FormData();
     
     const address = {
-      at,
-      city,
-      state,
-      country,
-      pincode,
+      at:at,
+      city:city,
+      state:state,
+      country:country,
+      pincode:pincode,
     };
-    
+
     if(!address)return alert("add address or complete address"); 
 
     formData.append("username", username);
