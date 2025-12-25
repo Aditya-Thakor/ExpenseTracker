@@ -16,12 +16,14 @@ import {
 import DataCard2 from "../../components/Income-expense-Card/DataCard2";
 import i from "../../assets/icons/index";
 import Userdata from "./Data";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TransactionContext from "../../context/TransactionContext";
 
 // Main function-----------------------------------------------------------------
 export default function Profile() {
   const navigate = useNavigate();
+  const {totalExpense,totalIncome}= useContext(TransactionContext);
 
   // const user = JSON.parse(localStorage.getItem("user"));
   const storedUser = localStorage.getItem("user");
@@ -176,14 +178,14 @@ export default function Profile() {
         {/* <div className="h-full w-full bg-white border rounded-xl" >  </div> */}
         <DataCard2
           name="Total balance"
-          amount="38,000"
+          amount={totalIncome-totalExpense}
           icon={i.transaction}
           pr="12.5"
           prcolor="#16A34A"
         />
         <DataCard2
           name="Total expense"
-          amount="87,000"
+          amount={totalExpense}
           icon={i.expense}
           pr="8.2"
           prcolor="#DC2626"
@@ -196,7 +198,7 @@ export default function Profile() {
         />
         <DataCard2
           name="Total income"
-          amount="1,22,000"
+          amount={totalIncome}
           icon={i.income}
           pr="9.1"
           prcolor="#16A34A"
@@ -209,7 +211,7 @@ export default function Profile() {
         />
         <DataCard2
           name="Saving this month"
-          amount="34,000"
+          amount={totalIncome-totalExpense}
           icon={i.savingIcon}
           pr="28.3"
           prcolor="#16A34A"
