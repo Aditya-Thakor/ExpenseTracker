@@ -5,32 +5,56 @@ import i from "../../assets/icons/index";
 import InEx from "../../components/charts/analyticsCharts/InvsEx";
 import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPieChart";
 import Barchart from "../../components/charts/analyticsCharts/Barchart";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 
 export default function Analytics() {
-
-  const {totalExpense,expenses, totalIncome}= useContext(TransactionContext);
+  const { totalExpense, expenses, totalIncome } =
+    useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
-  const dailyEx = ()=>{
-    const today  = new Date().toISOString().split("T")[0];
-    const d = expenses.filter((e)=> e.date === today +"T00:00:00.000Z");
-    // const d = expenses.filter((e)=> e.date == Date.now() )
-    // console.log("ddd-",d); 
-    const todayEx = d.reduce((sum,e)=>(sum + e.amount),0)
-    // console.log("todayExpense",todayEx);
-    return todayEx
-  }
-//  dailyEx();
+  const [top5, setTop5] = useState([]);
 
-const savingRate = ()=>{
-  const sr = ((totalIncome-totalExpense)/totalIncome)*100
-  // console.log(sr.toFixed(2));
-  // console.log("saving rate",Math.floor(sr).toFixed(2));
-  return sr.toFixed(2);
-}
-// savingRate()
+  const dailyEx = () => {
+    const today = new Date().toISOString().split("T")[0];
+    const d = expenses.filter((e) => e.date === today + "T00:00:00.000Z");
+    // const d = expenses.filter((e)=> e.date == Date.now() )
+    // console.log("ddd-",d);
+    const todayEx = d.reduce((sum, e) => sum + e.amount, 0);
+    // console.log("todayExpense",todayEx);
+    return todayEx;
+  };
+  //  dailyEx();
+
+  const savingRate = () => {
+    const sr = ((totalIncome - totalExpense) / totalIncome) * 100;
+    // console.log(sr.toFixed(2));
+    // console.log("saving rate",Math.floor(sr).toFixed(2));
+    return sr.toFixed(2);
+  };
+  // savingRate()
+  useEffect(() => {
+    const top5Cate = () => {
+      const ct = expenses.reduce((cate, ex) => {
+        cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
+        return cate;
+      }, {});
+      // console.log("ct--",ct);
+      const sortCate = Object.entries(ct)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+
+      // console.log("srt--",sortCate);
+      const top5cate = sortCate.map(([category, total]) => ({
+        category,
+        total,
+      }));
+      //  console.log("top5",top5);
+      return setTop5(top5cate);
+    };
+    top5Cate();
+  }, [expenses]);
+  console.log(top5);
   
 
   return (
@@ -41,7 +65,7 @@ const savingRate = ()=>{
           title="Analytics "
           tagline="Visualize your spending patterns and trends"
         />
-        
+
         <button className="flex items-center h-min text-gray-700 bg-white rounded-xl py-2 px-3 gap-2 shadow-sm hover:text-gray-900  hover:shadow-md">
           <span className="">
             <Download className="size-4" />
@@ -86,7 +110,7 @@ const savingRate = ()=>{
           shadow="#8EF5B2"
           ibgfrom="#22C55E"
           ibgto="#10B981"
-          save={`Rs. ${totalIncome-totalExpense}`}
+          save={`Rs. ${totalIncome - totalExpense}`}
           subtag="saved"
         />
       </div>
@@ -149,41 +173,53 @@ const savingRate = ()=>{
                 <span className="text-xs text-gray-500 ">21.5%</span>
               </div>
             </div> */}
-            <SpendingCard 
-                icon={i.travelLight}
-                name="Travel"
-                expense="65,000"
-                overall="21.5"
-                pcolor="#22C55E"
+            {
+              top5.map((cate,ind)=>(
+                 <SpendingCard
+                    key={ind}
+                    icon={i[cate.category+'light']}
+                    name={cate.category}
+                    expense={cate.total}
+                    overall={((cate.total/totalExpense)*100).toFixed(2)}
+                    pcolor="#22C55E"
+                  />
+              ))
+            }
+            {/* <SpendingCard
+              icon={i.travelLight}
+              name="Travel"
+              expense="65,000"
+              overall="21.5"
+              pcolor="#22C55E"
             />
-            <SpendingCard 
-                icon={i.billLight}
-                name="Bills & Utilities"
-                expense="52,000"
-                overall="17.5"
-                pcolor="#A855F7"
+            <SpendingCard
+              icon={i.billLight}
+              name="Bills & Utilities"
+              expense="52,000"
+              overall="17.5"
+              pcolor="#A855F7"
             />
-            <SpendingCard 
-                icon={i.foodlight}
-                name="Food & Dining"
-                expense="45,000"
-                overall="17.5"
-                pcolor="#F97316"
+            <SpendingCard
+              icon={i.foodlight}
+              name="Food & Dining"
+              expense="45,000"
+              overall="17.5"
+              pcolor="#F97316"
             />
-            <SpendingCard 
-                icon={i.shoppinglight}
-                name="Shopping"
-                expense="42,000"
-                overall="13.5"
-                pcolor="#EC4899"
+            <SpendingCard
+              icon={i.shoppinglight}
+              name="Shopping"
+              expense="42,000"
+              overall="13.5"
+              pcolor="#EC4899"
             />
-            <SpendingCard 
-                icon={i.transportationLight}
-                name="Transportation"
-                expense="38,000"
-                overall="12.5"
-                pcolor="#3B82F6"
-            />
+            <SpendingCard
+              icon={i.transportationLight}
+              name="Transportation"
+              expense="38,000"
+              overall="12.5"
+              pcolor="#3B82F6"
+            /> */}
           </div>
         </div>
       </div>
@@ -211,19 +247,29 @@ const ChartCard = ({ title, subtag, chart }) => {
   );
 };
 
-const SpendingCard = ({icon,name,expense, overall,pcolor="#6B7280"}) => {
+const SpendingCard = ({ icon, name, expense, overall, pcolor = "#6B7280" }) => {
+  const ct={
+    "food":"#F97316",
+    "bills&utilities": "#A855F7",
+    "travel": "#22C55E",
+    "shopping": "#EC4899",
+    "healthcare": "#EF4343",
+    "transportation": "#3B82F6",
+    "education": "#EAB308",
+    "entertainment": "#6366F1",
+  }
   return (
     <div className="h-[15%] w-full flex gap-2  ">
       <div className="h-full w-[10%]">
         <img src={icon} alt="icon" className="h-full w-min" />
       </div>
       <div className="h-full w-[75%] flex flex-col gap-3 ">
-    <span className="text-md w-full text-gray-800">{name}</span>
+        <span className="text-md w-full text-gray-800">{name}</span>
         <div className="h-3 w-full border rounded-lg relative">
-          <span 
+          <span
             className={`h-full  absolute rounded-lg `}
-            style={{width:`${overall}%`, backgroundColor:`${pcolor}`}}
-           ></span>
+            style={{ width: `${overall}%`, backgroundColor: `${ct[name]}` || pcolor }}
+          ></span>
         </div>
       </div>
       <div className="h-full w-[15%] flex flex-col items-end ">
