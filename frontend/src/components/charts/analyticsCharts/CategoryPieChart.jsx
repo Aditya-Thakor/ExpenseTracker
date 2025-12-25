@@ -6,7 +6,7 @@ import TransactionContext from "../../../context/TransactionContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CategoryPieChart() {
-  const income = 5000; // total monthly income
+  // const income = 5000; // total monthly income
   const { categories, totalIncome } = useContext(TransactionContext);
   // console.log("cate=-", categories);
 
