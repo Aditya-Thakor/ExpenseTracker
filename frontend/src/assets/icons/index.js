@@ -27,18 +27,21 @@ import office from "./categories/office.svg";
 import dining from "./categories/dining.svg";
 import saving from "./saving.svg";
 import train from "./categories/train.svg";
-import shoppingLite from "./categories/shopping_lite.svg";
+import shoppinglite from "./categories/shopping_lite.svg";
 import tmini from "./categories/transaction_mini.svg";
 import aup from "./categories/arrow_up.svg";
 import aupWhite from "./categories/Group 628.svg";
 import aupRed from "./categories/Group 631.svg";
 import savingIcon from "./savingIcon.svg";
 
-import travelLight from "./categories/Group 704.svg";
+import travellight from "./categories/Group 704.svg";
 import billLight from "./categories/Group 705.svg";
-import transportationLight from "./categories/Group 706.svg";
+import transportationlight from "./categories/Group 706.svg";
 import foodlight from "./categories/Group 707.svg";
 import shoppinglight from "./categories/Group 708.svg";
+import entertainmentlight from "./categories/Group 1176.svg";
+import educationlight from "./categories/Group 1177.svg";
+import healthcarelight from "./categories/Group 1179.svg";
 
 //others
 
@@ -67,16 +70,21 @@ export default {
   dining,
   office,
   saving,
-  shoppingLite,
+  shoppinglite,
   train,
-  aup, aupWhite, aupRed,
+  aup,
+  aupWhite,
+  aupRed,
   tmini,
   savingIcon,
-  travelLight,
+  travellight,
   foodlight,
-  transportationLight,
+  transportationlight,
   billLight,
   shoppinglight,
   calendar,
-  categoryIcon
+  categoryIcon,
+  healthcarelight,
+  educationlight,
+  entertainmentlight,
 };
