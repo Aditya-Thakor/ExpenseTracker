@@ -5,8 +5,34 @@ import i from "../../assets/icons/index";
 import InEx from "../../components/charts/analyticsCharts/InvsEx";
 import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPieChart";
 import Barchart from "../../components/charts/analyticsCharts/Barchart";
+import { useContext } from "react";
+import TransactionContext from "../../context/TransactionContext";
 
 export default function Analytics() {
+
+  const {totalExpense,expenses, totalIncome}= useContext(TransactionContext);
+  //add Fn that count the current month's expenses
+
+  const dailyEx = ()=>{
+    const today  = new Date().toISOString().split("T")[0];
+    const d = expenses.filter((e)=> e.date === today +"T00:00:00.000Z");
+    // const d = expenses.filter((e)=> e.date == Date.now() )
+    // console.log("ddd-",d); 
+    const todayEx = d.reduce((sum,e)=>(sum + e.amount),0)
+    // console.log("todayExpense",todayEx);
+    return todayEx
+  }
+//  dailyEx();
+
+const savingRate = ()=>{
+  const sr = ((totalIncome-totalExpense)/totalIncome)*100
+  // console.log(sr.toFixed(2));
+  // console.log("saving rate",Math.floor(sr).toFixed(2));
+  return sr.toFixed(2);
+}
+// savingRate()
+  
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5">
       {/* heading */}
@@ -15,6 +41,7 @@ export default function Analytics() {
           title="Analytics "
           tagline="Visualize your spending patterns and trends"
         />
+        
         <button className="flex items-center h-min text-gray-700 bg-white rounded-xl py-2 px-3 gap-2 shadow-sm hover:text-gray-900  hover:shadow-md">
           <span className="">
             <Download className="size-4" />
@@ -27,7 +54,7 @@ export default function Analytics() {
         <Datacard
           icon={i.aupWhite}
           name="This month's spending"
-          amount="63,000"
+          amount={`Rs. ${totalExpense}`}
           bgfrom="#E7D1FF"
           bgto="#FAD6EB"
           border="#DFC2FF"
@@ -40,7 +67,7 @@ export default function Analytics() {
         <Datacard
           icon={i.calendar}
           name="Average Daily Expense"
-          amount="2,100"
+          amount={`Rs. ${dailyEx()}`}
           bgfrom="#CCE2FF"
           bgto="#CCFCFF"
           border="#C3DCFD"
@@ -51,15 +78,15 @@ export default function Analytics() {
         />
         <Datacard
           icon={i.savingIcon}
-          name="This month's spending"
-          amount="63,000"
+          name="Saving rate"
+          amount={`${savingRate()} %`}
           bgfrom="#D2F9DE"
           bgto="#ACF6D3"
           border="#8EF5B2"
           shadow="#8EF5B2"
           ibgfrom="#22C55E"
           ibgto="#10B981"
-          save="Rs. 59,000"
+          save={`Rs. ${totalIncome-totalExpense}`}
           subtag="saved"
         />
       </div>

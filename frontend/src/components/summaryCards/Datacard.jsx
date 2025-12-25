@@ -36,7 +36,7 @@ export default function Datacard({
       </div>
       <div className="h-full w-3/4 flex flex-col justify-between font-medium ">
         <span className="text-lg text-gray-500">{name}</span>
-        <span className="text-3xl text-gray-800">Rs. {amount}</span>
+        <span className="text-3xl text-gray-800"> {amount}</span>
         {arrow? <p className="flex items-center text-xs font-normal text-red-500">
             <span>
                 <img src={arrow} alt="arrow icon" />
