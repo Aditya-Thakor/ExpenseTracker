@@ -22,6 +22,8 @@ function App() {
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
 
+  const [categories,setCategories]=useState([])
+
   useEffect(() => {
     async function fetchUser() {
       await fetch("http://localhost:5000/usersdata/")
@@ -71,6 +73,22 @@ function App() {
       }, 0);
       // console.log(tIn);
       setTotalIncome(tIn);
+
+       const ct = expenses.reduce((cate, ex) => {
+        cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
+        return cate;
+      }, {});
+      // console.log("ct--",ct);
+      const sortCate = Object.entries(ct)
+        .sort((a, b) => b[1] - a[1]);
+
+      // console.log("srt--",sortCate);
+      const topcate = sortCate.map(([category, total]) => ({
+        category,
+        total,
+      }));
+      setCategories(topcate)
+
     };
     getTransactions();
   }, [user, transactions]);
@@ -96,6 +114,8 @@ function App() {
         setIncomes: setIncomes,
         totalIncome:totalIncome,
         setTotalIncome: setTotalIncome,
+
+        categories
       }}
     >
       <div className="flex bg-[#F5F8FF]">
