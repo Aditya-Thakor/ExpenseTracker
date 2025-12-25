@@ -8,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useContext } from "react";
+import TransactionContext from "../../../context/TransactionContext";
 
 ChartJS.register(
   CategoryScale,
@@ -19,12 +21,13 @@ ChartJS.register(
 );
 
 export default function InEx() {
+  const {totalIncome,totalExpense}=useContext(TransactionContext)
   const data = {
-    labels: ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         label: "Income",
-        data: [118000, 125000, 113000, 117000, 116000, 118000],
+        data: [80000, 50000, 30000, 70000, 60000, totalIncome],
         borderColor: "green",
         backgroundColor: "rgba(0, 128, 0, 0.1)",
         tension: 0.3,
@@ -32,7 +35,7 @@ export default function InEx() {
       },
       {
         label: "Expense",
-        data: [90000, 110000, 71000, 83000, 130000, 81400],
+        data: [90000, 38000, 21000, 60000, 58000, totalExpense],
         borderColor: "red",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
         tension: 0.3,

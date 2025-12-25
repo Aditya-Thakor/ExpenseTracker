@@ -7,18 +7,28 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useContext } from "react";
+import TransactionContext from "../../../context/TransactionContext";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function Barchart() {
-  const labels = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
-
+  const {expenses,totalExpense}=useContext(TransactionContext);
+  const labels = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthlyExpense = expenses.reduce((mn,t)=>{
+    const month= t.date.slice(0,7);
+    // console.log('mn--',month);
+    mn[month]= (mn[month] || 0)+t.amount;
+    return mn;
+  },{});
+  console.log(monthlyExpense); // now how to add this?
+  
   const data = {
     labels,
     datasets: [
       {
         label: "Expense",
-        data: [90000, 110000, 100000, 130000, 120000, 140000],
+        data: [90000, 110000, 100000, 130000, 120000, totalExpense],
         backgroundColor: "rgba(255, 0, 0, 0.3)",
         borderColor: "red",
         borderWidth: 1,
