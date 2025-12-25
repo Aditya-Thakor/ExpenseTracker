@@ -11,6 +11,7 @@ import SignIn from "../pages/signup&signin/SignIn";
 import Dproto from "../pages/dashboard/Dproto1";
 import EditProfile from "../pages/profile/editProfile";
 import ProfileOutlet from "../pages/profile/ProfileOutlet";
+import LandingPage from "../pages/Landing/LandingPage";
 
 const ETRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const ETRoutes = () => {
         </Route>
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<SignIn/>}></Route>
+        <Route path="/landing" element={<LandingPage/>}></Route>
       </Routes>
     </Router>
   );
