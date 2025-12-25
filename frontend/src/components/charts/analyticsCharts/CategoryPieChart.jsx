@@ -1,25 +1,35 @@
 import { Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useContext } from "react";
+import TransactionContext from "../../../context/TransactionContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CategoryPieChart() {
   const income = 5000; // total monthly income
+  const { categories, totalIncome } = useContext(TransactionContext);
+  // console.log("cate=-", categories);
 
-  const categories = {
-    "Bills & Utilities": 600,
-    "Food & Dining": 800,
-    Travel: 400,
-    Transportation: 300,
-    Education: 500,
-    Healthcare: 450,
-    Entertainment: 350,
-    Shopping: 600,
-  };
+  // const categories = {
+  //   "bills & utilities": 600,
+  //   "food & dining": 800,
+  //   "travel": 400,
+  //   "transportation": 300,
+  //   "education": 500,
+  //   "healthcare": 450,
+  //   "entertainment": 350,
+  //   "shopping": 600,
+  // };
 
-  const labels = Object.keys(categories);
-  const values = Object.values(categories).map((v) =>
-    ((v / income) * 100).toFixed(2)
+  // const labels = Object.keys(categories);
+  const labels = categories.map((c) => c.category);
+  // console.log("lbls---",labels);
+
+  // const values = Object.values(categories).map((v) =>
+  //   ((v / income) * 100).toFixed(2)
+  // );
+  const values = categories.map((v) =>
+    ((v.total / totalIncome) * 100).toFixed(2)
   );
 
   const data = {
@@ -29,24 +39,24 @@ export default function CategoryPieChart() {
         label: "Expense percentage of Income",
         data: values,
         backgroundColor: [
-          "#F3E8FF",
-          "#FFEDD5",
           "#DCFCE7",
-          "#DBEAFE",
-          "#FEF9C3",
           "#FEE2E2",
-          "#E0E7FF",
+          "#FFEDD5",
+          "#FEF9C3",
           "#FCE7F3",
+          "#DBEAFE",
+          "#E0E7FF",
+          "#F3E8FF",
         ],
         borderColor: [
-         "#EC4899",
-          "#F59E0B",
           "#10B981",
-          "#06B6D4",
-          "#F59E0B",
           "#EF4444",
-          "#A855F7",
+          "#F59E0B",
+          "#F59E0B",
           "#F43F5E",
+          "#06B6D4",
+          "#A855F7",
+          "#EC4899",
         ],
         borderWidth: 1,
       },
@@ -61,11 +71,11 @@ export default function CategoryPieChart() {
         position: "right",
       },
     },
-  };  
+  };
 
   return (
     <div className="h-full w-full p-4">
-        <Doughnut data={data} options={options} />
+      <Doughnut data={data} options={options} />
     </div>
-  )
+  );
 }
