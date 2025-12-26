@@ -15,6 +15,7 @@ import FeaturesCard from "./components/featuresCartd/FeatureCard";
 import PageHeading from "./components/pageheading/PageHeading";
 import NormalPricing from "./components/pricingCard/NormalPricing";
 import Popular from "./components/pricingCard/Popular";
+import Footer from "./components/footer/Footer";
 
 export default function LandingPage() {
     const businessFeatures=["Everything in Pro","Multi-user access","Team collaboration","API access","Custom categories","Dedicated support","Advanced security"]
@@ -154,7 +155,7 @@ export default function LandingPage() {
           title="Simple, Transparent Pricing"
           subtitle="Choose the plan that's right for you"
         />
-        <div className="h-100% grid grid-cols-3 items-center justify-items-center">
+        <div className="h-100% grid grid-cols-3 items-center justify-items-center mb-10">
                  {/* <div className="h-full max-w-80 flex flex-col items-start gap-6 bg-white border-2 border-gray-300 rounded-2xl p-6">
                     <div className="flex flex-col gap-2 text-md">
                         <span className="text-gray-800">Free</span>
@@ -206,7 +207,9 @@ export default function LandingPage() {
                  />
         </div>
       </div>
-        {/* <div className="h-screen bg-gray-300 border mt-10 border-red-500"></div> */}
+       
+       {/* footer */}
+       <Footer/>
     </div>
   );
 }
