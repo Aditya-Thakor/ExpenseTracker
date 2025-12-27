@@ -22,12 +22,14 @@ ChartJS.register(
 
 export default function InEx() {
   const {totalIncome,totalExpense}=useContext(TransactionContext)
+  
+  
   const data = {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         label: "Income",
-        data: [80000, 50000, 30000, 70000, 60000, totalIncome],
+        data: [0,0,0,0,0,0,80000, 50000, 30000, 70000, 60000, totalIncome],
         borderColor: "green",
         backgroundColor: "rgba(0, 128, 0, 0.1)",
         tension: 0.3,
@@ -35,7 +37,7 @@ export default function InEx() {
       },
       {
         label: "Expense",
-        data: [90000, 38000, 21000, 60000, 58000, totalExpense],
+        data: [0,0,0,0,0,0,90000, 38000, 21000, 60000, 58000, totalExpense],
         borderColor: "red",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
         tension: 0.3,
