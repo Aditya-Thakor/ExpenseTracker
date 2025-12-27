@@ -60,6 +60,7 @@ export default {
   transaction,
   user,
   "bills&utilities":bill,
+  bill,
   education,
   entertainment,
   food,
