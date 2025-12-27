@@ -149,6 +149,14 @@ export default function LandingPage() {
         </div>
       </div>
 
+      {/* Working */}
+      <div className="h-screen px-10 bg-blue-50 mt-20"> 
+            <PageHeading
+              title="How It Works"
+              subtitle="Get started in three simple steps"
+            />
+      </div>
+
       {/* Pricing */}
       <div className="h-auto px-10 pt-10">
         <PageHeading
