@@ -35,13 +35,14 @@ import aupRed from "./categories/Group 631.svg";
 import savingIcon from "./savingIcon.svg";
 
 import travellight from "./categories/Group 704.svg";
-import billLight from "./categories/Group 705.svg";
+import billsutilitieslight from "./categories/Group 705.svg";
 import transportationlight from "./categories/Group 706.svg";
 import foodlight from "./categories/Group 707.svg";
 import shoppinglight from "./categories/Group 708.svg";
 import entertainmentlight from "./categories/Group 1176.svg";
 import educationlight from "./categories/Group 1177.svg";
 import healthcarelight from "./categories/Group 1179.svg";
+
 
 //others
 
@@ -58,7 +59,7 @@ export default {
   plus,
   transaction,
   user,
-  bill,
+  "bills&utilities":bill,
   education,
   entertainment,
   food,
@@ -80,7 +81,7 @@ export default {
   travellight,
   foodlight,
   transportationlight,
-  billLight,
+  "bills&utilitieslight": billsutilitieslight,
   shoppinglight,
   calendar,
   categoryIcon,
