@@ -23,6 +23,7 @@ function App() {
   const [totalIncome, setTotalIncome] = useState(0);
 
   const [categories,setCategories]=useState([])
+  const [dailyTransactions,setDailyTr]= useState([]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -79,6 +80,8 @@ function App() {
         return cate;
       }, {});
       // console.log("ct--",ct);
+
+     
       const sortCate = Object.entries(ct)
         .sort((a, b) => b[1] - a[1]);
 
@@ -88,6 +91,22 @@ function App() {
         total,
       }));
       setCategories(topcate)
+
+       //date filtering
+      const dt = transactions.reduce((date,tr)=>{
+        date[tr.date]=(date[tr.date]||0)+tr.amount;
+        return date;
+      },{});
+      // console.log("date--",dt); // logs a obj
+
+       const sortDate= Object.entries(dt).sort((a,b)=>b[1]-a[1]);
+      //  console.log("srtDate---",sortDate);  // logs [[arr],[arr],...]
+
+      const DateArr = sortDate.map(([date,total])=>({
+        date,total
+      }))
+      // console.log("datearrr---",DateArr); // logs [{obj},{obj},...]
+      setDailyTr(DateArr);
 
     };
     getTransactions();
@@ -115,7 +134,8 @@ function App() {
         totalIncome:totalIncome,
         setTotalIncome: setTotalIncome,
 
-        categories
+        categories,
+        dailyTransactions
       }}
     >
       <div className="flex bg-[#F5F8FF]">
