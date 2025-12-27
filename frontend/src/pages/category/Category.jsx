@@ -31,6 +31,8 @@ export default function Category() {
   const [educationEx,setEducationEx]=useState([])
   const [educationTotal, setEducationTotal]=useState(0);
 
+  const [search,setSearch]=useState('');
+
   // const userData = JSON.parse(localStorage.getItem("user"));
   // console.log("user-",userData.transactions);
   const { totalExpense, expenses } = useContext(TransactionContext);
@@ -91,6 +93,11 @@ export default function Category() {
       setEducationEx(expenses.filter(e=>e.category==="education"));
       setEducationTotal(expenses.filter(e=>e.category==="education").reduce((sum,e)=>sum+Number(e.amount),0));
       
+      // if(search){
+      //    let f33 = allData.filter(t=>t.description.toLowerCase().includes(search));
+      //  allData=f33
+      //   console.log(f33);
+      // } // not working bcoz category card wasnt dynamic!!!
 
     };
     filterCategories();
@@ -218,10 +225,16 @@ export default function Category() {
         <div className="h-2/5 w-full  relative">
           <label htmlFor="search" className="h-full w-full flex items-center">
             <span className="absolute text-gray-400 pl-3">
-              <Search className="size-5" />{" "}
+              <Search 
+                className="size-5" />
             </span>
             <input
               type="text"
+              value={search}
+              onChange={(e)=>{
+                let s = e.target.value.toLocaleLowerCase()
+                setSearch(s);
+              }}
               placeholder="Search category..."
               className="h-full w-full rounded-2xl border border-slate-200 focus:outline-blue-300 pl-12 py-5 font-normal text-sm"
             />
