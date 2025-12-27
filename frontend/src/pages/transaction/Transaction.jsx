@@ -24,6 +24,8 @@ export default function Transaction() {
   const [filterCategory,setFilterCategory]=useState('all');
   const [filterDate, setFilterDate]= useState('all');
 
+  const [showCateFilter, setShowCateFilter]= useState(false)
+  const [search,setSearch]=useState('');
 
   const [showmodal,setShowmodal]=useState(false);
 
@@ -78,21 +80,61 @@ export default function Transaction() {
       // console.log(tIn);
       setTotalIn(tIn);
 
-      if (filterType==='all') { 
-        setFilterdTr(recentT)
-      }
-      if (filterType==='income') { 
-        setFilterdTr(incomes)
-      }
-      if (filterType==='expense') { 
-        setFilterdTr(expenses)
+     
+
+      // show filter category
+      if(filterType==="expense"){
+        setShowCateFilter(true)
+      }else{
+        setShowCateFilter(false)
       }
 
-      if(filterCategory==='all'){
-        return filteredTr;
-      }else{
-        return setFilterdTr(filteredTr.filter(t=>t.category===filterCategory));
+      var allData = recentT;
+      
+      // Search fn
+       if(search){
+        let f33 = allData.filter(t=>t.description.toLowerCase().includes(search));
+       allData=f33
+        console.log(f33);
+        
+       setFilterdTr(allData);
+      };
+
+      if(filterType !== 'all')
+      {
+        var f1 = allData.filter(t=>t.type===filterType);
+        allData = f1;
       }
+      if(filterType!=='income')
+      {
+        if(filterCategory!=='all')
+      {
+       var f2 = allData.filter(t=>t.category===filterCategory);
+       allData = f2; 
+      }
+      }
+      return setFilterdTr(allData);
+
+      // if (filterType==='all') { 
+      //   setFilterdTr(recentT)
+      // }
+      // if (filterType==='income') { 
+      //   setFilterdTr(incomes)
+      // }
+      // if (filterType==='expense') { 
+      //   setFilterdTr(expenses)
+      // }
+      
+      // if(filterCategory==='all'){
+      //   return filteredTr;
+      // }else{
+      //   console.log(recentT);
+      //   var d = recentT.filter(t=>t.category===filterCategory);
+      //   console.log(d);
+        
+      //   return setFilterdTr(d);
+      //   //setFilterdTr(filteredTr.filter(t=>t.category===filterCategory));
+      // }
 
       
       
@@ -100,7 +142,7 @@ export default function Transaction() {
     }
     getTransactions()
     
-  },[user, filterType,filterCategory])  
+  },[user, filterType,filterCategory,search])  
   
   const netBalance =()=>{
     if(!totalIn && !totalEx)return;
@@ -185,16 +227,25 @@ export default function Transaction() {
       </div>
 
       {/* data filtering  */}
-      <div className="h-20 w-full p-4 grid grid-cols-4 gap-4 bg-white rounded-xl">
-        <div className="h-full relative flex items-center border rounded-lg">
-          <Search className="absolute left-2 size-5  text-gray-400" />
+      <div className="h-20 w-full p-4 flex justify-between gap-4 bg-white rounded-xl">
+        <div className="h-full w-full relative flex items-center border rounded-lg">
+          <Search 
+            onClick={()=>console.log(search)} 
+            className="absolute left-2 size-5  text-gray-400" 
+          />
           <input
             type="text"
+            value={search}
+            onChange={(e)=>{
+                 let s = e.target.value.toLowerCase();
+                //  console.log(s);
+                 setSearch(s);
+            }}  
             placeholder="Search transaction"
             className="h-full w-full rounded-lg bg-gray-50 pl-10 focus:outline-[#C3DCFD] text-blue-500"
           />
         </div>
-        <div>
+        <div className="w-full">
           <select 
             className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterType}
@@ -205,23 +256,26 @@ export default function Transaction() {
             <option value="expense">Expense</option>
           </select>
         </div>
-        <div>
-          <select 
-            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
-            value={filterCategory}
-            onChange={(e)=>setFilterCategory(e.target.value)}
-          >
-            <option value="all">All categories</option>
-            <option value="bills&utilities">Bills & Utilities</option>
-            <option value="food">Food </option>
-            <option value="transportation">Transportation </option>
-            <option value="travel">Travel </option>
-            <option value="education">Education </option>
-            <option value="health">Healthcare</option>
-            <option value="entertainment">Entertainment</option>
-          </select>
-        </div>
-        <div>
+        {
+          showCateFilter? <div className="w-full">
+              <select 
+                className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+                value={filterCategory}
+                onChange={(e)=>setFilterCategory(e.target.value)}
+              >
+                <option value="all">All categories</option>
+                <option value="bills&utilities">Bills & Utilities</option>
+                <option value="food">Food </option>
+                <option value="transportation">Transportation </option>
+                <option value="travel">Travel </option>
+                <option value="education">Education </option>
+                <option value="health">Healthcare</option>
+                <option value="entertainment">Entertainment</option>
+              </select>
+            </div>:''
+        }
+        
+        <div className="w-full">
           <select 
             className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterDate}
@@ -239,7 +293,7 @@ export default function Transaction() {
       </div>
 
       {/* transactions */}
-      <div className="h-screen overflow-y-scroll grid grid-cols-1 gap-3 p-4">
+      <div className="h-auto grid grid-cols-1 gap-3 p-4">
         {
           !filteredTr? recentTransactions.map((tr)=>(
             <TransactionCard
@@ -248,6 +302,7 @@ export default function Transaction() {
               date={tr.date.replace("T00:00:00.000Z","")}
               amount={tr.amount}
               type={tr.type}
+              key={tr._id}
               bg="whitebg"
               category={tr.type==="expense"? tr.category : tr.incomeFrom}
             />
