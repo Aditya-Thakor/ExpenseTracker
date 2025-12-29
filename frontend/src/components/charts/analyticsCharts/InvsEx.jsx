@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 export default function InEx() {
-  const {totalIncome,totalExpense,monthlyExpense}=useContext(TransactionContext)
+  const {totalIncome,totalExpense,monthlyExpense,monthlyIncome}=useContext(TransactionContext)
   
   
   const data = {
@@ -29,7 +29,8 @@ export default function InEx() {
     datasets: [
       {
         label: "Income",
-        data: [0,0,0,0,0,0,80000, 50000, 30000, 70000, 60000, totalIncome],
+        // data: [0,0,0,0,0,0,80000, 50000, 30000, 70000, 60000, totalIncome],
+        data:monthlyIncome?.map(i=>i.total) ,
         borderColor: "green",
         backgroundColor: "rgba(0, 128, 0, 0.1)",
         tension: 0.3,
