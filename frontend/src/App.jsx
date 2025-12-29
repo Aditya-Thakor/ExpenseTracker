@@ -22,8 +22,10 @@ function App() {
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
 
-  const [categories,setCategories]=useState([])
-  const [dailyTransactions,setDailyTr]= useState([]);
+  const [categories, setCategories] = useState([]);
+  const [dailyTransactions, setDailyTr] = useState([]);
+  const [monthlyExpense, setMonthlyExpense] = useState([]);
+  const [monthlyIncome, setMonthlyIncome] = useState([]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -75,39 +77,55 @@ function App() {
       // console.log(tIn);
       setTotalIncome(tIn);
 
-       const ct = expenses.reduce((cate, ex) => {
+      const ct = expenses.reduce((cate, ex) => {
         cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
         return cate;
       }, {});
       // console.log("ct--",ct);
 
-     
-      const sortCate = Object.entries(ct)
-        .sort((a, b) => b[1] - a[1]);
+      const sortCate = Object.entries(ct).sort((a, b) => b[1] - a[1]);
 
       // console.log("srt--",sortCate);
       const topcate = sortCate.map(([category, total]) => ({
         category,
         total,
       }));
-      setCategories(topcate)
+      setCategories(topcate);
 
-       //date filtering
-      const dt = transactions.reduce((date,tr)=>{
-        date[tr.date]=(date[tr.date]||0)+tr.amount;
+      //date filtering
+      const dt = transactions.reduce((date, tr) => {
+        date[tr.date] = (date[tr.date] || 0) + tr.amount;
         return date;
-      },{});
+      }, {});
       // console.log("date--",dt); // logs a obj
 
-       const sortDate= Object.entries(dt).sort((a,b)=>b[1]-a[1]);
+      const sortDate = Object.entries(dt).sort((a, b) => b[1] - a[1]);
       //  console.log("srtDate---",sortDate);  // logs [[arr],[arr],...]
 
-      const DateArr = sortDate.map(([date,total])=>({
-        date,total
-      }))
+      const DateArr = sortDate.map(([date, total]) => ({
+        date,
+        total,
+      }));
       // console.log("datearrr---",DateArr); // logs [{obj},{obj},...]
       setDailyTr(DateArr);
 
+      // MONTHLY EXPENSE :::
+      const monthlyExpense = expenses.reduce((mn, t) => {
+        const month = t.date.slice(5, 7);
+        // console.log('mn--',month);
+        mn[month] = (mn[month] || 0) + t.amount;
+        return mn;
+      }, {});
+      // setMnEx(monthlyExpense);
+      // console.log(monthlyExpense);
+      const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
+      // console.log("srtexe", sortEx);
+      const monthlyArr = sortEx.map(([month, total]) => ({
+        month: Number(month),
+        total,
+      }));
+      // console.log(monthlyArr);
+      setMonthlyExpense(monthlyArr);
     };
     getTransactions();
   }, [user, transactions]);
@@ -116,26 +134,27 @@ function App() {
     <TransactionContext.Provider
       value={{
         n: etusername,
-        o: other, 
-        user:user,
+        o: other,
+        user: user,
 
         transactions: transactions,
         setTransactions: setTransactions,
         recentTransactions: recentTransactions,
-        setRecentTrans:setRecentTrans,
+        setRecentTrans: setRecentTrans,
 
         expenses: expenses,
-        setExpenses:setExpenses,
+        setExpenses: setExpenses,
         totalExpense: totalExpense,
-        setTotalExpense:setTotalExpense,
+        setTotalExpense: setTotalExpense,
 
         incomes: incomes,
         setIncomes: setIncomes,
-        totalIncome:totalIncome,
+        totalIncome: totalIncome,
         setTotalIncome: setTotalIncome,
 
         categories,
-        dailyTransactions
+        dailyTransactions,
+        monthlyExpense
       }}
     >
       <div className="flex bg-[#F5F8FF]">
