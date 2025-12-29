@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  ChartColumn,
   ChartPie,
   Check,
   Download,
@@ -9,6 +10,8 @@ import {
   Shield,
   Smartphone,
   TrendingUp,
+  Users,
+  Wallet,
 } from "lucide-react";
 import LanNavbar from "./components/navbar/LandingNavbar";
 import FeaturesCard from "./components/featuresCartd/FeatureCard";
@@ -16,6 +19,7 @@ import PageHeading from "./components/pageheading/PageHeading";
 import NormalPricing from "./components/pricingCard/NormalPricing";
 import Popular from "./components/pricingCard/Popular";
 import Footer from "./components/footer/Footer";
+import WorkflowCard from "./components/workflowCard/WorkFlowCard";
 
 export default function LandingPage() {
     const businessFeatures=["Everything in Pro","Multi-user access","Team collaboration","API access","Custom categories","Dedicated support","Advanced security"]
@@ -155,6 +159,41 @@ export default function LandingPage() {
               title="How It Works"
               subtitle="Get started in three simple steps"
             />
+            <div className="h-[60%] flex justify-center items-center gap-9">
+                <WorkflowCard
+                  step="01"
+                  icon={<Users/>}
+                  title="Create Account"
+                  p="Sign up in less than 30 seconds. No credit card required to get started."
+                />
+                <WorkflowCard
+                  step="02"
+                  icon={<Wallet/>}
+                  title="Add Expenses"
+                  p="Start logging your daily expenses with our simple and intuitive interface."
+                />
+
+                <div className="min-h-64 max-w-72 relative flex flex-col  items-center gap-3 bg-white p-7 rounded-3xl shadow-lg border border-blue-200/70">
+                  <div className="size-16 flex justify-center items-center text-white text-3xl rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
+                      <span >03</span>
+                  </div>
+
+                  <div className="size-12 flex justify-center items-center text-blue-600   bg-blue-100 rounded-xl">
+                    <span>
+                      <ChartColumn />
+                    </span>
+                  </div>
+
+                  <h3 className="text-md text-gray-800  ">Track & Analyze</h3>
+                  <p className="text-sm text-gray-500 text-center">
+                    View insights, set budgets, and make smarter financial decisions every day.
+                  </p>
+
+                  {/* <span className="absolute -right-4 top-1/2 text-blue-400 text-shadow-xl">
+                    <ArrowRight />
+                  </span> */}
+                </div>
+            </div>
       </div>
 
       {/* Pricing */}
