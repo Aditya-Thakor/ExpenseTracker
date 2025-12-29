@@ -169,6 +169,7 @@ function App() {
         categories,
         dailyTransactions,
         monthlyExpense,
+        monthlyIncome
       }}
     >
       <div className="flex bg-[#F5F8FF]">
