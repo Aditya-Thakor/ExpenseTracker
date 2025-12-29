@@ -38,7 +38,7 @@ export default function InEx() {
       {
         label: "Expense",
         // data: [0,0,0,0,0,0,90000, 38000, 21000, 60000, 58000, totalExpense],
-        data:monthlyExpense.map(e=>e.total) ,
+        data:monthlyExpense?.map(e=>e.total) ,
         borderColor: "red",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
         tension: 0.3,
