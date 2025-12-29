@@ -9,6 +9,7 @@ import {
   IndianRupee,
   Shield,
   Smartphone,
+  Star,
   TrendingUp,
   Users,
   Wallet,
@@ -197,7 +198,7 @@ export default function LandingPage() {
       </div>
 
       {/* Pricing */}
-      <div className="h-auto px-10 pt-10">
+      <div className="h-auto px-10 pt-10 mb-20">
         <PageHeading
           title="Simple, Transparent Pricing"
           subtitle="Choose the plan that's right for you"
@@ -253,6 +254,29 @@ export default function LandingPage() {
                     list={businessFeatures}
                  />
         </div>
+      </div>
+
+      {/* Reviews */}
+      <div className="h-screen bg-white">
+          <PageHeading
+            title="Loved by Thousands"
+            subtitle="See what our users are saying"
+          />
+          <div className="h-1/2 flex items-center justify-center ">
+                  <div className="h-3/4 w-72 flex flex-col gap-3  bg-neutral-50 border border-gray-300 rounded-3xl p-5">
+                    <div className="flex gap-1 text-amber-300 ">
+                      <span><Star className="size-5 fill-amber-300 " /> </span> 
+                      <span><Star className="size-5 fill-amber-300 " /> </span> 
+                      <span><Star className="size-5 fill-amber-300 " /> </span> 
+                      <span><Star className="size-5 fill-amber-300 " /> </span> 
+                      <span><Star className="size-5 fill-amber-300 " /> </span> 
+                    </div>
+                    <p className="text-md text-gray-700 text-start leading-7">
+                      "This app transformed how I manage my finances. The visual charts make it so easy to see where my money goes!"
+                    </p>
+                    <div></div>
+                  </div>
+          </div>
       </div>
        
        {/* footer */}
