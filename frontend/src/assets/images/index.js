@@ -7,6 +7,10 @@ import pfp5 from "./pfp/pfp5.svg";
 import pfp6 from "./pfp/pfp6.svg";
 import pfp7 from "./pfp/pfp7.svg";
 
+//sign/up-in
+
+import signup from "./signup&signin/Group 1136.svg";
+import signin from "./signup&signin/signin.svg"
 export default {
   pfp1,
   pfp2,
@@ -15,4 +19,6 @@ export default {
   pfp5,
   pfp6,
   pfp7,
+  signup,
+  signin
 };
