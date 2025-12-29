@@ -109,14 +109,13 @@ function App() {
       // console.log("datearrr---",DateArr); // logs [{obj},{obj},...]
       setDailyTr(DateArr);
 
-      // MONTHLY EXPENSE :::
+// MONTHLY EXPENSE :::
       const monthlyExpense = expenses.reduce((mn, t) => {
         const month = t.date.slice(5, 7);
         // console.log('mn--',month);
         mn[month] = (mn[month] || 0) + t.amount;
         return mn;
       }, {});
-      // setMnEx(monthlyExpense);
       // console.log(monthlyExpense);
       const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
       // console.log("srtexe", sortEx);
@@ -126,6 +125,21 @@ function App() {
       }));
       // console.log(monthlyArr);
       setMonthlyExpense(monthlyArr);
+
+// MONTHLY INCOMES::::
+      const monthlyIncome = incomes.reduce((mn,t)=>{
+        const month = t.date.slice(5, 7);
+        mn[month]= (mn[month]||0)+t.amount;
+        return mn;
+      },{});
+      // console.log("ininin",monthlyIncome);
+      const sortIn = Object.entries(monthlyIncome).sort();
+      const mnIn = sortIn.map(([month, total])=>({
+        month:Number(month),
+        total
+      }));
+      setMonthlyIncome(mnIn);
+      
     };
     getTransactions();
   }, [user, transactions]);
@@ -154,7 +168,7 @@ function App() {
 
         categories,
         dailyTransactions,
-        monthlyExpense
+        monthlyExpense,
       }}
     >
       <div className="flex bg-[#F5F8FF]">
