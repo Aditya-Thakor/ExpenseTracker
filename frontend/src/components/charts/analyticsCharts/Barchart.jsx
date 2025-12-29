@@ -31,9 +31,9 @@ export default function Barchart() {
       return mn;
     }, {});
     // setMnEx(monthlyExpense);
-    console.log(monthlyExpense);
+    // console.log(monthlyExpense);
     const sortEx = Object.entries(monthlyExpense).sort() //.sort((a, b) => a[1] - b[1]);
-    console.log("srtexe",sortEx); 
+    // console.log("srtexe",sortEx); 
     
     const monthlyArr = sortEx.map(([month, total]) => ({
       month:Number(month) ,
