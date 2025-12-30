@@ -111,7 +111,7 @@ export default function LandingPage() {
       </div>
 
       {/* Features */}
-      <div className="h-screen px-10  ">
+      <div id="features" className="h-screen px-10  ">
         <div className="h-48 flex flex-col justify-center items-center gap-3">
           <h2 className="text-4xl text-gray-900">
             Powerful Features for Smart Tracking
@@ -173,7 +173,7 @@ export default function LandingPage() {
       </div>
 
       {/* Working */}
-      <div className="h-screen px-10 bg-blue-50 mt-20">
+      <div id="working" className="h-screen px-10 bg-blue-50 mt-20">
         <PageHeading
           title="How It Works"
           subtitle="Get started in three simple steps"
@@ -217,7 +217,7 @@ export default function LandingPage() {
       </div>
 
       {/* Pricing */}
-      <div className="h-auto px-10 pt-10 mb-20">
+      <div id="pricing" className="h-auto px-10 pt-10 mb-20">
         <PageHeading
           title="Simple, Transparent Pricing"
           subtitle="Choose the plan that's right for you"
@@ -276,7 +276,7 @@ export default function LandingPage() {
       </div>
 
       {/* Reviews */}
-      <div className="h-screen bg-white">
+      <div id="review" className="h-screen bg-white">
         <PageHeading
           title="Loved by Thousands"
           subtitle="See what our users are saying"
