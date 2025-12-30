@@ -36,7 +36,7 @@ export default function CategoryPieChart() {
     labels,
     datasets: [
       {
-        label: "Expense percentage of Income",
+        label: "Expense percentage(%)",
         data: values,
         backgroundColor: [
           "#DCFCE7",
