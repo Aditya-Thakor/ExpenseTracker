@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 function App() {
   const etusername = "Aditya";
   const other = "Thakor";
+  const [count,setCount]= useState(2025);
 
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
@@ -111,12 +112,12 @@ function App() {
 
 // MONTHLY EXPENSE :::
       const monthlyExpense = expenses.reduce((mn, t) => {
-        const month = t.date.slice(5, 7);
+        const month = t.date.slice(0, 7);
         // console.log('mn--',month);
         mn[month] = (mn[month] || 0) + t.amount;
         return mn;
       }, {});
-      // console.log(monthlyExpense);
+      console.log(monthlyExpense);
       const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
       // console.log("srtexe", sortEx);
       const monthlyArr = sortEx.map(([month, total]) => ({
@@ -141,6 +142,15 @@ function App() {
       setMonthlyIncome(mnIn);
       
     };
+
+    // YEARLY EXPENSES:::
+    const yearlyExpense = expenses.reduce((mn,t)=>{
+      const ym = t.date.slice(0,7);
+      mn[ym]= (mn[ym]||0)+t.amount;
+      return mn;
+    },{})
+    // console.log("yrrrr",yearlyExpense);
+    
     getTransactions();
   }, [user, transactions]);
 
@@ -150,6 +160,7 @@ function App() {
         n: etusername,
         o: other,
         user: user,
+        count,setCount,
 
         transactions: transactions,
         setTransactions: setTransactions,
