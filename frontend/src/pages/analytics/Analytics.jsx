@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import Heading from "../../components/heading/Heading";
 import Datacard from "../../components/summaryCards/Datacard";
 import i from "../../assets/icons/index";
@@ -55,7 +55,6 @@ export default function Analytics() {
     top5Cate();
   }, [expenses]);
   console.log(top5);
-  
 
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5">
@@ -135,6 +134,7 @@ export default function Analytics() {
         <ChartCard
           title="Income vs Expenses Trend"
           subtag="Last  6 months overview"
+          filter={true}
           chart={<InEx />}
         />
         <ChartCard
@@ -173,18 +173,16 @@ export default function Analytics() {
                 <span className="text-xs text-gray-500 ">21.5%</span>
               </div>
             </div> */}
-            {
-              top5.map((cate,ind)=>(
-                 <SpendingCard
-                    key={ind}
-                    icon={i[cate.category+'light']}
-                    name={cate.category}
-                    expense={cate.total}
-                    overall={((cate.total/totalExpense)*100).toFixed(2)}
-                    pcolor="#22C55E"
-                  />
-              ))
-            }
+            {top5.map((cate, ind) => (
+              <SpendingCard
+                key={ind}
+                icon={i[cate.category + "light"]}
+                name={cate.category}
+                expense={cate.total}
+                overall={((cate.total / totalExpense) * 100).toFixed(2)}
+                pcolor="#22C55E"
+              />
+            ))}
             {/* <SpendingCard
               icon={i.travelLight}
               name="Travel"
@@ -235,29 +233,59 @@ const FilterBtn = ({ name }) => {
   );
 };
 
-const ChartCard = ({ title, subtag, chart }) => {
+const ChartCard = ({ title, subtag, chart, filter = false }) => {
+  const [count,setCount]=useState(2025)
   return (
-    <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
-      <div className="h-[15%] w-full flex flex-col">
-        <span className="text-lg font-medium text-gray-800">{title}</span>
-        <span className="text-xs text-gray-400">{subtag}</span>
-      </div>
-      <div className="h-[85%] w-full selection: ">{chart}</div>
+    <div>
+      {filter ? (
+        <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
+          <div className="h-[15%] w-full flex items-center">
+            <div className="h-full w-full flex flex-col"> 
+              <span className="text-lg font-medium text-gray-800">{title}</span>
+              <span className="text-xs text-gray-400">{subtag}</span>
+            </div>
+            <div className="h-3/4 w-32 flex justify-between items-center text-neutral-400">
+              <span  >
+                <ChevronLeft 
+                  className="hover:text-neutral-800"
+                  onClick={()=>setCount(count-1)}
+                />
+              </span>
+              <p className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default">{count}</p>
+              <span>
+                <ChevronRight 
+                  className="hover:text-neutral-800" 
+                  onClick={()=>setCount(count+1)}  
+                />
+              </span>
+            </div>
+          </div>
+          <div className="h-[85%] w-full selection: ">{chart}</div>
+        </div>
+      ) : (
+        <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
+          <div className="h-[15%] w-full flex flex-col">
+            <span className="text-lg font-medium text-gray-800">{title}</span>
+            <span className="text-xs text-gray-400">{subtag}</span>
+          </div>
+          <div className="h-[85%] w-full selection: ">{chart}</div>
+        </div>
+      )}
     </div>
   );
 };
 
 const SpendingCard = ({ icon, name, expense, overall, pcolor = "#6B7280" }) => {
-  const ct={
-    "food":"#F97316",
+  const ct = {
+    food: "#F97316",
     "bills&utilities": "#A855F7",
-    "travel": "#22C55E",
-    "shopping": "#EC4899",
-    "healthcare": "#EF4343",
-    "transportation": "#3B82F6",
-    "education": "#EAB308",
-    "entertainment": "#6366F1",
-  }
+    travel: "#22C55E",
+    shopping: "#EC4899",
+    healthcare: "#EF4343",
+    transportation: "#3B82F6",
+    education: "#EAB308",
+    entertainment: "#6366F1",
+  };
   return (
     <div className="h-[15%] w-full flex gap-2  ">
       <div className="h-full w-[10%]">
@@ -268,7 +296,10 @@ const SpendingCard = ({ icon, name, expense, overall, pcolor = "#6B7280" }) => {
         <div className="h-3 w-full border rounded-lg relative">
           <span
             className={`h-full  absolute rounded-lg `}
-            style={{ width: `${overall}%`, backgroundColor: `${ct[name]}` || pcolor }}
+            style={{
+              width: `${overall}%`,
+              backgroundColor: `${ct[name]}` || pcolor,
+            }}
           ></span>
         </div>
       </div>
