@@ -45,7 +45,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-auto bg-gray-50   items-center">
+    <div className="h-auto bg-gray-50 scroll-smooth items-center">
       {/* Navbar */}
       <LanNavbar />
 
