@@ -16,7 +16,7 @@ export default function LanNavbar() {
       </div>
 
       {/* Links */}
-      <div className="flex gap-9 ">
+      <div className="hidden lg:flex gap-9 ">
         <a href='#features'>Features</a>
         <a href="#working">How it Works</a>
         <a href="#pricing">Pricing</a>
@@ -24,7 +24,7 @@ export default function LanNavbar() {
       </div>
 
       {/* Sign in and Sign up */}
-      <div className="flex items-center gap-5  ">
+      <div className="hidden lg:flex items-center gap-5  ">
         <span
           className="hover:bg-gray-100 hover:text-black px-4 py-2 rounded-xl cursor-pointer"
           onClick={() => navigate("/signin")}
