@@ -234,7 +234,8 @@ const FilterBtn = ({ name }) => {
 };
 
 const ChartCard = ({ title, subtag, chart, filter = false }) => {
-  const [count,setCount]=useState(2025)
+  // const [count,setCount]=useState(2025)
+  const {count,setCount}=useContext(TransactionContext);
   return (
     <div>
       {filter ? (
