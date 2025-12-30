@@ -50,7 +50,7 @@ export default function LandingPage() {
       <LanNavbar />
 
       {/* Hero section */}
-      <div className="h-screen flex flex-col justify-center items-center gap-10 px-10 ">
+      <div className="h-auto xl:h-screen flex flex-col justify-center items-center gap-10 px-10 py-10 xl:py-0 ">
         <div className="flex items-center gap-2 bg-cyan-100 px-3 py-1 rounded-xl text-sm text-blue-600 mt-24">
           <span>
             <HandHeart className="size-4" />
@@ -111,7 +111,7 @@ export default function LandingPage() {
       </div>
 
       {/* Features */}
-      <div id="features" className="h-screen px-10  ">
+      <div id="features" className="h-auto xl:h-screen px-10  ">
         <div className="h-48 flex flex-col justify-center items-center gap-3">
           <h2 className="text-4xl text-gray-900">
             Powerful Features for Smart Tracking
@@ -120,7 +120,7 @@ export default function LandingPage() {
             Everything you need to manage your finances in one place
           </h5>
         </div>
-        <div className="h-[calc(100%-12rem)] grid grid-cols-3 gap-6">
+        <div className="h-[calc(100%-12rem)] grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {/* <div className="h-56 min-w-80 flex flex-col  gap-3 bg-white border rounded-3xl p-5">
                             <div className="size-14 flex justify-center items-center text-white rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500">
                                 <TrendingUp className="size-7" />
@@ -173,7 +173,7 @@ export default function LandingPage() {
       </div>
 
       {/* Working */}
-      <div id="working" className="h-screen px-10 bg-blue-50 mt-20">
+      <div id="working" className="h-auto xl:h-screen px-10 bg-blue-50 lg:py-10 xl:py-0 mt-20">
         <PageHeading
           title="How It Works"
           subtitle="Get started in three simple steps"
@@ -276,7 +276,7 @@ export default function LandingPage() {
       </div>
 
       {/* Reviews */}
-      <div id="review" className="h-screen bg-white">
+      <div id="review" className="h-auto xl:h-screen lg:py-10 xl:py-0 bg-white">
         <PageHeading
           title="Loved by Thousands"
           subtitle="See what our users are saying"
