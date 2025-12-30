@@ -21,8 +21,14 @@ ChartJS.register(
 );
 
 export default function InEx() {
-  const {totalIncome,totalExpense,monthlyExpense,monthlyIncome}=useContext(TransactionContext)
+  const {totalIncome,totalExpense,monthlyExpense,monthlyIncome, count}=useContext(TransactionContext)
   
+  // const handleExpense = ()=>{
+  //   let ex = monthlyExpense;
+  //   // let dt= ex?.filter(e=>e.month)
+  //   // console.log("exedxdex",monthlyExpense);
+  // }
+  // handleExpense();
   
   const data = {
     labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
