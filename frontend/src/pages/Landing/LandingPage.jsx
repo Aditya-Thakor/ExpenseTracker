@@ -21,10 +21,28 @@ import NormalPricing from "./components/pricingCard/NormalPricing";
 import Popular from "./components/pricingCard/Popular";
 import Footer from "./components/footer/Footer";
 import WorkflowCard from "./components/workflowCard/WorkFlowCard";
+import ReviewCard from "./components/reviewCard/ReviewCard";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
-    const businessFeatures=["Everything in Pro","Multi-user access","Team collaboration","API access","Custom categories","Dedicated support","Advanced security"]
-    const freeFeatures=["Up to 100 transactions/month", "Basic expense tracking","5 categories","Monthly reports","Email support"]
+  const businessFeatures = [
+    "Everything in Pro",
+    "Multi-user access",
+    "Team collaboration",
+    "API access",
+    "Custom categories",
+    "Dedicated support",
+    "Advanced security",
+  ];
+  const freeFeatures = [
+    "Up to 100 transactions/month",
+    "Basic expense tracking",
+    "5 categories",
+    "Monthly reports",
+    "Email support",
+  ];
+
+  const navigate = useNavigate();
 
   return (
     <div className="h-auto bg-gray-50   items-center">
@@ -155,46 +173,47 @@ export default function LandingPage() {
       </div>
 
       {/* Working */}
-      <div className="h-screen px-10 bg-blue-50 mt-20"> 
-            <PageHeading
-              title="How It Works"
-              subtitle="Get started in three simple steps"
-            />
-            <div className="h-[60%] flex justify-center items-center gap-9">
-                <WorkflowCard
-                  step="01"
-                  icon={<Users/>}
-                  title="Create Account"
-                  p="Sign up in less than 30 seconds. No credit card required to get started."
-                />
-                <WorkflowCard
-                  step="02"
-                  icon={<Wallet/>}
-                  title="Add Expenses"
-                  p="Start logging your daily expenses with our simple and intuitive interface."
-                />
+      <div className="h-screen px-10 bg-blue-50 mt-20">
+        <PageHeading
+          title="How It Works"
+          subtitle="Get started in three simple steps"
+        />
+        <div className="h-[60%] flex justify-center items-center gap-9">
+          <WorkflowCard
+            step="01"
+            icon={<Users />}
+            title="Create Account"
+            p="Sign up in less than 30 seconds. No credit card required to get started."
+          />
+          <WorkflowCard
+            step="02"
+            icon={<Wallet />}
+            title="Add Expenses"
+            p="Start logging your daily expenses with our simple and intuitive interface."
+          />
 
-                <div className="min-h-64 max-w-72 relative flex flex-col  items-center gap-3 bg-white p-7 rounded-3xl shadow-lg border border-blue-200/70">
-                  <div className="size-16 flex justify-center items-center text-white text-3xl rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
-                      <span >03</span>
-                  </div>
+          <div className="min-h-64 max-w-72 relative flex flex-col  items-center gap-3 bg-white p-7 rounded-3xl shadow-lg border border-blue-200/70">
+            <div className="size-16 flex justify-center items-center text-white text-3xl rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
+              <span>03</span>
+            </div>
 
-                  <div className="size-12 flex justify-center items-center text-blue-600   bg-blue-100 rounded-xl">
-                    <span>
-                      <ChartColumn />
-                    </span>
-                  </div>
+            <div className="size-12 flex justify-center items-center text-blue-600   bg-blue-100 rounded-xl">
+              <span>
+                <ChartColumn />
+              </span>
+            </div>
 
-                  <h3 className="text-md text-gray-800  ">Track & Analyze</h3>
-                  <p className="text-sm text-gray-500 text-center">
-                    View insights, set budgets, and make smarter financial decisions every day.
-                  </p>
+            <h3 className="text-md text-gray-800  ">Track & Analyze</h3>
+            <p className="text-sm text-gray-500 text-center">
+              View insights, set budgets, and make smarter financial decisions
+              every day.
+            </p>
 
-                  {/* <span className="absolute -right-4 top-1/2 text-blue-400 text-shadow-xl">
+            {/* <span className="absolute -right-4 top-1/2 text-blue-400 text-shadow-xl">
                     <ArrowRight />
                   </span> */}
-                </div>
-            </div>
+          </div>
+        </div>
       </div>
 
       {/* Pricing */}
@@ -204,7 +223,7 @@ export default function LandingPage() {
           subtitle="Choose the plan that's right for you"
         />
         <div className="h-100% grid grid-cols-3 items-center justify-items-center mb-10">
-                 {/* <div className="h-full max-w-80 flex flex-col items-start gap-6 bg-white border-2 border-gray-300 rounded-2xl p-6">
+          {/* <div className="h-full max-w-80 flex flex-col items-start gap-6 bg-white border-2 border-gray-300 rounded-2xl p-6">
                     <div className="flex flex-col gap-2 text-md">
                         <span className="text-gray-800">Free</span>
                         <span className="text-gray-500">Perfect for getting started</span>    
@@ -238,49 +257,104 @@ export default function LandingPage() {
                         </ul>
                     </div>
                  </div> */}
-                 <NormalPricing
-                    title="Free"
-                    subtitle="Perfect for getting started"
-                    price="0"
-                    duration="forever"
-                    list={freeFeatures}
-                 />
-                 <Popular/>
-                 <NormalPricing
-                    title="Business"
-                    subtitle="For teams and businesses"
-                    price="4999"
-                    duration="per month"
-                    list={businessFeatures}
-                 />
+          <NormalPricing
+            title="Free"
+            subtitle="Perfect for getting started"
+            price="0"
+            duration="forever"
+            list={freeFeatures}
+          />
+          <Popular />
+          <NormalPricing
+            title="Business"
+            subtitle="For teams and businesses"
+            price="4999"
+            duration="per month"
+            list={businessFeatures}
+          />
         </div>
       </div>
 
       {/* Reviews */}
       <div className="h-screen bg-white">
-          <PageHeading
-            title="Loved by Thousands"
-            subtitle="See what our users are saying"
+        <PageHeading
+          title="Loved by Thousands"
+          subtitle="See what our users are saying"
+        />
+        <div className="h-1/2 flex items-center justify-center gap-5 ">
+          {/* <div className="h-3/4 w-72 flex flex-col gap-3  bg-neutral-50 border border-gray-300 rounded-3xl p-5">
+            <div className="flex gap-1 text-amber-300 ">
+              <span>
+                <Star className="size-5 fill-amber-300 " />{" "}
+              </span>
+              <span>
+                <Star className="size-5 fill-amber-300 " />{" "}
+              </span>
+              <span>
+                <Star className="size-5 fill-amber-300 " />{" "}
+              </span>
+              <span>
+                <Star className="size-5 fill-amber-300 " />{" "}
+              </span>
+              <span>
+                <Star className="size-5 fill-amber-300 " />{" "}
+              </span>
+            </div>
+            <p className="text-md text-gray-700 text-start leading-7">
+              "This app transformed how I manage my finances. The visual charts
+              make it so easy to see where my money goes!"
+            </p>
+            <div className=" w-full flex items-center gap-3">
+              <div className="size-12 flex justify-center items-center text-2xl rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
+                  <span>👩‍💻</span>
+              </div>
+              <div className="text-sm text-neutral-900">
+                <h5>Priya Sharma</h5>
+                <span className="text-xs text-gray-500">Software Engineer</span>
+              </div>
+            </div>
+          </div> */}
+          <ReviewCard
+            review="This app transformed how I manage my finances. The visual charts make it so easy to see where my money goes!"
+            name="Priya Sharma"
+            role="Software Engineer"
+            icon="👩‍💻"
           />
-          <div className="h-1/2 flex items-center justify-center ">
-                  <div className="h-3/4 w-72 flex flex-col gap-3  bg-neutral-50 border border-gray-300 rounded-3xl p-5">
-                    <div className="flex gap-1 text-amber-300 ">
-                      <span><Star className="size-5 fill-amber-300 " /> </span> 
-                      <span><Star className="size-5 fill-amber-300 " /> </span> 
-                      <span><Star className="size-5 fill-amber-300 " /> </span> 
-                      <span><Star className="size-5 fill-amber-300 " /> </span> 
-                      <span><Star className="size-5 fill-amber-300 " /> </span> 
-                    </div>
-                    <p className="text-md text-gray-700 text-start leading-7">
-                      "This app transformed how I manage my finances. The visual charts make it so easy to see where my money goes!"
-                    </p>
-                    <div></div>
-                  </div>
-          </div>
+          <ReviewCard
+            review="Best expense tracker I've used. Clean interface, powerful features, and excellent customer support."
+            name="Rahul Mehta"
+            role="Business Owner"
+            icon="👨‍💼"
+          />
+          <ReviewCard
+            review="Finally, an expense tracker that doesn't feel like work. I actually enjoy logging my expenses now!"
+            name="Anita Desai"
+            role="Freelancer"
+            icon="👩‍🎨"
+          />
+        </div>
       </div>
-       
-       {/* footer */}
-       <Footer/>
+
+      <div className="py-20 flex flex-col justify-center items-center bg-gradient-to-br from-blue-500 to-cyan-500 text-white gap-5">
+            <h1 className="text-4xl">
+              Ready to Start Your Financial Journey?
+            </h1>
+            <p className="max-w-3xl text-lg text-center text-white/80">
+              Join thousands of users who are already taking control of their finances. Start tracking your expenses today, completely free.
+            </p>
+            <button 
+              onClick={()=>{
+                navigate('/signup')
+              }}
+              className="flex items-center justify-center gap-2 py-4 px-7 rounded-xl bg-white text-md text-blue-600 shadow-lg hover:shadow-xl"
+            >
+              Get Started for Free <ArrowRight/>
+            </button>
+            <p className="text-sm text-white/70">No credit card required • Cancel anytime</p>
+      </div>
+
+      {/* footer */}
+      <Footer />
     </div>
   );
 }
