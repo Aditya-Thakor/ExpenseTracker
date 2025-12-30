@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function LanNavbar() {
   const navigate = useNavigate();
 
@@ -17,10 +17,10 @@ export default function LanNavbar() {
 
       {/* Links */}
       <div className="flex gap-9 ">
-        <span>Features</span>
-        <span>How it Works</span>
-        <span>Pricing</span>
-        <span>FAQ</span>
+        <a href='#features'>Features</a>
+        <a href="#working">How it Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#review">Review</a>
       </div>
 
       {/* Sign in and Sign up */}
