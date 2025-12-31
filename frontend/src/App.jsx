@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./components/navbar/Navbar";
 import TransactionContextProvider from "./context/Provider";
 import TransactionContext from "./context/TransactionContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function App() {
   const etusername = "Aditya";
@@ -113,7 +113,56 @@ function App() {
 
 
 // MONTHLY EXPENSE :::
-      const monthlyExpense = expenses.reduce((mn, t) => {
+      // const monthlyExpense = expenses.reduce((mn, t) => {
+      //   const month = t.date.slice(0, 7);
+      //   // console.log('mn--',month);
+      //   mn[month] = (mn[month] || 0) + t.amount;
+      //   return mn;
+      // }, {});
+     
+      // // console.log(monthlyExpense);
+      // const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
+      // const monthlyArr = sortEx.map(([month, total]) => ({
+      //   month: month.split("-")[1],
+      //   year:Number(month.split("-")[0]),
+      //   total,
+      // }));
+      // // console.log("graph chart")
+      // var ma = monthlyArr.filter((t)=>t.year==count);   
+      // setMonthlyExpense(ma);
+
+// MONTHLY INCOMES::::
+      // const monthlyIncome = incomes.reduce((mn,t)=>{
+      //   const month = t.date.slice(0, 7);
+      //   mn[month]= (mn[month]||0)+t.amount;
+      //   return mn;
+      // },{});
+      // // console.log("ininin",monthlyIncome);
+      // const sortIn = Object.entries(monthlyIncome).sort();
+      // const mnIn = sortIn.map(([month, total])=>({
+      //   month:month.split("-")[1],
+      //   year: Number(month.split("-")[0]) ,
+      //   total
+      // }));
+      // let In = mnIn.filter((t)=>t.year==count)
+      // setMonthlyIncome(In); 
+    };
+
+    // YEARLY EXPENSES:::
+    const yearlyExpense = expenses.reduce((mn,t)=>{
+      const ym = t.date.slice(0,7);
+      mn[ym]= (mn[ym]||0)+t.amount;
+      return mn;
+    },{})
+    // console.log("yrrrr",yearlyExpense);
+    
+    getTransactions();
+  }, [user, transactions]); // ,monthlyExpense,monthlyIncome app crashed!!!
+  
+  useMemo(()=>{
+
+    // SORTTING EXPENSES
+    const monthlyExpense = expenses.reduce((mn, t) => {
         const month = t.date.slice(0, 7);
         // console.log('mn--',month);
         mn[month] = (mn[month] || 0) + t.amount;
@@ -131,7 +180,8 @@ function App() {
       var ma = monthlyArr.filter((t)=>t.year==count);   
       setMonthlyExpense(ma);
 
-// MONTHLY INCOMES::::
+
+    // SORTTING INCOMES
       const monthlyIncome = incomes.reduce((mn,t)=>{
         const month = t.date.slice(0, 7);
         mn[month]= (mn[month]||0)+t.amount;
@@ -146,18 +196,8 @@ function App() {
       }));
       let In = mnIn.filter((t)=>t.year==count)
       setMonthlyIncome(In); 
-    };
+  },[expenses,incomes,count])
 
-    // YEARLY EXPENSES:::
-    const yearlyExpense = expenses.reduce((mn,t)=>{
-      const ym = t.date.slice(0,7);
-      mn[ym]= (mn[ym]||0)+t.amount;
-      return mn;
-    },{})
-    // console.log("yrrrr",yearlyExpense);
-    
-    getTransactions();
-  }, [user, transactions]); // ,monthlyExpense,monthlyIncome app crashed!!!
 
   return (
     <TransactionContext.Provider
