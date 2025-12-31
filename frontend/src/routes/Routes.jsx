@@ -12,7 +12,6 @@ import Dproto from "../pages/dashboard/Dproto1";
 import EditProfile from "../pages/profile/editProfile";
 import ProfileOutlet from "../pages/profile/ProfileOutlet";
 import LandingPage from "../pages/Landing/LandingPage";
-import NavbarSm from "../components/navbar/NavbarSM";
 
 const ETRoutes = () => {
   return (
@@ -31,7 +30,6 @@ const ETRoutes = () => {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<SignIn/>}></Route>
         <Route path="/landing" element={<LandingPage/>}></Route>
-        {/* <Route path="/nsm" element={<NavbarSm/>}></Route> */}
       </Routes>
     </Router>
   );
