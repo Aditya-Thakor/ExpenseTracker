@@ -8,6 +8,21 @@ export default function EditProfile() {
   const userId = localUser._id;
 
   const [user, setUser] = useState(null);
+
+  const fileInputRef = useRef(null);
+  const [preview, setPreview] = useState("");
+  const [file, setFile] = useState(null);
+  const [fullname, setFullName] = useState('');
+  const [username, setUsername] = useState(user?.username);
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
+
+  // adrress
+  const [at, setAt] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [pincode, setPincode] = useState('');
   // useEffect(() => {
 
   // }, [user]);
@@ -26,22 +41,9 @@ export default function EditProfile() {
         });
     }
     fetchUser();
-  }, [userId]);
+  }, [user]);
 
-  const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState("");
-  const [file, setFile] = useState(null);
-  const [fullname, setFullName] = useState('');
-  const [username, setUsername] = useState(user?.username);
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
-
-  // adrress
-  const [at, setAt] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [country, setCountry] = useState('');
-  const [pincode, setPincode] = useState('');
+  
 
   const handleFileref = () => {
     fileInputRef.current.click();
@@ -80,7 +82,11 @@ export default function EditProfile() {
     formData.append("email", email);
     formData.append("fullname", fullname);
     formData.append("role", role);
-    formData.append("address", address);
+    formData.append("at", at);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("country", country);
+    formData.append("pincode", pincode);
     formData.append("file", file);
     formData.append("userId", user._id);
 
@@ -259,7 +265,7 @@ export default function EditProfile() {
                     <input
                       id="city"
                       type="text"
-                      placeholder={user?.address.city}
+                      placeholder={user?.address?.city}
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       className="rounded-md p-2 border"
@@ -275,7 +281,7 @@ export default function EditProfile() {
                     <input
                       id="state"
                       type="text"
-                      placeholder={user?.address.state}
+                      placeholder={user?.address?.state}
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       className="rounded-md p-2 border"
@@ -291,7 +297,7 @@ export default function EditProfile() {
                     <input
                       id="country"
                       type="text"
-                      placeholder={user.address.country}
+                      placeholder={user.address?.country}
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
                       className="rounded-md p-2 border"
@@ -307,7 +313,7 @@ export default function EditProfile() {
                     <input
                       id="pincode"
                       type="text"
-                      placeholder={user.address.pincode}
+                      placeholder={user.address?.pincode}
                       value={pincode}
                       onChange={(e) => setPincode(e.target.value)}
                       className="rounded-md p-2 border"
