@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 function App() {
   const etusername = "Aditya";
   const other = "Thakor";
-  const [count,setCount]= useState(2025);
+   var td = new Date();
+  const [count,setCount]= useState(td.getFullYear());
 
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
@@ -34,7 +35,7 @@ function App() {
         .then((res) => res.json())
         .then((data) => {
           let usr = data.find((i) => i._id === userId);
-          console.log("usr-", usr);
+          // console.log("usr-", usr);
           setUser(usr);
         })
         .catch((error) => {
@@ -46,7 +47,7 @@ function App() {
   // console.log(user);
 
   useEffect(() => {
-    console.log("user updated!!!", user);
+    // console.log("user updated!!!", user);
     if (user === null) return;
 
     const getTransactions = () => {
@@ -110,6 +111,7 @@ function App() {
       // console.log("datearrr---",DateArr); // logs [{obj},{obj},...]
       setDailyTr(DateArr);
 
+
 // MONTHLY EXPENSE :::
       const monthlyExpense = expenses.reduce((mn, t) => {
         const month = t.date.slice(0, 7);
@@ -117,30 +119,33 @@ function App() {
         mn[month] = (mn[month] || 0) + t.amount;
         return mn;
       }, {});
-      console.log(monthlyExpense);
+     
+      // console.log(monthlyExpense);
       const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
-      // console.log("srtexe", sortEx);
       const monthlyArr = sortEx.map(([month, total]) => ({
-        month: Number(month),
+        month: month.split("-")[1],
+        year:Number(month.split("-")[0]),
         total,
       }));
-      // console.log(monthlyArr);
-      setMonthlyExpense(monthlyArr);
+      // console.log("graph chart")
+      var ma = monthlyArr.filter((t)=>t.year==count);   
+      setMonthlyExpense(ma);
 
 // MONTHLY INCOMES::::
       const monthlyIncome = incomes.reduce((mn,t)=>{
-        const month = t.date.slice(5, 7);
+        const month = t.date.slice(0, 7);
         mn[month]= (mn[month]||0)+t.amount;
         return mn;
       },{});
       // console.log("ininin",monthlyIncome);
       const sortIn = Object.entries(monthlyIncome).sort();
       const mnIn = sortIn.map(([month, total])=>({
-        month:Number(month),
+        month:month.split("-")[1],
+        year: Number(month.split("-")[0]) ,
         total
       }));
-      setMonthlyIncome(mnIn);
-      
+      let In = mnIn.filter((t)=>t.year==count)
+      setMonthlyIncome(In); 
     };
 
     // YEARLY EXPENSES:::
@@ -152,7 +157,7 @@ function App() {
     // console.log("yrrrr",yearlyExpense);
     
     getTransactions();
-  }, [user, transactions]);
+  }, [user, transactions]); // ,monthlyExpense,monthlyIncome app crashed!!!
 
   return (
     <TransactionContext.Provider
