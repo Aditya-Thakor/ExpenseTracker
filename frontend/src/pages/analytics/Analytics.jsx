@@ -54,7 +54,7 @@ export default function Analytics() {
     };
     top5Cate();
   }, [expenses]);
-  console.log(top5);
+  // console.log(top5);
 
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5">
