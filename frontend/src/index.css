@@ -3,3 +3,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@theme {
+    --animate-marqee : marqee 5s linear infinite;
+
+    @keyframes marqee{
+        form{
+            transform: translate-x(0)
+        }
+        to{
+            transform: translate-x(100)
+        }
+    }
+}

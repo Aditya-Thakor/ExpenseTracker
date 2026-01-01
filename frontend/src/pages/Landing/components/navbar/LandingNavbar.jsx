@@ -4,7 +4,7 @@ export default function LanNavbar() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-20 w-full z-50 px-10 flex justify-between items-center fixed top-0 bg-white text-gray-600 text-sm">
+    <div className="h-20 w-screen border  z-50 px-5 lg:px-10 flex lg:justify-between items-center fixed top-0 bg-white text-gray-600 text-sm">
       {/* logo */}
       <div>
         <h1 
