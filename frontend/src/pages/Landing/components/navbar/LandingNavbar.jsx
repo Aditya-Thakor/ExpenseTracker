@@ -96,9 +96,7 @@ export default function LanNavbar() {
             ))
            }
            
-            {/* <a href="#working">How it Works</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#review">Review</a> */}
+          
           </div>
         </div>
       ) : (
