@@ -125,7 +125,8 @@ export default function Analytics() {
           <FilterBtn name="1 Month" />
           <FilterBtn name="3 Month" />
           <FilterBtn name="6 Month" />
-          <FilterBtn name="1 Year" />
+          {/* <FilterBtn name="1 Year" /> */}
+          <YearBtn/>
         </div>
       </div>
 
@@ -134,7 +135,6 @@ export default function Analytics() {
         <ChartCard
           title="Income vs Expenses Trend"
           subtag="Last  6 months overview"
-          filter={true}
           chart={<InEx />}
         />
         <ChartCard
@@ -180,6 +180,29 @@ const FilterBtn = ({ name }) => {
     <bitton className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border">
       {name}
     </bitton>
+  );
+};
+
+const YearBtn = () => {
+  const {count,setCount}=useContext(TransactionContext);
+  return (
+    <div className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
+      <span>
+        <ChevronLeft
+          className="hover:text-neutral-800"
+          onClick={() => setCount(count - 1)}
+        />
+      </span>
+      <p className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default">
+        {count}
+      </p>
+      <span>
+        <ChevronRight
+          className="hover:text-neutral-800"
+          onClick={() => setCount(count + 1)}
+        />
+      </span>
+    </div>
   );
 };
 
