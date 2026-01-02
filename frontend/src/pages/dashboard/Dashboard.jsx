@@ -2,9 +2,6 @@ import DataCard from "../../components/Income-expense-Card/DataCard";
 import i from "../../assets/icons/index";
 import CategoryTempCard from "../../components/categoryCard/CategoryTempCard";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
-import C1 from "../../components/charts/categoryCharts/C1";
-import C2 from "../../components/charts/categoryCharts/C2";
-import MyDoughnut from "../../components/charts/categoryCharts/C3";
 import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
 import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
 import { useNavigate } from "react-router-dom";
@@ -19,24 +16,17 @@ export default function Dashboard() {
   // const [trans, setTransactions] = useState([]);
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
-  // const [otherCate, setOtherCate]=useState([]);
 
-  // const [expenses, setExpenses] = useState([]);
-  // const [totalEx, setTotalEx] = useState(0);
-  // const [incomes,setIncomes]=useState([]);
-  // const [totalIn,setTotalIn]= useState(0);
-
-  const {transactions,totalExpense, totalIncome, monthlyExpense } =
+  const { transactions, totalExpense, totalIncome, monthlyExpense } =
     useContext(TransactionContext);
 
   const [vahover, setVaHover] = useState(null);
 
-  let cm = new Date()
+  let cm = new Date();
   let fl = cm.getMonth();
-  console.log("M-",fl);
-  
+  console.log("M-", fl);
+
   console.log("monthlyEx", monthlyExpense);
-  
 
   useEffect(() => {
     async function fetchUser() {
@@ -63,27 +53,13 @@ export default function Dashboard() {
       // console.log("tr-",tr);
       // setTransactions(tr);
       if (!tr) {
-        return
+        return;
       }
       const recentT = [...tr]
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 5);
       // console.log("recents", recentT);
       setRecent5tr(recentT);
-
-      // const ex = tr.filter((e) => e.type === "expense");
-      // console.log("ex-",ex);
-      // setExpenses(ex);
-      // console.log(expenses);
-      // const inc = tr.filter((i) => i.type === "income");
-      // console.log(inc);
-      // setIncomes(inc);
-
-      // const tl = expenses.reduce((sum,num)=>{
-      //   return sum + Number(num.amount)
-      // },0)
-      // // console.log('total-',tl);
-      // setTotalEx(tl);
 
       const ct = transactions.reduce((cate, tex) => {
         if (tex.type === "expense") {
@@ -100,25 +76,9 @@ export default function Dashboard() {
       const top3 = sortCate.map(([category, total]) => ({ category, total }));
       // console.log(top3);
       setTopExCate(top3);
-
-      // const otherCate = expenses.filter(e=>e.category == topExCategories[0]?.category
-      // )
-      // console.log("otr-",otherCate);
-      // setOtherCate(otherCate);
-
-      // const tIn = incomes.reduce((sum, num) => {
-      //   return sum + Number(num.amount);
-      // }, 0);
-      // console.log(tIn);
-      // setTotalIn(tIn);
     };
     getTransactions();
   }, [user]);
-  // const labels=["a","b","c","d"]
-
-  // console.log("otr-",otherCate);
-
-  // console.log(topExCategories);
 
   const labels = () => {
     const topct = topExCategories.map((n) => n.category);
@@ -183,23 +143,6 @@ export default function Dashboard() {
                 amount={c.total}
               />
             ))}
-            {/* <CategoryTempCard
-              icon={i.bill}
-              name="Bills & Utilities"
-              amount="34,000"
-            />
-
-            <CategoryTempCard
-              icon={i.transportation}
-              name="Transportation"
-              amount="25,000"
-            />
-
-            <CategoryTempCard
-              icon={i.food}
-              name="Food & dining"
-              amount="20,000"
-            /> */}
           </div>
         </div>
       </div>
@@ -225,24 +168,6 @@ export default function Dashboard() {
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-4">
-            {/* 
-                <div className="h-1/4 w-full flex justify-between items-center px-5 bg-emerald-100 rounded-xl">
-                    <div className="flex items-center gap-4">
-                        <div>
-                        <img src={i.code} alt="category" />
-                        </div>
-                        <div>
-                        <h3 className="text-slate-900 font-sans font-semibold text-md ">
-                            Freelance work
-                        </h3>
-                        <span className="text-xs text-slate-500">16 Nov 2025</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h2 className="text-xl text-green-600"> 12,000</h2>
-                    </div>
-                </div> 
-            */}
             {recent5tr.map((tr) => (
               <TransactionCard
                 key={tr._id}
@@ -254,36 +179,6 @@ export default function Dashboard() {
                 category={tr.type === "expense" ? tr.category : tr.incomeFrom}
               />
             ))}
-
-            {/* <TransactionCard
-              icon={i.code}
-              tag="Freelance work"
-              date="16 Nov 2025"
-              amount="12,000"
-              type="income"
-            />
-
-            <TransactionCard
-              icon={i.dining}
-              tag="Dinner"
-              date="15 Nov 2025"
-              amount="5,000"
-              type="expense"
-            />
-            <TransactionCard
-              icon={i.train}
-              tag="Metro pass"
-              date="15 Nov 2025"
-              amount="3,000"
-              type="expense"
-            />
-            <TransactionCard
-              icon={i.office}
-              tag="Salary"
-              date="15 Nov 2025"
-              amount="55,000"
-              type="income"
-            /> */}
           </div>
         </div>
         {/* doughnut chart */}
@@ -345,143 +240,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-// prototyped code (date: 10/12)
-//  <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
-//       {/* heading */}
-//       <div className="h-auto">
-//         <h1 className="text-gray-800 text-2xl font-bold">Dashboard</h1>
-//         <span className="text-gray-500 text-xs">
-//           Welcome! here is your financial overview
-//         </span>
-//       </div>
-//       {/* income/expense cards */}
-//       <div className="h-40 flex gap-3">
-//         {/* <div className="h-full  min-w-60 bg-slate-600 rounded-xl"></div>   */}
-//         <DataCard type="expense" amount="52,999" stats="-2% from last month" />
-//         <DataCard type="Income" amount="92,599" stats="+8% from last month" />
-//         <div className="h-full w-full flex flex-col justify-between bg-transparent relative">
-//           {/* <div className="h-10 w-min rounded-xl text-right">
-//             <span
-//               className="h-full  text-sm flex items-center justify-end hover:text-blue-800 cursor-pointer text-blue-500 bg-white rounded-xl"
-//             >
-//               View all <span> <ChevronRight /></span>
-//             </span>
-//           </div> */}
-//           <span className="bg-white text-nowrap h-10 w-min px-4 py-5 text-sm rounded-lg flex items-center justify-between gap-3 absolute top-0 right-0">
-//             View all <ChevronRight />
-//           </span>
-
-//           <div className=" grid grid-cols-3 gap-4 w-full absolute bottom-0 ">
-//             <CategoryTempCard
-//               icon={i.food}
-//               name="Food & Dining"
-//               amount="10000"
-//             />
-
-//             <CategoryTempCard
-//               icon={i.transportation}
-//               name="Transportation"
-//               amount="8500"
-//             />
-
-//             <CategoryTempCard
-//               icon={i.bill}
-//               name="Entertainment"
-//               amount="3500"
-//             />
-//           </div>
-//         </div>
-//       </div>
-
-//       <div className="h-3/4 flex gap-3">
-
-//       {/* transations */}
-//         <div className="h-full w-3/5 flex flex-col gap-4 p-4 rounded-xl bg-white">
-//           <div className="h-[10%] flex justify-between items-center ">
-//             <h2 className="text-slate-700 font-normal text-lg">
-//               Recent transactions
-//             </h2>
-//             <span className="text-xs text-blue-500 hover:text-blue-800 cursor-pointer">
-//               View all
-//             </span>
-//           </div>
-//           <div className="h-[90%] w-full flex flex-col gap-4">
-//             {/*
-//                 <div className="h-1/4 w-full flex justify-between items-center px-5 bg-emerald-100 rounded-xl">
-//                     <div className="flex items-center gap-4">
-//                         <div>
-//                         <img src={i.code} alt="category" />
-//                         </div>
-//                         <div>
-//                         <h3 className="text-slate-900 font-sans font-semibold text-md ">
-//                             Freelance work
-//                         </h3>
-//                         <span className="text-xs text-slate-500">16 Nov 2025</span>
-//                         </div>
-//                     </div>
-//                     <div>
-//                         <h2 className="text-xl text-green-600"> 12,000</h2>
-//                     </div>
-//                 </div>
-//             */}
-
-//             <TransactionCard
-//               icon={i.code}
-//               tag="Freelance work"
-//               date="16 Nov 2025"
-//               amount="12,000"
-//               type="income"
-//             />
-
-//             <TransactionCard
-//               icon={i.dining}
-//               tag="Shopping"
-//               date="15 Nov 2025"
-//               amount="5,000"
-//               type="expense"
-//             />
-//             <TransactionCard
-//               icon={i.office}
-//               tag="Shopping"
-//               date="15 Nov 2025"
-//               amount="55,000"
-//               type="income"
-//             />
-//           </div>
-//         </div>
-
-//         {/* chrts */}
-//         <div className="h-full w-2/5 flex flex-col gap-3 p-4 rounded-xl bg-white">
-//           <div className="h-1/2 w-full">
-//             <div className="h-[10%] flex justify-between items-center  ">
-//               <h2 className="text-slate-700 font-sans font-medium text-sm">
-//                 Category vise spending
-//               </h2>
-//             </div>
-//             <div className="h-[90%] w-full">
-//                 <div className="h-full w-full p-2">
-//                    <div className="h-32 w-1/2 ">
-//                    {/* <MyDoughnut/> */}
-//                    </div>
-//                 </div>
-//             </div>
-//           </div>
-//           <div className="h-1/2 w-full bg-white">
-//             <div className="h-[10%] flex justify-between items-center  ">
-//               <h2 className="text-slate-700 font-sans font-medium text-sm">
-//                 Monthly Expenses
-//               </h2>
-//             </div>
-//             <div className="h-[90%] w-full">
-//                 <div className="h-full w-full p-2">
-//                     <div className="h-full w-full ">
-//                       {/* <C2 /> */}
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//         </div>
-
-//       </div>
-//     </div>

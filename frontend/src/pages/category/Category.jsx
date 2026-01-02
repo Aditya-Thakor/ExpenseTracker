@@ -37,21 +37,6 @@ export default function Category() {
   // console.log("user-",userData.transactions);
   const { totalExpense, expenses } = useContext(TransactionContext);
   useEffect(() => {
-    // if (!userData.transactions) return;
-    // fetch("http://localhost:5000/usersdata/")
-    // .then((res)=>res.json())
-    // .then((data)=>{
-    //   const ex = data[0].transactions.filter((e)=>e.type==="expense")
-    //   setExpenses(ex)
-    // })
-    // .catch((err)=>{
-    //   console.log(err);
-
-    // })
-
-    // const ex = userData.transactions.filter((e) => e.type === "expense");
-    // setExpenses(ex);
-    // setTotalEx(ex.reduce((sum,e)=>sum+Number(e.amount),0));
     const filterCategories = async () => {
       setFoodEx(expenses?.filter((e) => e.category === "food"));
       setFoodTotal(
@@ -102,92 +87,7 @@ export default function Category() {
     };
     filterCategories();
   }, [expenses]);
-  // console.log(expenses);
-  // console.log(travelTotal);
-
-  // console.log(totalEx);
-  // console.log(foodEx);
-  // console.log(foodTotal);
-  // console.log(billEx);
-
-  // console.log(billsTotal);
-
-  // useEffect(() => {
-  //   // fetch("http://localhost:5000/categories")
-  //   //   .then((res) => res.json())
-  //   //   .then((data) => {
-  //   //     setCategories(data);
-  //   //   })
-  //   //   .catch((err) => {
-  //   //     console.log("error at fetching category data", err);
-  //   //   });
-
-  //   fetch(`http://localhost:5000/usersdata/`)
-  //   .then((res)=>res.json())
-  //   .then((data)=>{
-  //     let ex = data[0].transactions.filter(e=>e.type==="expense") //done!!!
-
-  //     setExpenses(ex)
-  //   })
-  //   .catch((err)=>{
-  //     console.log("error at geting user data", err);
-
-  //   })
-
-  // }, []);
-  // console.log("ur-",expenses);
-
-  // let foodTotal=0;
-  // for(let i=0; i<expenses.length; i++){
-  //   foodTotal = expenses[i].amount + foodTotal
-  // }
-  // console.log(foodTotal);
-
-  // const getTotalEx = ()=>{
-  //     let transaction= userData.transactions;
-  //     setExpenses(transaction.filter(e=>e.type==="expense"))
-  //   for(let i=0; i<expenses.length;i++){
-  //     setTotalEx(expenses[i].amount + totalEx)
-  //   }
-  // }
-
-  // console.log("total-", totalEx );
-
-  // const transaction =user?.transactions;
-  // // console.log("tr",transaction);
-
-  //   // console.log("et",Expense);
-
-  //   let exByCate = {};
-  //   for(let i=0; i<Expense.length; i++){
-  //     const data = Expense[i];
-  //     const category = data.category;
-  //     console.log(category);
-
-  //   }
-
-  // const food = Expense?.filter(f=>f.category==="food")
-  // console.log(food);
-  // let foodTotal = 0;
-  // for (let i = 0; i < food.length; i++) {
-  //    foodTotal = food[i].amount + foodTotal;
-  // }
-  // console.log(foodTotal);
-
-  //   const getBrdColor = (categories)=>{
-  //     const c1= categories.color1;
-  //     const c2= categories.color2;
-
-  //     const removehex1 = c1.replace("#","");
-  //     const removehex2 = c2.replace("#","");
-
-  //     const r = parseInt(removehex1.slice(0,2),16);
-  //     const g = parseInt(removehex1.slice(2,4),16);
-  //     const b = parseInt(removehex1.slice(4,6),16);
-
-  //     const rgb1= {r,g,b};
-  //     console.log("rgb-",rgb1);
-  //   }
+ 
 
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 ">
@@ -360,18 +260,6 @@ export default function Category() {
           />:''
           }
           
-          {/* <CategoryCard
-            name={categories[0].name}
-            amount="18,000"
-            icon={i.categoryIcon}
-            transactions="28"
-            bgfrom={categories[0].color1}
-            bgto={categories[0].color2}
-            border="#FEF9C3"
-            shadow="#FEF9C3"
-            pbgfrom="#F97316"
-            pbgto="#F59E0B"
-          /> */}
 
           <div className="h-64 w-full flex flex-col justify-center items-center gap-5  border border-[#BFDBFE] border-dashed bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE] rounded-xl p-3 shadow-md shadow-[#BFDBFE]">
             <div

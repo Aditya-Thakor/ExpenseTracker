@@ -243,10 +243,6 @@ export default function Profile() {
 
           {/* data */}
           <div className="h-auto  grid grid-cols-2 gap-10 ">
-            {/* <div className="flex flex-col">
-                            <span className="text-sm text-gray-400 font-lato font-medium ">Full name</span>
-                            <span className="text-lg font-medium text-gray-800">Aditya Thakor</span>
-                        </div> */}
 
             <Userdata
               title="Full name"

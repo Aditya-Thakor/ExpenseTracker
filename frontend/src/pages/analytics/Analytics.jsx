@@ -158,21 +158,6 @@ export default function Analytics() {
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-2 p-1 ">
-            {/* <div className="h-16 w-full flex gap-2  ">
-              <div className="h-full w-[10%]">
-                <img src={i.travelLight} alt="icon" className="h-full w-min" />
-              </div>
-              <div className="h-full w-[75%] flex flex-col gap-3 ">
-                <span className="text-md w-full text-gray-800">Travel</span>
-                <div className="h-2 w-full border rounded-lg relative">
-                  <span className="h-full w-1/2 absolute rounded-lg bg-green-500"></span>
-                </div>
-              </div>
-              <div className="h-full w-[15%] flex flex-col items-end ">
-                <span className="font-medium text-gray-800">Rs. 65000</span>
-                <span className="text-xs text-gray-500 ">21.5%</span>
-              </div>
-            </div> */}
             {top5.map((cate, ind) => (
               <SpendingCard
                 key={ind}
@@ -183,41 +168,6 @@ export default function Analytics() {
                 pcolor="#22C55E"
               />
             ))}
-            {/* <SpendingCard
-              icon={i.travelLight}
-              name="Travel"
-              expense="65,000"
-              overall="21.5"
-              pcolor="#22C55E"
-            />
-            <SpendingCard
-              icon={i.billLight}
-              name="Bills & Utilities"
-              expense="52,000"
-              overall="17.5"
-              pcolor="#A855F7"
-            />
-            <SpendingCard
-              icon={i.foodlight}
-              name="Food & Dining"
-              expense="45,000"
-              overall="17.5"
-              pcolor="#F97316"
-            />
-            <SpendingCard
-              icon={i.shoppinglight}
-              name="Shopping"
-              expense="42,000"
-              overall="13.5"
-              pcolor="#EC4899"
-            />
-            <SpendingCard
-              icon={i.transportationLight}
-              name="Transportation"
-              expense="38,000"
-              overall="12.5"
-              pcolor="#3B82F6"
-            /> */}
           </div>
         </div>
       </div>
@@ -235,28 +185,30 @@ const FilterBtn = ({ name }) => {
 
 const ChartCard = ({ title, subtag, chart, filter = false }) => {
   // const [count,setCount]=useState(2025)
-  const {count,setCount}=useContext(TransactionContext);
+  const { count, setCount } = useContext(TransactionContext);
   return (
     <div>
       {filter ? (
         <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
           <div className="h-[15%] w-full flex items-center">
-            <div className="h-full w-full flex flex-col"> 
+            <div className="h-full w-full flex flex-col">
               <span className="text-lg font-medium text-gray-800">{title}</span>
               <span className="text-xs text-gray-400">{subtag}</span>
             </div>
             <div className="h-3/4 w-32 flex justify-between items-center text-neutral-400">
-              <span  >
-                <ChevronLeft 
+              <span>
+                <ChevronLeft
                   className="hover:text-neutral-800"
-                  onClick={()=>setCount(count-1)}
+                  onClick={() => setCount(count - 1)}
                 />
               </span>
-              <p className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default">{count}</p>
+              <p className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default">
+                {count}
+              </p>
               <span>
-                <ChevronRight 
-                  className="hover:text-neutral-800" 
-                  onClick={()=>setCount(count+1)}  
+                <ChevronRight
+                  className="hover:text-neutral-800"
+                  onClick={() => setCount(count + 1)}
                 />
               </span>
             </div>
