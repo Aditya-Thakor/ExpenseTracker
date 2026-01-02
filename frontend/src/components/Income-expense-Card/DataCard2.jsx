@@ -29,12 +29,12 @@ export default function DataCard2({
   return (
     <div className="h-full w-full  rounded-xl p-3" style={styles.bg}>
       {/* icon & percentage */}
-      <div className="h-2/5 w-full flex justify-between ">
+      <div className="h-[30%] lg:h-2/5 w-full flex justify-between ">
         <span
-          className="h-full w-12 flex justify-between items-center  rounded-lg"
+          className="h-full  lg:w-12 flex justify-center items-center rounded-lg px-2 py-2"
           style={styles.icon}
         >
-          <img src={icon} alt="datacard-icon" className="size-7 m-auto" />
+          <img src={icon} alt="datacard-icon" className="size-4 lg:size-7 lg:m-auto" />
         </span>
         <span 
             className="text-sm "
@@ -42,9 +42,9 @@ export default function DataCard2({
         >+ {pr} %</span>
       </div>
       {/* data */}
-      <div className="h-3/5 w-full flex flex-col mt-1">
-            <span className="text-md font-normal text-slate-700">{name}</span>
-            <span className="text-3xl font-medium text-gray-800">
+      <div className="h-[70%] lg:h-3/5 w-full flex flex-col mt-1">
+            <span className="text-sm lg:text-md font-normal text-slate-700">{name}</span>
+            <span className="text-lg lg:text-3xl font-medium text-gray-800">
                 Rs. {amount}
             </span>
       </div>
