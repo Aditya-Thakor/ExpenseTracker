@@ -55,9 +55,9 @@ export default function Profile() {
   const [hide, setHide] = useState(false);
   const showPassword = () => {
     return hide ? (
-      <span className=" lg:tracking-widest">{etUser.password}</span>
+      <span className=" sm:tracking-widest">{etUser.password}</span>
     ) : (
-      <span className="flex w-1/2 lg:w-auto">
+      <span className="flex w-1/2 xl:w-auto">
         <Dot />
         <Dot />
         <Dot />
@@ -115,7 +115,7 @@ export default function Profile() {
         tagline="Manage your account settings and preferences "
       />
       {/* profile card */}
-      <div className="h-auto lg:h-40 w-full flex gap-5 rounded-xl p-5  bg-gradient-to-br from-[#EFF6FF] to-[#ECFEFF] border border-[#DBEAFE] shadow-md shadow-[#DBEAFE]">
+      <div className="h-auto sm:h-40 w-full flex gap-5 rounded-xl p-5  bg-gradient-to-br from-[#EFF6FF] to-[#ECFEFF] border border-[#DBEAFE] shadow-md shadow-[#DBEAFE]">
         {/* profile */}
         <div className="h-full w-auto lg:w-[10%] flex justify-center items-center ">
           <div className="h-full w-full rounded-2xl p-2 bg-white ">
@@ -174,7 +174,7 @@ export default function Profile() {
         </div>
       </div>
       {/* data cards */}
-      <div className="h-auto w-full lg:h-32 rounded-xl grid grid-cols-2 lg:grid-cols-4 gap-4 ">
+      <div className="h-auto w-full xl:h-32 rounded-xl grid grid-cols-2 xl:grid-cols-4 gap-4 ">
         {/* <div className="h-full w-full bg-white border rounded-xl" >  </div> */}
         <DataCard2
           name="Total balance"
@@ -264,11 +264,11 @@ export default function Profile() {
           </div>
           <div className="h-full w-full flex flex-col gap-5">
             <div className="h-14 w-full flex items-center gap-5 border rounded-md shadow-sm px-4">
-              <div className="h-full w-auto py-3 lg:py-0 lg:w-1/4 flex items-center gap-2 text-gray-700 text-lg ">
+              <div className="h-full w-auto py-3 lg:py-0 xl:w-1/4 flex items-center gap-2 text-gray-700 text-lg ">
                 <ShieldEllipsis className="size-5" />
                 <span>Password</span>
               </div>
-              <div className="h-auto w-[60%] lg:h-3/4 lg:w-3/4 flex items-center justify-between px-3 border rounded-lg">
+              <div className="h-auto w-[60%] sm:w-full lg:h-3/4 lg:w-1/2 xl:w-3/4 flex items-center justify-between px-3 border rounded-lg">
                 {/* <span>98243835</span> */}
                 {showPassword()}
                 <button onClick={() => setHide(!hide)}>

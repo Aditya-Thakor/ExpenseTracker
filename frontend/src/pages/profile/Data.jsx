@@ -4,7 +4,7 @@ export default function Userdata({ title, data }) {
       <span className="text-xs text-gray-400  font-medium ">
         {title}
       </span>
-      <span className="text-sm lg:text-lg font-medium text-gray-800">{data}</span>
+      <span className="text-sm sm:text-lg font-medium text-gray-800">{data}</span>
     </div>
   );
 }
