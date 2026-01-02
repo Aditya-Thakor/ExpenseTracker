@@ -21,6 +21,44 @@ import ReviewCard from "./components/reviewCard/ReviewCard";
 import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
+  const features = [
+    {
+      title: "Smart Expense Tracking",
+      p: "Automatically categorize and track every rupee you spend with intelligent insights",
+      icon: TrendingUp,
+      bgFrom: "#3b82f6",
+      bgto: "#06b6d4",
+    },
+    {
+      title: "Visual Analytics",
+      p: "Beautiful charts and graphs that make understanding your finances effortless",
+      icon: ChartPie,
+      bgFrom: "#a855f7",
+      bgto: "#ec4899",
+    },
+    {
+      title: "Secure & Private",
+      p: "Bank-level encryption ensures your financial data stays safe and confidential",
+      icon: Shield,
+      bgFrom: "#22c55e",
+      bgto: "#10b981",
+    },
+    {
+      title: "Multi-Device Sync",
+      p: "Access your expense data anywhere, anytime across all your devices",
+      icon: Smartphone,
+      bgFrom: "#6366f1",
+      bgto: "#a855f7",
+    },
+    {
+      title: "Easy Export",
+      p: "Download your data in CSV or PDF format for reports and tax filing",
+      icon: Download,
+      bgFrom: "#06b6d4",
+      bgto: "#3b82f6",
+    },
+  ];
+
   const businessFeatures = [
     "Everything in Pro",
     "Multi-user access",
@@ -36,6 +74,30 @@ export default function LandingPage() {
     "5 categories",
     "Monthly reports",
     "Email support",
+  ];
+
+  const reviews = [
+    {
+      review:
+        "This app transformed how I manage my finances. The visual charts make it so easy to see where my money goes!",
+      name: "Priya Sharma",
+      role: "Software Engineer",
+      icon: "👩‍💻",
+    },
+    {
+      review:
+        "Best expense tracker I've used. Clean interface, powerful features, and excellent customer support.",
+      name: "Rahul Mehta",
+      role: "Business Owner",
+      icon: "👨‍💼",
+    },
+    {
+      review:
+        "Finally, an expense tracker that doesn't feel like work. I actually enjoy logging my expenses now!",
+      name: "Anita Desai",
+      role: "Freelancer",
+      icon: "👩‍🎨",
+    },
   ];
 
   const navigate = useNavigate();
@@ -119,42 +181,16 @@ export default function LandingPage() {
           </h5>
         </div>
         <div className="h-[calc(100%-12rem)] w-full grid grid-cols-2 sm:grid-cols-3 gap-3 lg:gap-6">
-         
-          <FeaturesCard
-            title="Smart Expense Tracking"
-            p="Automatically categorize and track every rupee you spend with intelligent insights"
-            icon={<TrendingUp className="size-5 lg:size-7" />}
-            ibgfrom="#3b82f6"
-            ibgto="#06b6d4"
-          />
-          <FeaturesCard
-            title="Visual Analytics"
-            p="Beautiful charts and graphs that make understanding your finances effortless"
-            icon={<ChartPie className="size-5 lg:size-7" />}
-            ibgfrom="#a855f7"
-            ibgto="#ec4899"
-          />
-          <FeaturesCard
-            title="Secure & Private"
-            p="Bank-level encryption ensures your financial data stays safe and confidential"
-            icon={<Shield className="size-5 lg:size-7" />}
-            ibgfrom="#22c55e"
-            ibgto="#10b981"
-          />
-          <FeaturesCard
-            title="Multi-Device Sync"
-            p="Access your expense data anywhere, anytime across all your devices"
-            icon={<Smartphone className="size-5 lg:size-7" />}
-            ibgfrom="#6366f1"
-            ibgto="#a855f7"
-          />
-          <FeaturesCard
-            title="Easy Export"
-            p="Download your data in CSV or PDF format for reports and tax filing"
-            icon={<Download className="size-5 lg:size-7" />}
-            ibgfrom="#06b6d4"
-            ibgto="#3b82f6"
-          />
+          {features.map((f, ind) => (
+            <FeaturesCard
+              key={ind}
+              title={f.title}
+              p={f.p}
+              icon={<f.icon className="size-5 lg:size-7" />}
+              ibgfrom={f.bgFrom}
+              ibgto={f.bgto}
+            />
+          ))}
         </div>
       </div>
 
@@ -196,7 +232,7 @@ export default function LandingPage() {
             <p className="text-sm text-gray-500 text-center">
               View insights, set budgets, and make smarter financial decisions
               every day.
-            </p> 
+            </p>
           </div>
         </div>
       </div>
@@ -208,7 +244,6 @@ export default function LandingPage() {
           subtitle="Choose the plan that's right for you"
         />
         <div className="h-100% w-full grid grid-cols-1 sm:grid-cols-3 items-center justify-items-center mb-10 gap-7 lg:gap-0">
-         
           <NormalPricing
             title="Free"
             subtitle="Perfect for getting started"
@@ -237,25 +272,14 @@ export default function LandingPage() {
           subtitle="See what our users are saying"
         />
         <div className="h-1/2 flex flex-col sm:flex-row items-center justify-center animate-marqee gap-5 pb-10 lg:pb-0">
-          
-          <ReviewCard
-            review="This app transformed how I manage my finances. The visual charts make it so easy to see where my money goes!"
-            name="Priya Sharma"
-            role="Software Engineer"
-            icon="👩‍💻"
-          />
-          <ReviewCard
-            review="Best expense tracker I've used. Clean interface, powerful features, and excellent customer support."
-            name="Rahul Mehta"
-            role="Business Owner"
-            icon="👨‍💼"
-          />
-          <ReviewCard
-            review="Finally, an expense tracker that doesn't feel like work. I actually enjoy logging my expenses now!"
-            name="Anita Desai"
-            role="Freelancer"
-            icon="👩‍🎨"
-          />
+          {reviews.map((rw, ind) => (
+            <ReviewCard
+              review={rw.review}
+              name={rw.name}
+              role={rw.role}
+              icon={rw.icon}
+            />
+          ))}
         </div>
       </div>
       {/* ad */}
