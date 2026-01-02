@@ -2,14 +2,10 @@ import {
   ArrowRight,
   ChartColumn,
   ChartPie,
-  Check,
   Download,
-  Drone,
   HandHeart,
-  IndianRupee,
   Shield,
   Smartphone,
-  Star,
   TrendingUp,
   Users,
   Wallet,
@@ -22,7 +18,7 @@ import Popular from "./components/pricingCard/Popular";
 import Footer from "./components/footer/Footer";
 import WorkflowCard from "./components/workflowCard/WorkFlowCard";
 import ReviewCard from "./components/reviewCard/ReviewCard";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
   const businessFeatures = [
@@ -123,19 +119,7 @@ export default function LandingPage() {
           </h5>
         </div>
         <div className="h-[calc(100%-12rem)] w-full grid grid-cols-2 sm:grid-cols-3 gap-3 lg:gap-6">
-          {/* <div className="h-56 min-w-80 flex flex-col  gap-3 bg-white border rounded-3xl p-5">
-                            <div className="size-14 flex justify-center items-center text-white rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500">
-                                <TrendingUp className="size-7" />
-                            </div>
-                            <div className="text-lg text-gray-800">
-                                <h5>Smart Expense Tracking</h5>
-                            </div>
-                            <div className="w-4/5 text-justify text-gray-500">
-                                <span className="text-sm    ">
-                                    Automatically categorize and track every rupee you spend with intelligent insights
-                                </span>
-                            </div>
-                        </div> */}
+         
           <FeaturesCard
             title="Smart Expense Tracking"
             p="Automatically categorize and track every rupee you spend with intelligent insights"
@@ -212,11 +196,7 @@ export default function LandingPage() {
             <p className="text-sm text-gray-500 text-center">
               View insights, set budgets, and make smarter financial decisions
               every day.
-            </p>
-
-            {/* <span className="absolute -right-4 top-1/2 text-blue-400 text-shadow-xl">
-                    <ArrowRight />
-                  </span> */}
+            </p> 
           </div>
         </div>
       </div>
@@ -228,40 +208,7 @@ export default function LandingPage() {
           subtitle="Choose the plan that's right for you"
         />
         <div className="h-100% w-full grid grid-cols-1 sm:grid-cols-3 items-center justify-items-center mb-10 gap-7 lg:gap-0">
-          {/* <div className="h-full max-w-80 flex flex-col items-start gap-6 bg-white border-2 border-gray-300 rounded-2xl p-6">
-                    <div className="flex flex-col gap-2 text-md">
-                        <span className="text-gray-800">Free</span>
-                        <span className="text-gray-500">Perfect for getting started</span>    
-                    </div>
-                    <div>
-                        <p>
-                            <span className="text-gray-900 text-5xl">₹0</span>
-                            <span className="text-gray-400 font-light"> /forever</span>
-                        </p>
-                    </div>
-                    <div className="w-full">
-                        <button className="w-full py-3 text-white bg-blue-500 rounded-2xl">Get Started</button>
-                    </div>
-                    <div>
-                        <ul className="flex flex-col gap-3 text-gray-600">
-                            <li className="flex items-center gap-2 text-sm">
-                                <span><Check className="size-5 text-green-500"/></span> <span>Up to 100 transactions/month</span>
-                            </li>
-                            <li className="flex items-center gap-2 text-sm">
-                                <span><Check className="size-5 text-green-500"/></span> <span>Up to 100 transactions/month</span>
-                            </li>
-                            <li className="flex items-center gap-2 text-sm">
-                                <span><Check className="size-5 text-green-500"/></span> <span>Up to 100 transactions/month</span>
-                            </li>
-                            <li className="flex items-center gap-2 text-sm">
-                                <span><Check className="size-5 text-green-500"/></span> <span>Up to 100 transactions/month</span>
-                            </li>
-                            <li className="flex items-center gap-2 text-sm">
-                                <span><Check className="size-5 text-green-500"/></span> <span>Up to 100 transactions/month</span>
-                            </li>
-                        </ul>
-                    </div>
-                 </div> */}
+         
           <NormalPricing
             title="Free"
             subtitle="Perfect for getting started"
@@ -290,38 +237,7 @@ export default function LandingPage() {
           subtitle="See what our users are saying"
         />
         <div className="h-1/2 flex flex-col sm:flex-row items-center justify-center animate-marqee gap-5 pb-10 lg:pb-0">
-          {/* <div className="h-3/4 w-72 flex flex-col gap-3  bg-neutral-50 border border-gray-300 rounded-3xl p-5">
-            <div className="flex gap-1 text-amber-300 ">
-              <span>
-                <Star className="size-5 fill-amber-300 " />{" "}
-              </span>
-              <span>
-                <Star className="size-5 fill-amber-300 " />{" "}
-              </span>
-              <span>
-                <Star className="size-5 fill-amber-300 " />{" "}
-              </span>
-              <span>
-                <Star className="size-5 fill-amber-300 " />{" "}
-              </span>
-              <span>
-                <Star className="size-5 fill-amber-300 " />{" "}
-              </span>
-            </div>
-            <p className="text-md text-gray-700 text-start leading-7">
-              "This app transformed how I manage my finances. The visual charts
-              make it so easy to see where my money goes!"
-            </p>
-            <div className=" w-full flex items-center gap-3">
-              <div className="size-12 flex justify-center items-center text-2xl rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
-                  <span>👩‍💻</span>
-              </div>
-              <div className="text-sm text-neutral-900">
-                <h5>Priya Sharma</h5>
-                <span className="text-xs text-gray-500">Software Engineer</span>
-              </div>
-            </div>
-          </div> */}
+          
           <ReviewCard
             review="This app transformed how I manage my finances. The visual charts make it so easy to see where my money goes!"
             name="Priya Sharma"
