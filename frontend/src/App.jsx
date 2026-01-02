@@ -54,6 +54,7 @@ function App() {
       const tr = user?.transactions;
       setTransactions(tr);
 
+      if(!transactions) return;
       const recentT = [...transactions].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );

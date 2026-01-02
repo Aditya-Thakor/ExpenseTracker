@@ -26,10 +26,17 @@ export default function Dashboard() {
   // const [incomes,setIncomes]=useState([]);
   // const [totalIn,setTotalIn]= useState(0);
 
-  const {transactions,totalExpense, totalIncome } =
+  const {transactions,totalExpense, totalIncome, monthlyExpense } =
     useContext(TransactionContext);
 
   const [vahover, setVaHover] = useState(null);
+
+  let cm = new Date()
+  let fl = cm.getMonth();
+  console.log("M-",fl);
+  
+  console.log("monthlyEx", monthlyExpense);
+  
 
   useEffect(() => {
     async function fetchUser() {
@@ -55,6 +62,9 @@ export default function Dashboard() {
       const tr = user?.transactions;
       // console.log("tr-",tr);
       // setTransactions(tr);
+      if (!tr) {
+        return
+      }
       const recentT = [...tr]
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 5);

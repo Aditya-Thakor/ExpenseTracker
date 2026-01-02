@@ -53,6 +53,7 @@ export default function Transaction() {
     const getTransactions = ()=>{
       const tr = user?.transactions;
       setTransactions(tr);
+      if(!tr)return;
 
       const recentT = [...trans].sort((a,b)=>new Date(b.date)- new Date(a.date))
       setRecentTrans(recentT);
