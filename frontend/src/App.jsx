@@ -112,40 +112,6 @@ function App() {
       // console.log("datearrr---",DateArr); // logs [{obj},{obj},...]
       setDailyTr(DateArr);
 
-      // MONTHLY EXPENSE :::
-      // const monthlyExpense = expenses.reduce((mn, t) => {
-      //   const month = t.date.slice(0, 7);
-      //   // console.log('mn--',month);
-      //   mn[month] = (mn[month] || 0) + t.amount;
-      //   return mn;
-      // }, {});
-
-      // // console.log(monthlyExpense);
-      // const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
-      // const monthlyArr = sortEx.map(([month, total]) => ({
-      //   month: month.split("-")[1],
-      //   year:Number(month.split("-")[0]),
-      //   total,
-      // }));
-      // // console.log("graph chart")
-      // var ma = monthlyArr.filter((t)=>t.year==count);
-      // setMonthlyExpense(ma);
-
-      // MONTHLY INCOMES::::
-      // const monthlyIncome = incomes.reduce((mn,t)=>{
-      //   const month = t.date.slice(0, 7);
-      //   mn[month]= (mn[month]||0)+t.amount;
-      //   return mn;
-      // },{});
-      // // console.log("ininin",monthlyIncome);
-      // const sortIn = Object.entries(monthlyIncome).sort();
-      // const mnIn = sortIn.map(([month, total])=>({
-      //   month:month.split("-")[1],
-      //   year: Number(month.split("-")[0]) ,
-      //   total
-      // }));
-      // let In = mnIn.filter((t)=>t.year==count)
-      // setMonthlyIncome(In);
     };
 
     // YEARLY EXPENSES:::
@@ -157,7 +123,7 @@ function App() {
     // console.log("yrrrr",yearlyExpense);
 
     getTransactions();
-  }, [user, transactions]); // ,monthlyExpense,monthlyIncome app crashed!!!
+  }, [user, transactions]); 
 
   useMemo(() => {
     // SORTTING EXPENSES
