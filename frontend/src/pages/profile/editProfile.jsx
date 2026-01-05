@@ -110,7 +110,7 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="h-screen w-full flex justify-center items-center">
+    <div className="h-auto lg:h-screen w-full flex justify-center items-center mb-24 lg:mb-0">
       {user ? (
         <div className="h-full w-full flex flex-col gap-5 p-5">
           <h1
@@ -122,7 +122,7 @@ export default function EditProfile() {
             </span>
             <span>Back</span>
           </h1>
-          <div className="h-[90%] w-full flex flex-col gap-3 rounded-xl bg-white p-3">
+          <div className="h-auto lg:h-[90%] w-full flex flex-col gap-3 rounded-xl bg-white p-3">
             <div className="h-10 w-full flex justify-between items-center">
               <span className="text-xl font-semibold text-gray-800">
                 Edit profile
@@ -135,9 +135,9 @@ export default function EditProfile() {
               </button>
             </div>
 
-            <div className="h-40 w-full flex gap-3 ">
+            <div className="lg:h-40 lg:w-full flex flex-wrap lg:flex-nowrap lg:flex-row gap-3 ">
               {/* change profile img */}
-              <div className="h-full w-40 bg-transparent flex justify-center relative rounded-2xl overflow-hidden ">
+              <div className="size-40 m-auto lg:m-0  lg:h-full lg:w-40 bg-transparent flex  justify-center relative rounded-2xl overflow-hidden border mt-5 lg:mt-0 ">
                 <img
                   src={
                     preview
@@ -164,7 +164,7 @@ export default function EditProfile() {
                 </button>
               </div>
 
-              <div className="h-full w-[calc(100%-10rem)] grid grid-cols-2  gap-4">
+              <div className="h-auto w-full lg:h-full lg:w-[calc(100%-10rem)] grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="h-16 ">
                   <label
                     htmlFor="displayname"
@@ -228,7 +228,7 @@ export default function EditProfile() {
               </div>
             </div>
 
-            <div className="h-[calc(100%-12.5rem)] flex flex-col gap-5 ">
+            <div className="h-auto lg:h-[calc(100%-12.5rem)] flex flex-col gap-5 ">
               <div>
                 <label htmlFor="address" className="flex flex-col">
                   <span className="text-gray-400">Change Address :</span>
@@ -242,7 +242,7 @@ export default function EditProfile() {
                   />
                 </label>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="h-auto grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="h-16 ">
                   <label
                     htmlFor="city"
