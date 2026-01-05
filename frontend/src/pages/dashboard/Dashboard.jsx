@@ -24,9 +24,9 @@ export default function Dashboard() {
 
   let cm = new Date();
   let fl = cm.getMonth();
-  console.log("M-", fl);
+  // console.log("M-", fl);
 
-  console.log("monthlyEx", monthlyExpense);
+  // console.log("monthlyEx", monthlyExpense);
 
   useEffect(() => {
     async function fetchUser() {
