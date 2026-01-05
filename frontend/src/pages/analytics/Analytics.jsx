@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome } =
+  const { totalExpense, expenses, totalIncome, setManualFilter } =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
@@ -32,6 +32,10 @@ export default function Analytics() {
     // console.log("saving rate",Math.floor(sr).toFixed(2));
     return sr.toFixed(2);
   };
+
+  const manualFilter = (a)=>{
+    alert(a);
+  }
   // savingRate()
   useEffect(() => {
     const top5Cate = () => {
@@ -123,8 +127,9 @@ export default function Analytics() {
           {/* Add Navlink instead of btns.. */}
           <FilterBtn name="This week" />
           <FilterBtn name="1 Month" />
-          <FilterBtn name="3 Month" />
-          <FilterBtn name="6 Month" />
+          <FilterBtn name="3 Month" clickEvent={()=>setManualFilter(3) }/>
+            
+          <FilterBtn name="6 Month" clickEvent={()=>setManualFilter(6)} />
           {/* <FilterBtn name="1 Year" /> */}
           <YearBtn/>
         </div>
@@ -175,16 +180,16 @@ export default function Analytics() {
   );
 }
 
-const FilterBtn = ({ name }) => {
+const FilterBtn = ({ name, clickEvent }) => {
   return (
-    <bitton className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border">
+    <button onClick={clickEvent} className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border">
       {name}
-    </bitton>
+    </button>
   );
 };
 
 const YearBtn = () => {
-  const {count,setCount}=useContext(TransactionContext);
+  const {count,setCount, setManualFilter}=useContext(TransactionContext);
   return (
     <div className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
       <span>
@@ -193,7 +198,10 @@ const YearBtn = () => {
           onClick={() => setCount(count - 1)}
         />
       </span>
-      <p className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default">
+      <p 
+        className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default"
+        onClick={()=>setManualFilter(12)}
+      >
         {count}
       </p>
       <span>
