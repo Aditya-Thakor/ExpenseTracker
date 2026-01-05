@@ -30,7 +30,7 @@ const ETRoutes = () => {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<SignIn/>}></Route>
         <Route path="/landing" element={<LandingPage/>}></Route>
-        <Route path="/nav" element={<Navbar/>}></Route>
+        {/* <Route path="/nav" element={<Category/>}></Route> */}
       </Routes>
     </Router>
   );
