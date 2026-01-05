@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 export default function InEx() {
-  const {totalIncome,totalExpense,monthlyExpense,monthlyIncome, count}=useContext(TransactionContext)
+  const {manualFilter,monthlyExpense,monthlyIncome, count}=useContext(TransactionContext)
   
   // const handleExpense = ()=>{
   //   let ex = monthlyExpense;
@@ -29,9 +29,15 @@ export default function InEx() {
   //   // console.log("exedxdex",monthlyExpense);
   // }
   // handleExpense();
+
+  const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const slice = labels.slice(labels.length-manualFilter, labels.length);
+  console.log("sliced data->", slice);
+  
   
   const data = {
-    labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    // labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels:slice,
     datasets: [
       {
         label: "Income",
