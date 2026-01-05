@@ -32,7 +32,7 @@ export default function InEx() {
 
   const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const slice = labels.slice(labels.length-manualFilter, labels.length);
-  console.log("sliced data->", slice);
+  // console.log("sliced data->", slice);
   
   
   const data = {
