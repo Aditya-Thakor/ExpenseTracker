@@ -182,7 +182,7 @@ export default function Analytics() {
 
 const FilterBtn = ({ name, clickEvent }) => {
   return (
-    <button onClick={clickEvent} className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border">
+    <button onClick={clickEvent} className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border hover:bg-gray-200 hover:font-bold">
       {name}
     </button>
   );
