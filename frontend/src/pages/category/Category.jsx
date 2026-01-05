@@ -4,7 +4,7 @@ import SummaryCardTemp from "../../components/summaryCards/Temp1";
 import CategoryCard from "../../components/categoryCard/CTemp2";
 import i from "../../assets/icons/index";
 import AddCategoryModal from "../../components/addCategory/AddCategoryModal";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 // import { data } from "react-router-dom";
 export default function Category() {
@@ -32,7 +32,7 @@ export default function Category() {
   const [educationTotal, setEducationTotal] = useState(0);
 
   const [search, setSearch] = useState("");
-
+  const [cate,setCate]=useState(null);
   // const userData = JSON.parse(localStorage.getItem("user"));
   // console.log("user-",userData.transactions);
   const { totalExpense, expenses } = useContext(TransactionContext);
@@ -96,14 +96,10 @@ export default function Category() {
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      // if(search){
-      //    let f33 = allData.filter(t=>t.description.toLowerCase().includes(search));
-      //  allData=f33
-      //   console.log(f33);
-      // } // not working bcoz category card wasnt dynamic!!!
+     
     };
     filterCategories();
-  }, [expenses]);
+  }, [expenses,search]);
 
   const SummeryCards = [
     {
@@ -239,6 +235,28 @@ export default function Category() {
     },
   ];
 
+  // useEffect(()=>{
+    
+  //     setCate(CategoryCards);
+  //   //  if(search){
+  //   //   let cc = CategoryCards.filter((t) =>
+  //   //     t.name.toLowerCase().includes(search))
+  //   //   setCate(cc);
+  //   // } 
+  //   // setCate(CategoryCards);
+  // },[])
+
+  useMemo(()=>{
+    
+    
+     if(search){
+      let cc = CategoryCards.filter((t) =>
+        t.name.toLowerCase().includes(search))
+      setCate(cc);
+    } 
+    
+  },[search])
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 ">
       <Heading
@@ -303,7 +321,8 @@ export default function Category() {
       </div>
       <div className="h-auto w-full mb-32 lg:mb-0 ">
         <div className="h-full w-full grid grid-cols-2 sm:grid-cols-3 gap-5">
-          {CategoryCards.map((c, ind) =>
+         {
+          cate? cate.map((c, ind) =>
             c.transactions ? (
               <CategoryCard
                 key={ind}
@@ -322,7 +341,27 @@ export default function Category() {
             ) : (
               ""
             )
-          )}
+          ) : CategoryCards.map((c, ind) =>
+            c.transactions ? (
+              <CategoryCard
+                key={ind}
+                name={c.name}
+                amount={c.amount}
+                icon={c.icon}
+                transactions={c.transactions}
+                bgfrom={c.bgfrom}
+                bgto={c.bgto}
+                border={c.border}
+                shadow={c.shadow}
+                pbgfrom={c.pbgfrom}
+                pbgto={c.pbgto}
+                pr={c.pr}
+              />
+            ) : (
+              ""
+            )
+          )
+         } 
           {/* <CategoryCard
             name="Food & Dining"
             amount={foodTotal}
