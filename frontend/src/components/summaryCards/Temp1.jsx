@@ -13,11 +13,11 @@ export default function SummaryCardTemp({
   };
   return (
     <div
-      className={`h-full w-full rounded-2xl flex flex-col justify-around pl-3 `}
+      className={`h-full w-full rounded-xl sm:rounded-2xl flex flex-col justify-around pl-3 `}
       style={Bg}
     >
-      <span className="text-sm font-regular text-slate-500">{title}</span>
-      <h3 className="text-2xl text-slate-900">{data}</h3>
+      <span className="text-xs sm:text-sm font-regular text-slate-500">{title}</span>
+      <h3 className="text-lg sm:text-2xl text-slate-900">{data}</h3>
     </div>
   );
 }

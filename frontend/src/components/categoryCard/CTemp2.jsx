@@ -18,18 +18,18 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
     
   return (
     <div 
-        className="h-64 w-full flex flex-col gap-5  border border-red-300 rounded-xl p-3 shadow-md"
+        className="sm:h-60 lg:h-64 w-full flex flex-col gap-5  border border-red-300 rounded-xl p-3 shadow-md"
         style={colors}
     >
       {/* category icon */}
-      <div className="h-1/4 w-full">
+      <div className="h-1/5 lg:h-1/4 w-full">
         <img src={icon} alt="categoryIcon" className="h-full" />
       </div>
 
       {/* amount data */}
       <div className="h-1/4 w-full">
-        <span className="text-md font-sans font-medium text-slate-500">{name}</span>
-        <h3 className="h-full text-4xl text-slate-900 font-medium">
+        <span className="text-sm lg:text-md font-sans font-medium text-slate-500">{name}</span>
+        <h3 className="h-full sm:text-2xl lg:text-4xl text-slate-900 font-medium">
           Rs. {amount}
         </h3>
       </div>
