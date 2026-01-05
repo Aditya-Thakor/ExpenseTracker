@@ -130,19 +130,23 @@ function App() {
   useMemo(() => {
     // SORTTING EXPENSES
     const monthlyExpense = expenses.reduce((mn, t) => {
-      const month = t.date.slice(0, 7);
+      const month = t.date.slice(0, 10);
       // console.log('mn--',month);
       mn[month] = (mn[month] || 0) + t.amount;
       return mn;
     }, {});
     // console.log(monthlyExpense);
     const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
+    // console.log("srtEX--",sortEx);
+    
     const monthlyArr = sortEx.map(([month, total]) => ({
+      day:month.split("-")[2],
       month: month.split("-")[1],
       year: Number(month.split("-")[0]),
       total,
     }));
     // console.log("graph chart")
+    // console.log("monthlyARR",monthlyArr);  // logs=> {day,month,year,total}    
     var ma = monthlyArr.filter((t) => t.year == count);
     setMonthlyExpense(ma);
 
