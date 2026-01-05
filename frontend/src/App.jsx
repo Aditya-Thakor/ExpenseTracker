@@ -29,6 +29,8 @@ function App() {
   const [monthlyExpense, setMonthlyExpense] = useState([]);
   const [monthlyIncome, setMonthlyIncome] = useState([]);
 
+  const [manualFilter,setManualFilter]=useState(12);
+
   useEffect(() => {
     async function fetchUser() {
       await fetch("http://localhost:5000/usersdata/")
@@ -170,7 +172,8 @@ function App() {
     // }, {});
     // console.log("yrr7ct",ct); // log 2025:'a single str of categories',2024:'a single str of categories'
     
-  }, [expenses, incomes, count]);
+    
+  }, [expenses, incomes, count, manualFilter]);
 
   return (
     <TransactionContext.Provider
@@ -180,6 +183,8 @@ function App() {
         user: user,
         count,
         setCount,
+        manualFilter,
+        setManualFilter,
 
         transactions: transactions,
         setTransactions: setTransactions,
