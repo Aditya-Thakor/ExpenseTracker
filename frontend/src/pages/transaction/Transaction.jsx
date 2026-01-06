@@ -251,7 +251,7 @@ export default function Transaction() {
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
           >
-            <option value="all">Short by date</option>
+            <option value="all">Sort by Duration</option>
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
             <option value="1m"> 1 month</option>
