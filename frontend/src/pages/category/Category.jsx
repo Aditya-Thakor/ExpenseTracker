@@ -235,27 +235,30 @@ export default function Category() {
     },
   ];
 
-  // useEffect(()=>{
+  useEffect(()=>{
     
-  //     setCate(CategoryCards);
-  //   //  if(search){
-  //   //   let cc = CategoryCards.filter((t) =>
-  //   //     t.name.toLowerCase().includes(search))
-  //   //   setCate(cc);
-  //   // } 
-  //   // setCate(CategoryCards);
-  // },[])
-
-  useMemo(()=>{
-    
-    
+      // setCate(CategoryCards);
      if(search){
+      // if(search.length===0) return CategoryCards;
       let cc = CategoryCards.filter((t) =>
         t.name.toLowerCase().includes(search))
       setCate(cc);
     } 
-    
+    // setCate(CategoryCards);
   },[search])
+
+  // useMemo(()=>{
+    
+    
+  //    if(search){
+  //     if(search.length===0) return;
+  //     let cc = CategoryCards.filter((t) =>
+  //       t.name.toLowerCase().includes(search))
+  //     setCate(cc);
+  //   } 
+  //   // setCate(CategoryCards);
+    
+  // },[search])
 
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 ">
