@@ -161,14 +161,14 @@ function App() {
 
     // WEEK VISE
     var wk = new Date().getDate(-7);
-    console.log("wkkk-",new Date(wk));
+    // console.log("wkkk-",new Date(wk));
     
 
     let data2 = expenses
     .filter((y) => new Date(y.date) >= new Date(bm)) 
     .filter((t) => new Date(t.date) <= new Date(by)) 
     // .filter((x)=> new Date(x.date)!=new Date(bm))
-    console.log("data22", data2)
+    // console.log("data22", data2)
 
     var data1 = expenses.filter((t) => new Date(t.date) >= new Date(bm));
     // console.log("data111",data1);
