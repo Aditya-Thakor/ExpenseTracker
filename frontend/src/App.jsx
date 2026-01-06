@@ -201,6 +201,8 @@ function App() {
       total,
     }));
     let In = mnIn.filter((t) => t.year == count);
+    // console.log("monthly Innnn",In);
+    
     setMonthlyIncome(In);
 
     const monthlyIncome1 = incomes.reduce((mn, t) => {
