@@ -5,7 +5,7 @@ import TransactionCard from "../../components/Income-expense-Card/TransactionCar
 import ExpenseDoughnutChart from "../../components/charts/categoryCharts/Doughnut";
 import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -17,8 +17,20 @@ export default function Dashboard() {
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const { transactions, totalExpense, totalIncome, monthlyExpense } =
+  const { transactions, totalExpense, totalIncome, monthlyExpense, monthlyIncome } =
     useContext(TransactionContext);
+
+    const [inTotal,setInTotal]= useState(0);
+    const [exTotal,setExTotal]= useState(0);
+
+    useMemo(()=>{
+      let int= monthlyIncome.reduce((sum,num)=> { return sum+Number(num.total)},0 )
+      // console.log("INCOME TOTAL:-",int);
+      setInTotal(int);
+      
+      let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
+      setExTotal(ext);
+    },[monthlyIncome,monthlyExpense])
 
   const [vahover, setVaHover] = useState(null);
 
@@ -113,12 +125,12 @@ export default function Dashboard() {
         {/* <div className="h-full  min-w-60 bg-slate-600 rounded-xl"></div>   */}
         <DataCard
           type="expense"
-          amount={totalExpense}
+          amount={exTotal}
           stats="-2% from last month"
         />
         <DataCard
           type="Income"
-          amount={totalIncome}
+          amount={inTotal}
           stats="+8% from last month"
         />
         <div className="h-full w-full flex flex-col justify-around bg-white rounded-xl px-4 py-2">
