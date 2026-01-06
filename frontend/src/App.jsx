@@ -221,7 +221,17 @@ function App() {
     }))
     setMonthlyIncome1(mnthlyIn);
 
-    // SORTTING CATEGORIES
+    // SORTTING CATEGORIES TOTAL
+    // console.log(monthlyExpense);
+    
+    //    const ct = expenses.reduce((cate, ex) => {
+        
+    //     cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
+    //     return cate; 
+    //   }, {});
+    //   console.log("ctctcc", ct);
+      
+
 
     // const ct = expenses.reduce((yr, ex) => {
     //   const date = ex.date.slice(0, 4);
