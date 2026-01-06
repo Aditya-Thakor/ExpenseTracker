@@ -1,4 +1,4 @@
-import { EllipsisVertical, Trash2 } from "lucide-react";
+import { EllipsisVertical, NotebookPen, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 export default function TransactionCard({type,icon, tag, date, amount,bg, category="Other"}) {
@@ -41,12 +41,13 @@ export default function TransactionCard({type,icon, tag, date, amount,bg, catego
           onClick={()=>setHidden(!hidden)}
         />
         {
-          hidden? <div className="h-10 w-20 absolute flex justify-center items-center -top-10 right-3 bg-white border rounded-xl transition-all ease-in-out">
+          hidden? <div className="h-10 w-20 absolute flex justify-center items-center gap-3 -top-10 right-3 bg-white border rounded-xl transition-all ease-in-out">
+              <NotebookPen className="size-5 text-gray-400 hover:text-blue-600 hover:fill-blue-100 cursor-pointer" />
               <Trash2 
                 className="size-5 text-gray-400 hover:text-red-600 cursor-pointer " 
                 onClick={()=>alert("Are you sure you want to delete this??")}
               />
-              {/* <NotebookPen className="size-5" /> */}
+              
           </div> : ''
         }
           
