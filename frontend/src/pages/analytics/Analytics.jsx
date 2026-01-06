@@ -5,14 +5,19 @@ import i from "../../assets/icons/index";
 import InEx from "../../components/charts/analyticsCharts/InvsEx";
 import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPieChart";
 import Barchart from "../../components/charts/analyticsCharts/Barchart";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome, setManualFilter } =
+  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense } =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
+  const [exTotal,setExTotal]= useState(0);
+  useMemo(()=>{
+    let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
+      setExTotal(ext);
+  },[monthlyExpense])
   const [top5, setTop5] = useState([]);
 
   const dailyEx = () => {
@@ -33,9 +38,7 @@ export default function Analytics() {
     return sr.toFixed(2);
   };
 
-  const manualFilter = (a)=>{
-    alert(a);
-  }
+  
   // savingRate()
   useEffect(() => {
     const top5Cate = () => {
@@ -81,7 +84,7 @@ export default function Analytics() {
         <Datacard
           icon={i.aupWhite}
           name="This month's spending"
-          amount={`Rs. ${totalExpense}`}
+          amount={`Rs. ${exTotal}`}
           bgfrom="#E7D1FF"
           bgto="#FAD6EB"
           border="#DFC2FF"
