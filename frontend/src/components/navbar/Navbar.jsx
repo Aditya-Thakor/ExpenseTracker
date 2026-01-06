@@ -24,7 +24,7 @@ const Navbar = () => {
           <img src={icons.logo} alt="logo" className="size-10" />
         </div>
         {/* NavLinks */}
-        <div className="h-full w-full lg:fixed lg:top-40">
+        <div className="h-full w-full lg:w-auto lg:fixed lg:top-40">
             <div className="flex lg:flex-col items-center justify-between gap-3 text-slate-300">
           <NavLink 
             to=""
