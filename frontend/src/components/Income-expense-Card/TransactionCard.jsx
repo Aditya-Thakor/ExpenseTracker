@@ -1,5 +1,9 @@
+import { EllipsisVertical, Trash2 } from "lucide-react";
+import { useState } from "react";
+
 export default function TransactionCard({type,icon, tag, date, amount,bg, category="Other"}) {
 
+  const [hidden,setHidden]= useState(false);
   
   return (
     <div 
@@ -7,6 +11,7 @@ export default function TransactionCard({type,icon, tag, date, amount,bg, catego
         
         ${bg==="whitebg"? "bg-white border-0 " : ""}
         `}
+        onClick={()=>hidden? setHidden(false):''}
     >
       <div className="flex items-center gap-4">
         <div 
@@ -27,9 +32,24 @@ export default function TransactionCard({type,icon, tag, date, amount,bg, catego
           </p>
         </div>
       </div>
-      <div>
+      <div className=" relative flex items-center gap-3">
         <h2 
-            className={`text-xl ${type==="income" ? "text-green-500" : "text-red-500"}  `}>Rs. {amount}</h2>
+            className={`text-xl cursor-default ${type==="income" ? "text-green-500" : "text-red-500"}  `}>Rs. {amount}
+        </h2>
+        <EllipsisVertical 
+          className="size-4 text-gray-400 hover:text-blue-600 cursor-pointer"
+          onClick={()=>setHidden(!hidden)}
+        />
+        {
+          hidden? <div className="h-10 w-20 absolute flex justify-center items-center -top-10 right-3 bg-white border rounded-xl transition-all ease-in-out">
+              <Trash2 
+                className="size-5 text-gray-400 hover:text-red-600 cursor-pointer " 
+                onClick={()=>alert("Are you sure you want to delete this??")}
+              />
+              {/* <NotebookPen className="size-5" /> */}
+          </div> : ''
+        }
+          
       </div>
     </div>
   );

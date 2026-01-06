@@ -119,14 +119,14 @@ export default function Analytics() {
       </div>
 
       {/* filter */}
-      <div className="h-20 w-full flex items-center p-3 bg-white rounded-xl">
+      <div className="h-20 w-full flex items-center p-3 bg-white rounded-xl z-10 ">
         <div className="text-gray-500 w-28 ">
           <span>Time period : </span>
         </div>
         <div className="h-full w-[calc(100%-80px)] grid grid-cols-5 gap-5  ">
           {/* Add Navlink instead of btns.. */}
           <FilterBtn name="This week" />
-          <FilterBtn name="1 Month" />
+          <FilterBtn name="1 Month" clickEvent={()=>setManualFilter(1)} />
           <FilterBtn name="3 Month" clickEvent={()=>setManualFilter(3) }/>
             
           <FilterBtn name="6 Month" clickEvent={()=>setManualFilter(6)} />
@@ -136,7 +136,7 @@ export default function Analytics() {
       </div>
 
       {/* charts */}
-      <div className="h-screen w-full grid grid-cols-2 gap-5 ">
+      <div className="h-screen  w-full grid grid-cols-2 gap-5 ">
         <ChartCard
           title="Income vs Expenses Trend"
           subtag="Last  6 months overview"

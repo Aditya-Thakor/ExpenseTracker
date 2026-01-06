@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 export default function InEx() {
-  const {manualFilter,monthlyExpense,monthlyIncome, count}=useContext(TransactionContext)
+  const {manualFilter,monthlyExpense,monthlyExpense1,monthlyIncome, monthlyIncome1}=useContext(TransactionContext)
   
   // const handleExpense = ()=>{
   //   let ex = monthlyExpense;
@@ -29,20 +29,36 @@ export default function InEx() {
   //   // console.log("exedxdex",monthlyExpense);
   // }
   // handleExpense();
+  // console.log("manual filter,", manualFilter)
 
   const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  
+  const labels1=[];
+  const data1=[];
+  monthlyExpense1.forEach(element => {
+    labels1.push(element.day + "-"+ element.month+"-" +element.year)
+    data1.push(element.amount);
+  });
+  const inData = [];
+  monthlyIncome1.forEach(e => {
+    inData.push(e.amount)
+  });
+  console.log("innn",inData);
+  
+
+  // console.log("lbl1",labels1);
   const slice = labels.slice(labels.length-manualFilter, labels.length);
   // console.log("sliced data->", slice);
   
   
   const data = {
     // labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    labels:slice,
+    labels:manualFilter==1?labels1:slice, //lbl2,
     datasets: [
       {
         label: "Income",
         // data: [0,0,0,0,0,0,80000, 50000, 30000, 70000, 60000, totalIncome],
-        data:monthlyIncome?.map(i=>i.total) ,
+        data:manualFilter==1?inData:monthlyIncome?.map(i=>i.total) ,
         borderColor: "green",
         backgroundColor: "rgba(0, 128, 0, 0.1)",
         tension: 0.3,
@@ -51,7 +67,7 @@ export default function InEx() {
       {
         label: "Expense",
         // data: [0,0,0,0,0,0,90000, 38000, 21000, 60000, 58000, totalExpense],
-        data:monthlyExpense?.map(e=>e.total) ,
+        data:manualFilter==1?data1:monthlyExpense?.map(e=>e.total),  //monthlyExpense?.map(e=>e.total) ,
         borderColor: "red",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
         tension: 0.3,
