@@ -7,6 +7,7 @@ import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPi
 import Barchart from "../../components/charts/analyticsCharts/Barchart";
 import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
+import { Link } from "react-router-dom";
 
 export default function Analytics() {
   const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense } =
@@ -64,23 +65,23 @@ export default function Analytics() {
   // console.log(top5);
 
   return (
-    <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5">
+    <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
-      <div className="flex justify-between">
+      <div className="flex lg:justify-between justify-end">
         <Heading
           title="Analytics "
           tagline="Visualize your spending patterns and trends"
         />
 
-        <button className="flex items-center h-min text-gray-700 bg-white rounded-xl py-2 px-3 gap-2 shadow-sm hover:text-gray-900  hover:shadow-md">
+        <button className="flex items-center  h-min text-gray-700 bg-white rounded-xl py-2 px-3 gap-2 shadow-sm hover:text-gray-900  hover:shadow-md">
           <span className="">
             <Download className="size-4" />
           </span>
-          <span className="text-xs ">Export report</span>
+          <Link to="/analytics/report" target="_blank" className="text-xs ">Export report</Link>
         </button>
       </div>
       {/* data card */}
-      <div className="h-28 grid grid-cols-3  gap-4">
+      <div className="h-auto lg:h-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
         <Datacard
           icon={i.aupWhite}
           name="This month's spending"
@@ -122,11 +123,11 @@ export default function Analytics() {
       </div>
 
       {/* filter */}
-      <div className="h-20 w-full flex items-center p-3 bg-white rounded-xl z-10 ">
+      <div className="h-auto lg:h-20 w-full flex flex-col lg:flex-row lg:items-center gap-3 sm:gap-0 p-3 bg-white rounded-xl z-10 ">
         <div className="text-gray-500 w-28 ">
           <span>Time period : </span>
         </div>
-        <div className="h-full w-[calc(100%-80px)] grid grid-cols-5 gap-5  ">
+        <div className="h-auto lg:h-full lg:w-[calc(100%-80px)] grid grid-cols-2 lg:grid-cols-5 gap-5  ">
           {/* Add Navlink instead of btns.. */}
           <FilterBtn name="This week" />
           <FilterBtn name="1 Month" clickEvent={()=>setManualFilter(1)} />
@@ -139,7 +140,7 @@ export default function Analytics() {
       </div>
 
       {/* charts */}
-      <div className="h-screen  w-full grid grid-cols-2 gap-5 ">
+      <div className="h-auto lg:h-screen  w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mb-32">
         <ChartCard
           title="Income vs Expenses Trend"
           subtag="Last  6 months overview"
@@ -156,7 +157,7 @@ export default function Analytics() {
           chart={<Barchart />}
         />
 
-        <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
+        <div className="h-auto lg:h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
           <div className="h-[15%] w-full flex flex-col">
             <span className="text-lg font-medium text-gray-800">
               Top 5 Spending Categories
@@ -185,7 +186,7 @@ export default function Analytics() {
 
 const FilterBtn = ({ name, clickEvent }) => {
   return (
-    <button onClick={clickEvent} className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border hover:bg-gray-200 hover:font-bold">
+    <button onClick={clickEvent} className="h-auto lg:h-full w-full py-1.5 bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border hover:bg-gray-200 hover:font-bold">
       {name}
     </button>
   );
@@ -194,7 +195,7 @@ const FilterBtn = ({ name, clickEvent }) => {
 const YearBtn = () => {
   const {count,setCount, setManualFilter}=useContext(TransactionContext);
   return (
-    <div className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
+    <div className="h-auto lg:h-full w-full py-1.5 bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
       <span>
         <ChevronLeft
           className="hover:text-neutral-800"

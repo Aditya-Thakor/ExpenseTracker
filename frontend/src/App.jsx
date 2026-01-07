@@ -125,8 +125,14 @@ function App() {
     }, {});
     // console.log("yrrrr",yearlyExpense);
 
+    let m = new Date().setMonth(-1);
+    // console.log(new Date(m));
+    let y= new Date().setFullYear(count) ;
+    console.log(new Date(y));
+    
+
     getTransactions();
-  }, [user, transactions]);
+  }, [user, transactions,count]);
 
   useMemo(() => {
     // SORTTING EXPENSES
@@ -155,9 +161,9 @@ function App() {
     }));
     var td = new Date();
     var bm = new Date().setMonth(-1);
-    // console.log("bmm",new Date(bm));
+    // console.log("bmm",new Date(bm)); // gives c year -1 (d/m/y) 
     var by = new Date().setFullYear(count);
-    // console.log("byyy",new Date(by));
+    // console.log("byyy",new Date(by)); // gives current year (d/m/y) 
 
     // WEEK VISE
     var wk = new Date().getDate(-7);
@@ -165,10 +171,15 @@ function App() {
     
 
     let data2 = expenses
-    .filter((y) => new Date(y.date) >= new Date(bm)) 
-    .filter((t) => new Date(t.date) <= new Date(by)) 
+    .filter((y) => new Date(y.date) >= new Date(bm))  // gives correct data (18 datas) of 2026 and 24,25 are blank!!
+    .filter((t) => new Date(t.date) <= new Date(by)) // gives 41 datas
+    // .filter((y) => new Date(y.date) <= new Date(bm)) // gives data (23datas)  and 2024 is blank
     // .filter((x)=> new Date(x.date)!=new Date(bm))
-    // console.log("data22", data2)
+     console.log("data22", data2)
+
+    const data3= expenses.filter((d)=>new Date(d.date) >= new Date(bm) && new Date(d.date) < new Date(by))
+    // console.log("data-3:",data3);
+    
 
     var data1 = expenses.filter((t) => new Date(t.date) >= new Date(bm));
     // console.log("data111",data1);
@@ -184,7 +195,8 @@ function App() {
     setMonthlyExpense1(mnthlyArr1); // logs=> {day,month,year,total}
     var ma = monthlyArr.filter((t) => t.year == count);
     setMonthlyExpense(ma);
-
+    console.log("month = ",count);
+    console.log(ma);
     // SORTTING INCOMES
     const monthlyIncome = incomes.reduce((mn, t) => {
       const month = t.date.slice(0, 10);
@@ -253,7 +265,7 @@ function App() {
         manualFilter,
         setManualFilter,
 
-        transactions: transactions,
+        transactions,
         setTransactions: setTransactions,
         recentTransactions: recentTransactions,
         setRecentTrans: setRecentTrans,
