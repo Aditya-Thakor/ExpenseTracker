@@ -15,26 +15,26 @@ export default function TransactionCard({type,icon, tag, date, amount,bg, catego
     >
       <div className="flex items-center gap-4">
         <div 
-          className={` size-10 flex justify-center items-center rounded-lg
+          className={`size-7 lg:size-10 flex justify-center items-center rounded-lg
               ${type==="expense"? "bg-red-500":"bg-green-500" }
           `}
           
         >
-          <img src={icon} alt="category" />
+          <img src={icon} alt="category" className="size-5 lg:size-auto" />
         </div>
         <div className="flex flex-col ">
-          <h3 className="text-slate-800 font-sans font-semibold text-lg ">
+          <h3 className="text-slate-800 text-wrap font-sans font-semibold text-sm lg:text-lg ">
             {tag}
           </h3>
           <p className="flex  gap-2 items-baseline ">
-            <span className="text-sm font-sans font-medium text-slate-500">{category}</span>
-            <span className="text-xs text-slate-400">{date}</span>
+            <span className="text-xs lg:text-sm font-sans font-medium text-slate-500">{category}</span>
+            <span className="text-[8px] lg:text-xs text-slate-400">{date}</span>
           </p>
         </div>
       </div>
       <div className=" relative flex items-center gap-3">
         <h2 
-            className={`text-xl cursor-default ${type==="income" ? "text-green-500" : "text-red-500"}  `}>Rs. {amount}
+            className={`text-md lg:text-xl cursor-default ${type==="income" ? "text-green-500" : "text-red-500"}  `}>Rs. {amount}
         </h2>
         <EllipsisVertical 
           className="size-4 text-gray-400 hover:text-blue-600 cursor-pointer"

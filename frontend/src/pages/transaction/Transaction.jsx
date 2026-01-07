@@ -148,7 +148,7 @@ export default function Transaction() {
           tagline="Track and manage all your transactions"
         />
         <button
-          className=" h-min flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB]  "
+          className=" h-min hidden lg:flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB]  "
           style={styles}
           onClick={() => setShowmodal(true)}
         >
@@ -157,7 +157,7 @@ export default function Transaction() {
         </button>
       </div>
       {/* data cards */}
-      <div className="h-24 w-full grid grid-cols-3 gap-4 ">
+      <div className="h-auto lg:h-24 w-full grid grid-cols-1 lg:grid-cols-3 gap-4 ">
         {/* <div className="h-full w-full bg-white rounded-xl"></div> */}
         <Datacard
           name="Total Expense"
@@ -195,8 +195,8 @@ export default function Transaction() {
       </div>
 
       {/* data filtering  */}
-      <div className="h-20 w-full p-4 flex justify-between gap-4 bg-white rounded-xl">
-        <div className="h-full w-full relative flex items-center border rounded-lg">
+      <div className="h-auto lg:h-20 w-full p-4 flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-xl">
+        <div className="h-10 lg:h-full w-full relative flex items-center border rounded-lg">
           <Search
             onClick={() => console.log(search)}
             className="absolute left-2 size-5  text-gray-400"
@@ -213,9 +213,9 @@ export default function Transaction() {
             className="h-full w-full rounded-lg bg-gray-50 pl-10 focus:outline-[#C3DCFD] text-blue-500"
           />
         </div>
-        <div className="w-full">
+        <div className="h-auto w-full">
           <select
-            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
           >
@@ -225,9 +225,9 @@ export default function Transaction() {
           </select>
         </div>
         {showCateFilter ? (
-          <div className="w-full">
+          <div className="h-auto w-full">
             <select
-              className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+              className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -245,9 +245,9 @@ export default function Transaction() {
           ""
         )}
 
-        <div className="w-full">
+        <div className="h-auto w-full">
           <select
-            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
           >
