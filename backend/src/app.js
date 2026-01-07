@@ -114,10 +114,21 @@ app.post("/usersdata/user/editprofile", pfpUpload.single('file'), async (req, re
   }
   const data = req.body;
 
+  const address = {
+    at:data.at,
+    city: data.city,
+    state: data.state,
+    country: data.country,
+    pincode: data.pincode
+  }
+
+console.log(req.body);
+console.log(address);
 
   try {
     const db = await connectDB();
     const update = await db.collection("usersdata").updateOne(
+      
       { _id: new ObjectId(data.userId) },
       {
         $set: {
@@ -125,7 +136,7 @@ app.post("/usersdata/user/editprofile", pfpUpload.single('file'), async (req, re
           email: data.email,
           fullname: data.fullname,
           role: data.role,
-          address: data.address,
+          address: address,
           pfp:req.file.originalname
         },
       }

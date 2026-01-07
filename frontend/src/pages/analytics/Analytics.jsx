@@ -1,18 +1,23 @@
-import { Download } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import Heading from "../../components/heading/Heading";
 import Datacard from "../../components/summaryCards/Datacard";
 import i from "../../assets/icons/index";
 import InEx from "../../components/charts/analyticsCharts/InvsEx";
 import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPieChart";
 import Barchart from "../../components/charts/analyticsCharts/Barchart";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome } =
+  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense } =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
+  const [exTotal,setExTotal]= useState(0);
+  useMemo(()=>{
+    let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
+      setExTotal(ext);
+  },[monthlyExpense])
   const [top5, setTop5] = useState([]);
 
   const dailyEx = () => {
@@ -32,6 +37,8 @@ export default function Analytics() {
     // console.log("saving rate",Math.floor(sr).toFixed(2));
     return sr.toFixed(2);
   };
+
+  
   // savingRate()
   useEffect(() => {
     const top5Cate = () => {
@@ -54,8 +61,7 @@ export default function Analytics() {
     };
     top5Cate();
   }, [expenses]);
-  console.log(top5);
-  
+  // console.log(top5);
 
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5">
@@ -78,7 +84,7 @@ export default function Analytics() {
         <Datacard
           icon={i.aupWhite}
           name="This month's spending"
-          amount={`Rs. ${totalExpense}`}
+          amount={`Rs. ${exTotal}`}
           bgfrom="#E7D1FF"
           bgto="#FAD6EB"
           border="#DFC2FF"
@@ -116,22 +122,24 @@ export default function Analytics() {
       </div>
 
       {/* filter */}
-      <div className="h-20 w-full flex items-center p-3 bg-white rounded-xl">
+      <div className="h-20 w-full flex items-center p-3 bg-white rounded-xl z-10 ">
         <div className="text-gray-500 w-28 ">
           <span>Time period : </span>
         </div>
         <div className="h-full w-[calc(100%-80px)] grid grid-cols-5 gap-5  ">
           {/* Add Navlink instead of btns.. */}
           <FilterBtn name="This week" />
-          <FilterBtn name="1 Month" />
-          <FilterBtn name="3 Month" />
-          <FilterBtn name="6 Month" />
-          <FilterBtn name="1 Year" />
+          <FilterBtn name="1 Month" clickEvent={()=>setManualFilter(1)} />
+          <FilterBtn name="3 Month" clickEvent={()=>setManualFilter(3) }/>
+            
+          <FilterBtn name="6 Month" clickEvent={()=>setManualFilter(6)} />
+          {/* <FilterBtn name="1 Year" /> */}
+          <YearBtn/>
         </div>
       </div>
 
       {/* charts */}
-      <div className="h-screen w-full grid grid-cols-2 gap-5 ">
+      <div className="h-screen  w-full grid grid-cols-2 gap-5 ">
         <ChartCard
           title="Income vs Expenses Trend"
           subtag="Last  6 months overview"
@@ -158,68 +166,16 @@ export default function Analytics() {
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-2 p-1 ">
-            {/* <div className="h-16 w-full flex gap-2  ">
-              <div className="h-full w-[10%]">
-                <img src={i.travelLight} alt="icon" className="h-full w-min" />
-              </div>
-              <div className="h-full w-[75%] flex flex-col gap-3 ">
-                <span className="text-md w-full text-gray-800">Travel</span>
-                <div className="h-2 w-full border rounded-lg relative">
-                  <span className="h-full w-1/2 absolute rounded-lg bg-green-500"></span>
-                </div>
-              </div>
-              <div className="h-full w-[15%] flex flex-col items-end ">
-                <span className="font-medium text-gray-800">Rs. 65000</span>
-                <span className="text-xs text-gray-500 ">21.5%</span>
-              </div>
-            </div> */}
-            {
-              top5.map((cate,ind)=>(
-                 <SpendingCard
-                    key={ind}
-                    icon={i[cate.category+'light']}
-                    name={cate.category}
-                    expense={cate.total}
-                    overall={((cate.total/totalExpense)*100).toFixed(2)}
-                    pcolor="#22C55E"
-                  />
-              ))
-            }
-            {/* <SpendingCard
-              icon={i.travelLight}
-              name="Travel"
-              expense="65,000"
-              overall="21.5"
-              pcolor="#22C55E"
-            />
-            <SpendingCard
-              icon={i.billLight}
-              name="Bills & Utilities"
-              expense="52,000"
-              overall="17.5"
-              pcolor="#A855F7"
-            />
-            <SpendingCard
-              icon={i.foodlight}
-              name="Food & Dining"
-              expense="45,000"
-              overall="17.5"
-              pcolor="#F97316"
-            />
-            <SpendingCard
-              icon={i.shoppinglight}
-              name="Shopping"
-              expense="42,000"
-              overall="13.5"
-              pcolor="#EC4899"
-            />
-            <SpendingCard
-              icon={i.transportationLight}
-              name="Transportation"
-              expense="38,000"
-              overall="12.5"
-              pcolor="#3B82F6"
-            /> */}
+            {top5.map((cate, ind) => (
+              <SpendingCard
+                key={ind}
+                icon={i[cate.category + "light"]}
+                name={cate.category}
+                expense={cate.total}
+                overall={((cate.total / totalExpense) * 100).toFixed(2)}
+                pcolor="#22C55E"
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -227,37 +183,96 @@ export default function Analytics() {
   );
 }
 
-const FilterBtn = ({ name }) => {
+const FilterBtn = ({ name, clickEvent }) => {
   return (
-    <bitton className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border">
+    <button onClick={clickEvent} className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border hover:bg-gray-200 hover:font-bold">
       {name}
-    </bitton>
+    </button>
   );
 };
 
-const ChartCard = ({ title, subtag, chart }) => {
+const YearBtn = () => {
+  const {count,setCount, setManualFilter}=useContext(TransactionContext);
   return (
-    <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
-      <div className="h-[15%] w-full flex flex-col">
-        <span className="text-lg font-medium text-gray-800">{title}</span>
-        <span className="text-xs text-gray-400">{subtag}</span>
-      </div>
-      <div className="h-[85%] w-full selection: ">{chart}</div>
+    <div className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
+      <span>
+        <ChevronLeft
+          className="hover:text-neutral-800"
+          onClick={() => setCount(count - 1)}
+        />
+      </span>
+      <p 
+        className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default"
+        onClick={()=>setManualFilter(12)}
+      >
+        {count}
+      </p>
+      <span>
+        <ChevronRight
+          className="hover:text-neutral-800"
+          onClick={() => setCount(count + 1)}
+        />
+      </span>
+    </div>
+  );
+};
+
+const ChartCard = ({ title, subtag, chart, filter = false }) => {
+  // const [count,setCount]=useState(2025)
+  const { count, setCount } = useContext(TransactionContext);
+  return (
+    <div>
+      {filter ? (
+        <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
+          <div className="h-[15%] w-full flex items-center">
+            <div className="h-full w-full flex flex-col">
+              <span className="text-lg font-medium text-gray-800">{title}</span>
+              <span className="text-xs text-gray-400">{subtag}</span>
+            </div>
+            <div className="h-3/4 w-32 flex justify-between items-center text-neutral-400">
+              <span>
+                <ChevronLeft
+                  className="hover:text-neutral-800"
+                  onClick={() => setCount(count - 1)}
+                />
+              </span>
+              <p className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default">
+                {count}
+              </p>
+              <span>
+                <ChevronRight
+                  className="hover:text-neutral-800"
+                  onClick={() => setCount(count + 1)}
+                />
+              </span>
+            </div>
+          </div>
+          <div className="h-[85%] w-full selection: ">{chart}</div>
+        </div>
+      ) : (
+        <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
+          <div className="h-[15%] w-full flex flex-col">
+            <span className="text-lg font-medium text-gray-800">{title}</span>
+            <span className="text-xs text-gray-400">{subtag}</span>
+          </div>
+          <div className="h-[85%] w-full selection: ">{chart}</div>
+        </div>
+      )}
     </div>
   );
 };
 
 const SpendingCard = ({ icon, name, expense, overall, pcolor = "#6B7280" }) => {
-  const ct={
-    "food":"#F97316",
+  const ct = {
+    food: "#F97316",
     "bills&utilities": "#A855F7",
-    "travel": "#22C55E",
-    "shopping": "#EC4899",
-    "healthcare": "#EF4343",
-    "transportation": "#3B82F6",
-    "education": "#EAB308",
-    "entertainment": "#6366F1",
-  }
+    travel: "#22C55E",
+    shopping: "#EC4899",
+    healthcare: "#EF4343",
+    transportation: "#3B82F6",
+    education: "#EAB308",
+    entertainment: "#6366F1",
+  };
   return (
     <div className="h-[15%] w-full flex gap-2  ">
       <div className="h-full w-[10%]">
@@ -268,7 +283,10 @@ const SpendingCard = ({ icon, name, expense, overall, pcolor = "#6B7280" }) => {
         <div className="h-3 w-full border rounded-lg relative">
           <span
             className={`h-full  absolute rounded-lg `}
-            style={{ width: `${overall}%`, backgroundColor: `${ct[name]}` || pcolor }}
+            style={{
+              width: `${overall}%`,
+              backgroundColor: `${ct[name]}` || pcolor,
+            }}
           ></span>
         </div>
       </div>

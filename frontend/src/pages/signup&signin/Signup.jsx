@@ -1,6 +1,6 @@
 import { useState } from "react";
 import img from "../../assets/images/index";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -15,21 +15,16 @@ export default function Signup() {
     formData.append("email", email);
     formData.append("password", password);
 
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(key, value);
-    // }
+    const postData = await fetch("http://localhost:5000/usersdata", {
+      method: "post",
+      body: formData,
+    });
 
-    const postData = await fetch ('http://localhost:5000/usersdata',{
-      method:'post',
-      body:formData
-    })
-
-    if(postData.ok){
-      navigate('/signin'); // add it in set time out if mongodb give invalit email or pass.
+    if (postData.ok) {
+      navigate("/signin"); // add it in set time out if mongodb give invalit email or pass.
     }
-    
+
     // console.log(await postData.text());
-    
   };
 
   return (
@@ -101,9 +96,9 @@ export default function Signup() {
               <div className="text-gray-600 mt-5">
                 <span className="flex gap-2 text-xs">
                   Already have an Account?
-                  <span 
+                  <span
                     className="font-semibold underline text-blue-900 cursor-pointer hover:font-bold hover:text-sm hover:text-blue-700"
-                    onClick={()=>navigate('/signin')}
+                    onClick={() => navigate("/signin")}
                   >
                     SignIn
                   </span>

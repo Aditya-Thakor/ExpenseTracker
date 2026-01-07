@@ -8,10 +8,10 @@ import Analytics from "../pages/analytics/Analytics";
 import Profile from "../pages/profile/Profile";
 import Signup from "../pages/signup&signin/Signup";
 import SignIn from "../pages/signup&signin/SignIn";
-import Dproto from "../pages/dashboard/Dproto1";
 import EditProfile from "../pages/profile/editProfile";
 import ProfileOutlet from "../pages/profile/ProfileOutlet";
 import LandingPage from "../pages/Landing/LandingPage";
+import Navbar from "../components/navbar/Navbar";
 
 const ETRoutes = () => {
   return (
@@ -30,6 +30,7 @@ const ETRoutes = () => {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<SignIn/>}></Route>
         <Route path="/landing" element={<LandingPage/>}></Route>
+        {/* <Route path="/nav" element={<Category/>}></Route> */}
       </Routes>
     </Router>
   );

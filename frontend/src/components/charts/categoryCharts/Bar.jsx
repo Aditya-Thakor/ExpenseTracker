@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -8,10 +8,12 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import TransactionContext from "../../../context/TransactionContext";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function MonthlyExpenseBarChart() {
+  const {monthlyExpense}= useContext(TransactionContext);
   const chartRef = useRef();
   const [gradient, setGradient] = useState(null);
 
@@ -42,7 +44,8 @@ export default function MonthlyExpenseBarChart() {
     datasets: [
       {
         label: "Monthly Expenses",
-        data: expenses,
+        // data: expenses,
+        data:monthlyExpense.map(e=>e.total),
         backgroundColor: gradient || "#3B82F6",
         borderRadius: 5,
         borderSkipped: false, 

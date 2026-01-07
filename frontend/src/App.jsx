@@ -3,11 +3,13 @@ import "./App.css";
 import Navbar from "./components/navbar/Navbar";
 import TransactionContextProvider from "./context/Provider";
 import TransactionContext from "./context/TransactionContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function App() {
   const etusername = "Aditya";
   const other = "Thakor";
+  var td = new Date();
+  const [count, setCount] = useState(td.getFullYear());
 
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
@@ -22,8 +24,14 @@ function App() {
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
 
-  const [categories,setCategories]=useState([])
-  const [dailyTransactions,setDailyTr]= useState([]);
+  const [categories, setCategories] = useState([]);
+  const [dailyTransactions, setDailyTr] = useState([]);
+  const [monthlyExpense, setMonthlyExpense] = useState([]);
+  const [monthlyExpense1, setMonthlyExpense1] = useState([]);
+  const [monthlyIncome, setMonthlyIncome] = useState([]);
+  const [monthlyIncome1, setMonthlyIncome1] = useState([]);
+
+  const [manualFilter, setManualFilter] = useState(12);
 
   useEffect(() => {
     async function fetchUser() {
@@ -31,7 +39,7 @@ function App() {
         .then((res) => res.json())
         .then((data) => {
           let usr = data.find((i) => i._id === userId);
-          console.log("usr-", usr);
+          // console.log("usr-", usr);
           setUser(usr);
         })
         .catch((error) => {
@@ -43,13 +51,14 @@ function App() {
   // console.log(user);
 
   useEffect(() => {
-    console.log("user updated!!!", user);
+    // console.log("user updated!!!", user);
     if (user === null) return;
 
     const getTransactions = () => {
       const tr = user?.transactions;
       setTransactions(tr);
 
+      if (!transactions) return;
       const recentT = [...transactions].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
@@ -75,67 +84,196 @@ function App() {
       // console.log(tIn);
       setTotalIncome(tIn);
 
-       const ct = expenses.reduce((cate, ex) => {
+      const ct = expenses.reduce((cate, ex) => {
         cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
         return cate;
       }, {});
       // console.log("ct--",ct);
 
-     
-      const sortCate = Object.entries(ct)
-        .sort((a, b) => b[1] - a[1]);
+      const sortCate = Object.entries(ct).sort((a, b) => b[1] - a[1]);
 
       // console.log("srt--",sortCate);
       const topcate = sortCate.map(([category, total]) => ({
         category,
         total,
       }));
-      setCategories(topcate)
+      setCategories(topcate);
 
-       //date filtering
-      const dt = transactions.reduce((date,tr)=>{
-        date[tr.date]=(date[tr.date]||0)+tr.amount;
+      //date filtering
+      const dt = transactions.reduce((date, tr) => {
+        date[tr.date] = (date[tr.date] || 0) + tr.amount;
         return date;
-      },{});
+      }, {});
       // console.log("date--",dt); // logs a obj
 
-       const sortDate= Object.entries(dt).sort((a,b)=>b[1]-a[1]);
+      const sortDate = Object.entries(dt).sort((a, b) => b[1] - a[1]);
       //  console.log("srtDate---",sortDate);  // logs [[arr],[arr],...]
 
-      const DateArr = sortDate.map(([date,total])=>({
-        date,total
-      }))
+      const DateArr = sortDate.map(([date, total]) => ({
+        date,
+        total,
+      }));
       // console.log("datearrr---",DateArr); // logs [{obj},{obj},...]
       setDailyTr(DateArr);
-
     };
+
+    // YEARLY EXPENSES:::
+    const yearlyExpense = expenses.reduce((mn, t) => {
+      const ym = t.date.slice(0, 7);
+      mn[ym] = (mn[ym] || 0) + t.amount;
+      return mn;
+    }, {});
+    // console.log("yrrrr",yearlyExpense);
+
     getTransactions();
   }, [user, transactions]);
+
+  useMemo(() => {
+    // SORTTING EXPENSES
+    const monthlyExpense = expenses.reduce((mn, t) => {
+      const month = t.date.slice(0, 10);
+      // console.log('mn--',month);
+      mn[month] = (mn[month] || 0) + t.amount;
+      return mn;
+    }, {});
+
+    const monthlyExpense1 = expenses.reduce((mn, t) => {
+      const month = t.date.slice(0, 10);
+      // console.log('mn--',month);
+      mn[month] = t.amount;
+      return mn;
+    }, {});
+    //  console.log(expenses);
+    const sortEx = Object.entries(monthlyExpense).sort(); //.sort((a, b) => a[1] - b[1]);
+    // console.log("srtEX--",sortEx);
+
+    const monthlyArr = sortEx.map(([month, total]) => ({
+      day: month.split("-")[2],
+      month: month.split("-")[1],
+      year: Number(month.split("-")[0]),
+      total,
+    }));
+    var td = new Date();
+    var bm = new Date().setMonth(-1);
+    // console.log("bmm",new Date(bm));
+    var by = new Date().setFullYear(count);
+    // console.log("byyy",new Date(by));
+
+    // WEEK VISE
+    var wk = new Date().getDate(-7);
+    // console.log("wkkk-",new Date(wk));
+    
+
+    let data2 = expenses
+    .filter((y) => new Date(y.date) >= new Date(bm)) 
+    .filter((t) => new Date(t.date) <= new Date(by)) 
+    // .filter((x)=> new Date(x.date)!=new Date(bm))
+    // console.log("data22", data2)
+
+    var data1 = expenses.filter((t) => new Date(t.date) >= new Date(bm));
+    // console.log("data111",data1);
+
+    const mnthlyArr1 = data2.map((e) => ({
+      day: new Date(e.date).getDate(),
+      month: e.date.split("-")[1],
+      year: Number(e.date.split("-")[0]),
+      amount: e.amount,
+    }));
+    // console.log("monthlyArr1",mnthlyArr1);
+    // console.log("monthlyARR",monthlyArr);
+    setMonthlyExpense1(mnthlyArr1); // logs=> {day,month,year,total}
+    var ma = monthlyArr.filter((t) => t.year == count);
+    setMonthlyExpense(ma);
+
+    // SORTTING INCOMES
+    const monthlyIncome = incomes.reduce((mn, t) => {
+      const month = t.date.slice(0, 10);
+      mn[month] = (mn[month] || 0) + t.amount;
+      return mn;
+    }, {});
+    // console.log("ininin",monthlyIncome);
+
+    const sortIn = Object.entries(monthlyIncome).sort();
+    const mnIn = sortIn.map(([month, total]) => ({
+      day:month.split("-")[2],
+      month: month.split("-")[1],
+      year: Number(month.split("-")[0]),
+      total,
+    }));
+    let In = mnIn.filter((t) => t.year == count);
+    // console.log("monthly Innnn",In);
+    
+    setMonthlyIncome(In);
+
+    const monthlyIncome1 = incomes.reduce((mn, t) => {
+      const month = t.date.slice(0, 10);
+      mn[month] = t.amount;
+      return mn;
+    }, {});
+
+    let incomeData = incomes.filter((t) => new Date(t.date) >= new Date(bm));
+
+    const mnthlyIn = incomeData.map((e)=>({
+      day: new Date(e.date).getDate(),
+      month: e.date.split("-")[1],
+      year: Number(e.date.split("-")[0]),
+      amount: e.amount,
+    }))
+    setMonthlyIncome1(mnthlyIn);
+
+    // SORTTING CATEGORIES TOTAL
+    // console.log(monthlyExpense);
+    
+    //    const ct = expenses.reduce((cate, ex) => {
+        
+    //     cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
+    //     return cate; 
+    //   }, {});
+    //   console.log("ctctcc", ct);
+      
+
+
+    // const ct = expenses.reduce((yr, ex) => {
+    //   const date = ex.date.slice(0, 4);
+
+    //   yr[date] = (yr[date] || 0) + ex.category;
+    //   return yr;
+    // }, {});
+    // console.log("yrr7ct",ct); // log 2025:'a single str of categories',2024:'a single str of categories'
+  }, [expenses, incomes, count, manualFilter]);
 
   return (
     <TransactionContext.Provider
       value={{
         n: etusername,
-        o: other, 
-        user:user,
+        o: other,
+        user: user,
+        count,
+        setCount,
+        manualFilter,
+        setManualFilter,
 
         transactions: transactions,
         setTransactions: setTransactions,
         recentTransactions: recentTransactions,
-        setRecentTrans:setRecentTrans,
+        setRecentTrans: setRecentTrans,
 
         expenses: expenses,
-        setExpenses:setExpenses,
+        setExpenses: setExpenses,
         totalExpense: totalExpense,
-        setTotalExpense:setTotalExpense,
+        setTotalExpense: setTotalExpense,
 
         incomes: incomes,
         setIncomes: setIncomes,
-        totalIncome:totalIncome,
+        totalIncome: totalIncome,
         setTotalIncome: setTotalIncome,
 
         categories,
-        dailyTransactions
+        dailyTransactions,
+        monthlyExpense,
+        monthlyIncome,
+        monthlyExpense1,
+        monthlyIncome1
       }}
     >
       <div className="flex bg-[#F5F8FF]">

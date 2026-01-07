@@ -9,163 +9,131 @@ export default function Transaction() {
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
 
-  const [user,setUser]=useState(null);
-  const [trans, setTransactions]= useState([]);
-  const [recentTransactions, setRecentTrans]= useState([]);
+  const [user, setUser] = useState(null);
+  const [trans, setTransactions] = useState([]);
+  const [recentTransactions, setRecentTrans] = useState([]);
 
-  const [expenses, setExpenses]=useState([]);
-  const [totalEx,setTotalEx]=useState(0);
-  const [incomes,setIncomes]=useState([]);
-  const [totalIn,setTotalIn]= useState(0); 
+  const [expenses, setExpenses] = useState([]);
+  const [totalEx, setTotalEx] = useState(0);
+  const [incomes, setIncomes] = useState([]);
+  const [totalIn, setTotalIn] = useState(0);
 
-  
-  const [filteredTr, setFilterdTr]=useState([]);
-  const [filterType, setFilterType]= useState('all');
-  const [filterCategory,setFilterCategory]=useState('all');
-  const [filterDate, setFilterDate]= useState('all');
+  const [filteredTr, setFilterdTr] = useState([]);
+  const [filterType, setFilterType] = useState("all");
+  const [filterCategory, setFilterCategory] = useState("all");
+  const [filterDate, setFilterDate] = useState("all");
 
-  const [showCateFilter, setShowCateFilter]= useState(false)
-  const [search,setSearch]=useState('');
+  const [showCateFilter, setShowCateFilter] = useState(false);
+  const [search, setSearch] = useState("");
 
-  const [showmodal,setShowmodal]=useState(false);
+  const [showmodal, setShowmodal] = useState(false);
 
   useEffect(() => {
-      async function fetchUser() {
-        await fetch("http://localhost:5000/usersdata/")
-          .then((res) => res.json())
-          .then((data) => {
-            let usr = data.find((i) => i._id === userId);
-            // console.log(user);
-            setUser(usr);
-          })
-          .catch((error) => {
-            console.log("error at fetching userdata at dashboard", error);
-          });
-      }
-      fetchUser()
+    async function fetchUser() {
+      await fetch("http://localhost:5000/usersdata/")
+        .then((res) => res.json())
+        .then((data) => {
+          let usr = data.find((i) => i._id === userId);
+          // console.log(user);
+          setUser(usr);
+        })
+        .catch((error) => {
+          console.log("error at fetching userdata at dashboard", error);
+        });
+    }
+    fetchUser();
+  }, [userId]);
 
-    }, [userId]);
+  useEffect(() => {
+    console.log("user updated!!!", user);
+    if (user === null) return;
 
-  useEffect(()=>{
-    console.log("user updated!!!",user); 
-    if(user===null) return;
-
-    const getTransactions = ()=>{
+    const getTransactions = () => {
       const tr = user?.transactions;
       setTransactions(tr);
+      if (!tr) return;
 
-      const recentT = [...trans].sort((a,b)=>new Date(b.date)- new Date(a.date))
+      const recentT = [...trans].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
       setRecentTrans(recentT);
 
-      const ex = recentT.filter(e=>e.type==="expense")
+      const ex = recentT.filter((e) => e.type === "expense");
       // console.log("ex-",ex);
-      setExpenses(ex); 
+      setExpenses(ex);
       // console.log(expenses);
-      const inc = recentT.filter(i=>i.type==="income")
+      const inc = recentT.filter((i) => i.type === "income");
       // console.log(inc);
       setIncomes(inc);
 
-
-
-      
-      const tl = ex.reduce((sum,num)=>{
-        return sum + Number(num.amount)
-      },0)
+      const tl = ex.reduce((sum, num) => {
+        return sum + Number(num.amount);
+      }, 0);
       // console.log('total-',tl);
       setTotalEx(tl);
 
-      const tIn = inc.reduce((sum,num)=>{
-        return sum + Number(num.amount)
-      },0);
+      const tIn = inc.reduce((sum, num) => {
+        return sum + Number(num.amount);
+      }, 0);
       // console.log(tIn);
       setTotalIn(tIn);
 
-     
-
       // show filter category
-      if(filterType==="expense"){
-        setShowCateFilter(true)
-      }else{
-        setShowCateFilter(false)
+      if (filterType === "expense") {
+        setShowCateFilter(true);
+      } else {
+        setShowCateFilter(false);
       }
 
       var allData = recentT;
-      
-      // Search fn
-       if(search){
-        let f33 = allData.filter(t=>t.description.toLowerCase().includes(search));
-       allData=f33
-        console.log(f33);
-        
-       setFilterdTr(allData);
-      };
 
-      if(filterType !== 'all')
-      {
-        var f1 = allData.filter(t=>t.type===filterType);
+      // Search fn
+      if (search) {
+        let f33 = allData.filter((t) =>
+          t.description.toLowerCase().includes(search)
+        );
+        allData = f33;
+        console.log(f33);
+
+        setFilterdTr(allData);
+      }
+
+      if (filterType !== "all") {
+        var f1 = allData.filter((t) => t.type === filterType);
         allData = f1;
       }
-      if(filterType!=='income')
-      {
-        if(filterCategory!=='all')
-      {
-       var f2 = allData.filter(t=>t.category===filterCategory);
-       allData = f2; 
-      }
+      if (filterType !== "income") {
+        if (filterCategory !== "all") {
+          var f2 = allData.filter((t) => t.category === filterCategory);
+          allData = f2;
+        }
       }
       return setFilterdTr(allData);
+    };
+    getTransactions();
+  }, [user, filterType, filterCategory, search]);
 
-      // if (filterType==='all') { 
-      //   setFilterdTr(recentT)
-      // }
-      // if (filterType==='income') { 
-      //   setFilterdTr(incomes)
-      // }
-      // if (filterType==='expense') { 
-      //   setFilterdTr(expenses)
-      // }
-      
-      // if(filterCategory==='all'){
-      //   return filteredTr;
-      // }else{
-      //   console.log(recentT);
-      //   var d = recentT.filter(t=>t.category===filterCategory);
-      //   console.log(d);
-        
-      //   return setFilterdTr(d);
-      //   //setFilterdTr(filteredTr.filter(t=>t.category===filterCategory));
-      // }
+  const netBalance = () => {
+    if (!totalIn && !totalEx) return;
 
-      
-      
-
-    }
-    getTransactions()
-    
-  },[user, filterType,filterCategory,search])  
-  
-  const netBalance =()=>{
-    if(!totalIn && !totalEx)return;
-    
-    return totalIn - totalEx ;
-  }
+    return totalIn - totalEx;
+  };
   // console.log("filterBy-",filterType);
-  
-  const handleTransactions = (tr)=>{
+
+  const handleTransactions = (tr) => {
     if (!tr) return;
-     return <TransactionCard
-            icon={i[tr.type]}
-            tag={tr.description}
-            date={tr.date.replace("T00:00:00.000Z","")}
-            amount={tr.amount}
-            type={tr.type}
-            bg="whitebg"
-            category={tr.type==="expense"? tr.category : tr.incomeFrom}
-          />
-  }
-  
-
-
+    return (
+      <TransactionCard
+        icon={i[tr.type]}
+        tag={tr.description}
+        date={tr.date.replace("T00:00:00.000Z", "")}
+        amount={tr.amount}
+        type={tr.type}
+        bg="whitebg"
+        category={tr.type === "expense" ? tr.category : tr.incomeFrom}
+      />
+    );
+  };
 
   const styles = {
     boxShadow: `0px 3px 10px rgba(59, 130, 246, 0.7)`,
@@ -182,7 +150,7 @@ export default function Transaction() {
         <button
           className=" h-min flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB]  "
           style={styles}
-          onClick={()=>setShowmodal(true)}
+          onClick={() => setShowmodal(true)}
         >
           <Plus className="size-5" />
           <span>Add new transaction</span>
@@ -229,59 +197,61 @@ export default function Transaction() {
       {/* data filtering  */}
       <div className="h-20 w-full p-4 flex justify-between gap-4 bg-white rounded-xl">
         <div className="h-full w-full relative flex items-center border rounded-lg">
-          <Search 
-            onClick={()=>console.log(search)} 
-            className="absolute left-2 size-5  text-gray-400" 
+          <Search
+            onClick={() => console.log(search)}
+            className="absolute left-2 size-5  text-gray-400"
           />
           <input
             type="text"
             value={search}
-            onChange={(e)=>{
-                 let s = e.target.value.toLowerCase();
-                //  console.log(s);
-                 setSearch(s);
-            }}  
+            onChange={(e) => {
+              let s = e.target.value.toLowerCase();
+              //  console.log(s);
+              setSearch(s);
+            }}
             placeholder="Search transaction"
             className="h-full w-full rounded-lg bg-gray-50 pl-10 focus:outline-[#C3DCFD] text-blue-500"
           />
         </div>
         <div className="w-full">
-          <select 
+          <select
             className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterType}
-            onChange={(e)=>setFilterType(e.target.value)}
+            onChange={(e) => setFilterType(e.target.value)}
           >
             <option value="all">All type</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </select>
         </div>
-        {
-          showCateFilter? <div className="w-full">
-              <select 
-                className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
-                value={filterCategory}
-                onChange={(e)=>setFilterCategory(e.target.value)}
-              >
-                <option value="all">All categories</option>
-                <option value="bills&utilities">Bills & Utilities</option>
-                <option value="food">Food </option>
-                <option value="transportation">Transportation </option>
-                <option value="travel">Travel </option>
-                <option value="education">Education </option>
-                <option value="health">Healthcare</option>
-                <option value="entertainment">Entertainment</option>
-              </select>
-            </div>:''
-        }
-        
+        {showCateFilter ? (
+          <div className="w-full">
+            <select
+              className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+            >
+              <option value="all">All categories</option>
+              <option value="bills&utilities">Bills & Utilities</option>
+              <option value="food">Food </option>
+              <option value="transportation">Transportation </option>
+              <option value="travel">Travel </option>
+              <option value="education">Education </option>
+              <option value="health">Healthcare</option>
+              <option value="entertainment">Entertainment</option>
+            </select>
+          </div>
+        ) : (
+          ""
+        )}
+
         <div className="w-full">
-          <select 
+          <select
             className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterDate}
-            onChange={(e)=>setFilterDate(e.target.value)}
+            onChange={(e) => setFilterDate(e.target.value)}
           >
-            <option value="all">Short by date</option>
+            <option value="all">Sort by Duration</option>
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
             <option value="1m"> 1 month</option>
@@ -294,122 +264,25 @@ export default function Transaction() {
 
       {/* transactions */}
       <div className="h-auto grid grid-cols-1 gap-3 p-4">
-        {
-          !filteredTr? recentTransactions.map((tr)=>(
-            <TransactionCard
-              icon={i[tr.type]}
-              tag={tr.description}
-              date={tr.date.replace("T00:00:00.000Z","")}
-              amount={tr.amount}
-              type={tr.type}
-              key={tr._id}
-              bg="whitebg"
-              category={tr.type==="expense"? tr.category : tr.incomeFrom}
-            />
-          )): filteredTr.map((tr)=>(
-          //   <TransactionCard
-          //   icon={i[tr.type]}
-          //   tag={tr.description}
-          //   date={tr.date.replace("T00:00:00.000Z","")}
-          //   amount={tr.amount}
-          //   type={tr.type}
-          //   bg="whitebg"
-          //   category={tr.type==="expense"? tr.category : tr.incomeFrom}
-          // />
-          handleTransactions(tr)
-          ))
-        }
-        {/* {
-          filteredTr.map((tr)=>(
-          //   <TransactionCard
-          //   icon={i[tr.type]}
-          //   tag={tr.description}
-          //   date={tr.date.replace("T00:00:00.000Z","")}
-          //   amount={tr.amount}
-          //   type={tr.type}
-          //   bg="whitebg"
-          //   category={tr.type==="expense"? tr.category : tr.incomeFrom}
-          // />
-          handleTransactions(tr)
-          ))
-        } */}
-          {/* <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          /> */}
-          {/* <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="whitebg"
-            bg="whitebg"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          />
-          <TransactionCard
-            icon={i.code}
-            tag="Freelance work"
-            date="16 Nov 2025"
-            amount="12,000"
-            type="income"
-            bg="whitebg"
-            category="Income"
-          /> */}
+        {!filteredTr
+          ? recentTransactions.map((tr) => (
+              <TransactionCard
+                icon={i[tr.type]}
+                tag={tr.description}
+                date={tr.date.replace("T00:00:00.000Z", "")}
+                amount={tr.amount}
+                type={tr.type}
+                key={tr._id}
+                bg="whitebg"
+                category={tr.type === "expense" ? tr.category : tr.incomeFrom}
+              />
+            ))
+          : filteredTr.map((tr) => handleTransactions(tr))}
       </div>
-        <AddTransactionModal
-          open={showmodal}
-          onClose ={()=>setShowmodal(false)}
-        />
+      <AddTransactionModal
+        open={showmodal}
+        onClose={() => setShowmodal(false)}
+      />
     </div>
   );
 }

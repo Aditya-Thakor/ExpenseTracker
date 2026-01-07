@@ -47,7 +47,7 @@ export default function Profile() {
       }
       fetchUser()
 
-    }, [user._id]);
+    }, []);
 
     console.log("et-",etUser);
     
@@ -55,9 +55,9 @@ export default function Profile() {
   const [hide, setHide] = useState(false);
   const showPassword = () => {
     return hide ? (
-      <span className="tracking-widest">{etUser.password}</span>
+      <span className=" sm:tracking-widest">{etUser.password}</span>
     ) : (
-      <span className="flex">
+      <span className="flex w-1/2 xl:w-auto">
         <Dot />
         <Dot />
         <Dot />
@@ -115,9 +115,9 @@ export default function Profile() {
         tagline="Manage your account settings and preferences "
       />
       {/* profile card */}
-      <div className="h-40 flex gap-5 rounded-xl p-5  bg-gradient-to-br from-[#EFF6FF] to-[#ECFEFF] border border-[#DBEAFE] shadow-md shadow-[#DBEAFE]">
+      <div className="h-auto sm:h-40 w-full flex gap-5 rounded-xl p-5  bg-gradient-to-br from-[#EFF6FF] to-[#ECFEFF] border border-[#DBEAFE] shadow-md shadow-[#DBEAFE]">
         {/* profile */}
-        <div className="h-full w-[10%] flex justify-center items-center ">
+        <div className="h-full w-auto lg:w-[10%] flex justify-center items-center ">
           <div className="h-full w-full rounded-2xl p-2 bg-white ">
             <img
               src={
@@ -174,7 +174,7 @@ export default function Profile() {
         </div>
       </div>
       {/* data cards */}
-      <div className="h-32 rounded-xl grid grid-cols-4 gap-4 ">
+      <div className="h-auto w-full xl:h-32 rounded-xl grid grid-cols-2 xl:grid-cols-4 gap-4 ">
         {/* <div className="h-full w-full bg-white border rounded-xl" >  </div> */}
         <DataCard2
           name="Total balance"
@@ -225,8 +225,8 @@ export default function Profile() {
       </div>
 
       {/*Account Details */}
-      <div className="h-96 w-full flex gap-4">
-        <div className="h-full w-3/5 rounded-xl p-5 flex flex-col gap-14  bg-white">
+      <div className="h-auto lg:h-96 w-full flex flex-col lg:flex-row gap-4">
+        <div className="h-full w-full lg:w-3/5 rounded-xl p-5 flex flex-col gap-5 lg:gap-14  bg-white">
           {/* heading */}
           <div className="h-6 flex justify-between items-center">
             <span className="text-lg font-medium text-gray-800">
@@ -242,11 +242,7 @@ export default function Profile() {
           </div>
 
           {/* data */}
-          <div className="h-auto  grid grid-cols-2 gap-10 ">
-            {/* <div className="flex flex-col">
-                            <span className="text-sm text-gray-400 font-lato font-medium ">Full name</span>
-                            <span className="text-lg font-medium text-gray-800">Aditya Thakor</span>
-                        </div> */}
+          <div className="h-auto grid grid-cols-3 lg:grid-cols-2 gap-5 lg:gap-10 ">
 
             <Userdata
               title="Full name"
@@ -255,25 +251,24 @@ export default function Profile() {
 
             <Userdata title="Email address" data={etUser?.email || "not available"} />
             <Userdata title="Address" data={etUser?.address?.at || etUser?.address?.city || "not available"} />
-            <Userdata title="State" data={etUser?.state || "not available"} />
-            <Userdata title="Country" data={etUser?.country || "not available"} />
-            <Userdata title="PIN" data={etUser?.pincode || "not available"} />
+            <Userdata title="State" data={etUser?.address?.state || "not available"} />
+            <Userdata title="Country" data={etUser?.address?.country || "not available"} />
+            <Userdata title="PIN" data={etUser?.address?.pincode || "not available"} />
           </div>
         </div>
-        <div className="h-full w-2/5 rounded-xl p-5 flex flex-col gap-5 bg-white">
+        <div className="h-full w-full lg:w-2/5 rounded-xl p-5 flex flex-col gap-5 bg-white mb-20">
           <div className="h-6 flex items-center">
             <span className="text-lg font-medium text-gray-800">
               Accessibility
             </span>
-            {/* <ShieldEllipsis /> */}
           </div>
           <div className="h-full w-full flex flex-col gap-5">
             <div className="h-14 w-full flex items-center gap-5 border rounded-md shadow-sm px-4">
-              <div className="h-full w-1/4 flex items-center gap-2 text-gray-700 text-lg ">
-                <ShieldEllipsis />
+              <div className="h-full w-auto py-3 lg:py-0 xl:w-1/4 flex items-center gap-2 text-gray-700 text-lg ">
+                <ShieldEllipsis className="size-5" />
                 <span>Password</span>
               </div>
-              <div className="h-3/4 w-3/4 flex items-center justify-between px-3 border rounded-lg">
+              <div className="h-auto w-[60%] sm:w-full lg:h-3/4 lg:w-1/2 xl:w-3/4 flex items-center justify-between px-3 border rounded-lg">
                 {/* <span>98243835</span> */}
                 {showPassword()}
                 <button onClick={() => setHide(!hide)}>
@@ -282,9 +277,9 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="h-4/5 w-full  rounded-md ">
+            <div className="h-auto lg:h-4/5 w-full  rounded-md ">
               {!visible ? (
-                <div className="h-1/5 w-full border flex justify-between items-center gap-5  rounded-md  px-4">
+                <div className="h-auto lg:h-1/5 w-full border flex justify-between items-center gap-5  rounded-md py-3 lg:py-0 px-4">
                   <div className="h-full w-4/5 flex items-center gap-3 text-gray-700 text-lg ">
                     <KeyRound className="size-5" />
                     <span>Change password</span>
