@@ -11,7 +11,7 @@ import SignIn from "../pages/signup&signin/SignIn";
 import EditProfile from "../pages/profile/editProfile";
 import ProfileOutlet from "../pages/profile/ProfileOutlet";
 import LandingPage from "../pages/Landing/LandingPage";
-import Navbar from "../components/navbar/Navbar";
+import Report from "../pages/analytics/Report";
 
 const ETRoutes = () => {
   return (
@@ -30,7 +30,7 @@ const ETRoutes = () => {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<SignIn/>}></Route>
         <Route path="/landing" element={<LandingPage/>}></Route>
-        {/* <Route path="/nav" element={<Category/>}></Route> */}
+        <Route path="/analytics/report" element={<Report/>}></Route>
       </Routes>
     </Router>
   );
