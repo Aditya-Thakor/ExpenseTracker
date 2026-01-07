@@ -17,7 +17,7 @@ const Navbar = () => {
   
 
   return (
-    <div className="h-20 w-full fixed bottom-0 lg:static  lg:h-auto lg:w-20  bg-white  ">
+    <div className="h-20 w-full z-10 lg:z-auto fixed bottom-0 lg:static  lg:h-auto lg:w-20  bg-white  ">
       <div className="h-full w-full  flex lg:flex-col items-center justify-center lg:justify-between  py-5 px-7 lg:px-0 lg:border-r ">
         {/* Logo */}
         <div className="h-14 w-14 fixed hidden lg:flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
