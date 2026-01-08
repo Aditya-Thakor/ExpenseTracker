@@ -12,6 +12,7 @@ import EditProfile from "../pages/profile/editProfile";
 import ProfileOutlet from "../pages/profile/ProfileOutlet";
 import LandingPage from "../pages/Landing/LandingPage";
 import Report from "../pages/analytics/Report";
+import AnalyticsOutlet from "../pages/analytics/AnalyticsOutlet";
 
 const ETRoutes = () => {
   return (
@@ -21,7 +22,10 @@ const ETRoutes = () => {
           <Route path="" element={<Dashboard />} />
           <Route path="category" element={<Category/>}/>
           <Route path="transaction" element={<Transaction/>}/>
-          <Route path="analytics" element={<Analytics/>}/>
+          <Route path="analytics" element={<AnalyticsOutlet/>}>
+            <Route path="" element={<Analytics/>}/>
+            <Route path="report" element={<Report/>}/>
+          </Route>
           <Route path="profile" element={<ProfileOutlet/>}>
             <Route path="" element={<Profile/>} />
             <Route path="editprofile" element={<EditProfile/>} />
