@@ -7,7 +7,7 @@ export default function DataCard({type,amount=0, stats}) {
 
   return(
     <div 
-        className={` h-full min-w-60 p-3 rounded-xl bg-gradient-to-br ${type=="expense"?
+        className={` h-full w-full  sm:min-w-48 lg:min-w-60 p-3 rounded-xl bg-gradient-to-br ${type=="expense"?
              " from-[#EF4444] to-[#EF8B44] " 
             : " from-[#22C55E] to-[#088E68] "}`
         }
