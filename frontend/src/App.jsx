@@ -252,7 +252,7 @@ function App() {
     //   return yr;
     // }, {});
     // console.log("yrr7ct",ct); // log 2025:'a single str of categories',2024:'a single str of categories'
-  }, [expenses, incomes, count, manualFilter]);
+  }, [transactions,expenses, incomes, count, manualFilter]);
 
   return (
     <TransactionContext.Provider
