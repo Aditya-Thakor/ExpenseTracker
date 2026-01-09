@@ -5,6 +5,10 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Report() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const uid =  user._id;
+  // console.log("user-",uid);
+
   const { transactions, totalExpense, totalIncome } =
     useContext(TransactionContext);
   const [tr, setTr] = useState([]);
@@ -16,7 +20,7 @@ export default function Report() {
   const [instruction, setInstruction] = useState(true);
   const [noData, setNoData] = useState(false);
 
-  const handleStatement = () => {
+  const handleStatement = async() => {
     if (!from && !to) return setInstruction(true);
     if (from > to && to.length != 0) return setTr([]) || setNoData(true); //setNoData(true) || setInstruction(false)
     // console.log(from,"->",to);
@@ -27,6 +31,8 @@ export default function Report() {
         (t) =>
           new Date(t.date) <= new Date() && new Date(t.date) >= new Date(from)
       );
+      let t = new Date();
+      setTo(t)
       // console.log("statement");
       // console.log(statement.filter((t)=>t.type=="expense"));
       if (statement.length === 0) {
@@ -38,16 +44,20 @@ export default function Report() {
     }
     if (!from && to) {
       setInstruction(false);
-      setTr([]);
+      setTr([]); 
+      // setFrom(t);
+      // console.log("fd-",from);
+      
       const statement = transactions.filter(
         (t) => new Date(t.date) <= new Date(to)
       );
+     
       // console.log(statement);
       if (statement.length === 0) {
         setNoData(true);
         return;
       }
-      setNoData(false);
+      setNoData(false);      
       return setTr(statement);
     }
     if (from && to) {
@@ -83,6 +93,32 @@ export default function Report() {
     setInTotal(int);
     // console.log("extt-",ext);
   }, [tr, from, to]);
+
+  /* SEND TRANSACTIONS */
+  const sendTr = async()=>{
+    if (tr.length>0) {
+      // console.log("sorted Transactions :")
+      // console.log(tr)  
+      const formdata = new FormData();
+      formdata.append("userid", uid);
+      formdata.append("from", from);
+      formdata.append("to", to);
+         
+
+      const r =  await fetch("http://localhost:5000/analytics/report/export-report",{
+        method:"post",
+        body: formdata
+      })
+      console.log(await r.text());  
+    }
+    //  if(tr.length>0){
+    //  const r =  await fetch("http://localhost:5000/analytics/report/export-report",{
+    //     method:"post",
+    //     body: tr
+    //   })
+    //   console.log(await r.text()); 
+    // }
+  } 
 
   // console.log("from", from); // yyyy-mm-dd
 
@@ -135,7 +171,10 @@ export default function Report() {
         </span>:'' }
         
         {tr.length ? (
-          <button className="flex items-center lg:absolute right-16 h-min text-gray-500 bg-blue-200  rounded-lg py-1.5 lg:py-3 px-3 lg:px-5 gap-2 shadow-sm hover:text-gray-900  hover:shadow-lg">
+          <button 
+            className="flex items-center lg:absolute right-16 h-min text-gray-500 bg-blue-200  rounded-lg py-1.5 lg:py-3 px-3 lg:px-5 gap-2 shadow-sm hover:text-gray-900  hover:shadow-lg"
+            onClick={sendTr}
+          >
             <span className="">
               <Download className="size-3 lg:size-5" />
             </span>
