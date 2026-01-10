@@ -21,10 +21,17 @@ function App() {
   const [expenses, setExpenses] = useState([]);
   const [totalExpense, setTotalExpense] = useState(0);
 
+  const [currentMnEx,setCurrentMnEX]= useState([]);
+  const [currentMnIn,setCurrentMnIn]= useState([]);
+
+  // const []
+
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
 
   const [categories, setCategories] = useState([]);
+  const [crntMnCate, setCrntMnCate] = useState([]);
+
   const [dailyTransactions, setDailyTr] = useState([]);
   const [monthlyExpense, setMonthlyExpense] = useState([]);
   const [monthlyExpense1, setMonthlyExpense1] = useState([]);
@@ -84,6 +91,33 @@ function App() {
       // console.log(tIn);
       setTotalIncome(tIn);
 
+      
+      //--filtering this month expenses
+      const today = new Date();
+      const thisMonth = new Date(today.getFullYear(),today.getMonth(),1);
+      // console.log("this month");
+      // console.log(thisMonth); // give first date of current month
+
+      const thisMonthExpenses = expenses.filter((t)=>new Date(t.date)>=thisMonth && new Date(t.date) <= today);
+      // console.log("This Month Expenses");
+      // console.log(thisMonthExpenses); // gives current month expenses:::
+      setCurrentMnEX(thisMonthExpenses);
+
+      const crTotalEx = thisMonthExpenses.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
+      // console.log("this month ex total");
+      // console.log(crTotalEx);
+      
+      
+      // SORTTING CATEGORIES (this Month)::::
+      const thisMnCate = currentMnEx?.reduce((cate,ex)=>{
+        cate[ex.category]= (cate[ex.category] || 0) + ex.amount;
+        return cate;
+      },{});
+      console.log("this month cate-");
+      console.log(thisMnCate); // category vise ex of current month...
+      setCrntMnCate(thisMnCate);
+
+      // SORTING CATEGORIES (overall):::
       const ct = expenses.reduce((cate, ex) => {
         cate[ex.category] = (cate[ex.category] || 0) + ex.amount;
         return cate;
@@ -128,7 +162,7 @@ function App() {
     let m = new Date().setMonth(-1);
     // console.log(new Date(m));
     let y= new Date().setFullYear(count) ;
-    console.log(new Date(y));
+    // console.log(new Date(y));
     
 
     getTransactions();
@@ -175,12 +209,11 @@ function App() {
     .filter((t) => new Date(t.date) <= new Date(by)) // gives 41 datas
     // .filter((y) => new Date(y.date) <= new Date(bm)) // gives data (23datas)  and 2024 is blank
     // .filter((x)=> new Date(x.date)!=new Date(bm))
-     console.log("data22", data2)
+    //  console.log("data22", data2)
 
     const data3= expenses.filter((d)=>new Date(d.date) >= new Date(bm) && new Date(d.date) < new Date(by))
     // console.log("data-3:",data3);
     
-
     var data1 = expenses.filter((t) => new Date(t.date) >= new Date(bm));
     // console.log("data111",data1);
 
@@ -195,8 +228,10 @@ function App() {
     setMonthlyExpense1(mnthlyArr1); // logs=> {day,month,year,total}
     var ma = monthlyArr.filter((t) => t.year == count);
     setMonthlyExpense(ma);
-    console.log("month = ",count);
-    console.log(ma);
+    // console.log("month = ",count);
+    // console.log(ma);
+
+
     // SORTTING INCOMES
     const monthlyIncome = incomes.reduce((mn, t) => {
       const month = t.date.slice(0, 10);
@@ -252,7 +287,7 @@ function App() {
     //   return yr;
     // }, {});
     // console.log("yrr7ct",ct); // log 2025:'a single str of categories',2024:'a single str of categories'
-  }, [transactions,expenses, incomes, count, manualFilter]);
+  }, [transactions,expenses, incomes, count, manualFilter,crntMnCate]);
 
   return (
     <TransactionContext.Provider
@@ -271,6 +306,7 @@ function App() {
         setRecentTrans: setRecentTrans,
 
         expenses: expenses,
+        currentMnEx,
         setExpenses: setExpenses,
         totalExpense: totalExpense,
         setTotalExpense: setTotalExpense,
@@ -281,6 +317,7 @@ function App() {
         setTotalIncome: setTotalIncome,
 
         categories,
+        crntMnCate,
         dailyTransactions,
         monthlyExpense,
         monthlyIncome,

@@ -17,20 +17,33 @@ export default function Dashboard() {
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const { transactions, totalExpense, totalIncome, monthlyExpense, monthlyIncome } =
+  const { transactions, totalExpense, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome } =
     useContext(TransactionContext);
 
     const [inTotal,setInTotal]= useState(0);
     const [exTotal,setExTotal]= useState(0);
+// console.log("this month exxx");
+// console.log(monthlyExpense);
+// console.log('----------');
+// console.log(currentMnEx);
 
     useMemo(()=>{
       let int= monthlyIncome.reduce((sum,num)=> { return sum+Number(num.total)},0 )
       // console.log("INCOME TOTAL:-",int);
       setInTotal(int);
       
-      let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
+      // let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
+      // setExTotal(ext);
+      let ext = currentMnEx.reduce((sum,num)=>{ return sum+Number(num.amount)},0)
       setExTotal(ext);
-    },[monthlyIncome,monthlyExpense])
+
+
+      const sortCate = Object.entries(crntMnCate)?.sort((a, b) => b[1] - a[1]).slice(0, 3);
+        console.log("crnt mn Top cate",sortCate);
+      const top3 = sortCate.map(([category, total]) => ({ category, total }));
+      // console.log(top3);
+      setTopExCate(top3);
+    },[monthlyIncome,monthlyExpense,crntMnCate])
 
   const [vahover, setVaHover] = useState(null);
 
@@ -80,21 +93,25 @@ export default function Dashboard() {
         return cate;
       }, {});
       // console.log("ct- ", ct);
-      const sortCate = Object.entries(ct)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3);
-      // console.log(sortCate);
+      // const sortCate = Object.entries(ct)
+      //   .sort((a, b) => b[1] - a[1])
+      //   .slice(0, 3);
+      // // console.log(sortCate); // <- get overall category and total
 
-      const top3 = sortCate.map(([category, total]) => ({ category, total }));
-      // console.log(top3);
-      setTopExCate(top3);
+      // const sortCate = Object.entries(crntMnCate)
+      //   ?.sort((a, b) => b[1] - a[1])
+      //   .slice(0, 3);
+      //   console.log("****",sortCate);
+      // const top3 = sortCate.map(([category, total]) => ({ category, total }));
+      // // console.log(top3);
+      // setTopExCate(top3);
     };
     getTransactions();
   }, [user]);
 
   const labels = () => {
     const topct = topExCategories.map((n) => n.category);
-    const lbl = [...topct, "other"];
+    const lbl = topct.length>3?[...topct, "other"] : [...topct];
     return lbl;
     // return topExCategories.map(n=>n.category) || "Other";
   };
@@ -104,7 +121,8 @@ export default function Dashboard() {
     const total = topstotal.reduce((sum, num) => {
       return sum + Number(num);
     }, 0);
-    const otherTotal = totalExpense - total;
+    // const otherTotal = totalExpense - total;
+    const otherTotal = exTotal - total;
     // console.log("tttt=",otherTotal);
 
     const dt = [...topstotal, otherTotal];
