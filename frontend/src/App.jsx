@@ -17,17 +17,23 @@ function App() {
 
   const [transactions, setTransactions] = useState([]);
   const [recentTransactions, setRecentTrans] = useState([]);
+  const [thisYrTrans,setThisYrTrans]=useState([]);
 
   const [expenses, setExpenses] = useState([]);
   const [totalExpense, setTotalExpense] = useState(0);
+  const [crExpenses,setCrExpenses]= useState([]);
+  const [crTotalEx,setCrTotalEx]= useState(0);
 
   const [currentMnEx,setCurrentMnEX]= useState([]);
+  const [currentMnExTotal,setCurrentMnEXTotal]=useState(0);
   const [currentMnIn,setCurrentMnIn]= useState([]);
+  const [currentMnInTotal,setCurrentMnInTotal]= useState(0);
 
-  // const []
 
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
+  const [crIncomes,setCrIncomes]=useState([]);
+  const [crTotalIn,setCrTotalIn]= useState(0);
 
   const [categories, setCategories] = useState([]);
   const [crntMnCate, setCrntMnCate] = useState([]);
@@ -39,6 +45,13 @@ function App() {
   const [monthlyIncome1, setMonthlyIncome1] = useState([]);
 
   const [manualFilter, setManualFilter] = useState(12);
+
+  // LAST MONTH'S DATA
+  const [lastMnTrans,setLastMnTrans]=useState([]);
+  const [lastMnEx,setLastMnEx]= useState([]);
+  const [lastMnExTotal,setLastMnExTotal]=useState(0);
+  const [lastMnIn,setLastMnIn]=useState([]);
+  const [lastMnInTotal,setLastMnInTotal]=useState(0);
 
   useEffect(() => {
     async function fetchUser() {
@@ -92,18 +105,59 @@ function App() {
       setTotalIncome(tIn);
 
       
-      //--filtering this month expenses
+      //--filtering this month 
       const today = new Date();
       const thisMonth = new Date(today.getFullYear(),today.getMonth(),1);
       // console.log("this month");
       // console.log(thisMonth); // give first date of current month
 
+      //TRANSACTIONS:::::::::::::::
+
+      //this month transactions:
+      const thisMnTransactions = transactions.filter((t)=>new Date(t.date)>=thisMonth && new Date(t.date) <= today);
+      // console.log("this month transactions::::");
+      // console.log(thisMnTransactions); // gives this month transaction!!!!
+
+      //this year transactions::
+      const year = new Date(today.getFullYear(),0,1);
+      // console.log("cr yr date--", year);
+      
+      const thisYearTrans= transactions.filter((t)=>new Date(t.date)>=year && new Date(t.date)<=today);
+      // console.log("This year transactions---");
+      // console.log(thisYearTrans);
+      setThisYrTrans(thisYearTrans);
+
+      // CURRENT YEAR'S INCOMES:
+      const crin= thisYearTrans.filter((ex)=>ex.type=="income");
+      setCrIncomes(crin);
+      
+      // CURRENT YEAR'S EXPENSES:
+      const crex= thisYearTrans.filter((ex)=>ex.type=="expense");
+      // console.log("this year expenses");
+      // console.log(crex);
+      setCrExpenses(crex);
+
+      
+
+      // INCOMES::::::::::
+      const thisMonthIncomes = incomes.filter((t)=>new Date(t.date)>=thisMonth && new Date(t.date) <= today);
+      // console.log("This Month Expenses");
+      // console.log(thisMonthExpenses); // gives current month expenses:::
+      setCurrentMnIn(thisMonthIncomes);
+
+      const crTotalIn = thisMonthIncomes.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
+      setCurrentMnInTotal(crTotalIn);
+      // console.log("this month ex total");
+      // console.log(crTotalEx);
+
+      // EXPENSES::::::::::
       const thisMonthExpenses = expenses.filter((t)=>new Date(t.date)>=thisMonth && new Date(t.date) <= today);
       // console.log("This Month Expenses");
       // console.log(thisMonthExpenses); // gives current month expenses:::
       setCurrentMnEX(thisMonthExpenses);
 
       const crTotalEx = thisMonthExpenses.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
+      setCurrentMnEXTotal(crTotalEx);
       // console.log("this month ex total");
       // console.log(crTotalEx);
       
@@ -113,8 +167,9 @@ function App() {
         cate[ex.category]= (cate[ex.category] || 0) + ex.amount;
         return cate;
       },{});
-      console.log("this month cate-");
-      console.log(thisMnCate); // category vise ex of current month...
+      // console.log("this month cate-");
+      // console.log(thisMnCate); // category vise ex of current month...
+      
       setCrntMnCate(thisMnCate);
 
       // SORTING CATEGORIES (overall):::
@@ -231,6 +286,14 @@ function App() {
     // console.log("month = ",count);
     // console.log(ma);
 
+    // CURRENT YEAR EXPENSE TOTAL
+    const cryrTotal = ma.reduce((sum,t)=>{
+      return sum + t.total
+    },0)
+    // console.log("currentYear Total-", cryrTotal);
+    setCrTotalEx(cryrTotal);
+    
+
 
     // SORTTING INCOMES
     const monthlyIncome = incomes.reduce((mn, t) => {
@@ -248,9 +311,15 @@ function App() {
       total,
     }));
     let In = mnIn.filter((t) => t.year == count);
-    // console.log("monthly Innnn",In);
-    
+    // console.log("monthly Innnn",In); 
     setMonthlyIncome(In);
+    
+    const cryrTotalIn = In.reduce((sum,t)=>{
+      return sum + t.total
+    },0)
+    // console.log("currenctYear total Income- ", cryrTotalIn);
+    setCrTotalIn(cryrTotalIn);
+    
 
     const monthlyIncome1 = incomes.reduce((mn, t) => {
       const month = t.date.slice(0, 10);
@@ -287,6 +356,47 @@ function App() {
     //   return yr;
     // }, {});
     // console.log("yrr7ct",ct); // log 2025:'a single str of categories',2024:'a single str of categories'
+
+
+
+    // LAST MONTH'S TRANSACTIONS::;
+    const today= new Date();
+    const fstDay = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      1
+    );
+    const lstDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      0,
+      23, 59, 59, 999
+    ) 
+    // ALL TRANS..
+    const lastMnTransactions = transactions.filter((t)=>new Date(t.date)>=fstDay && new Date(t.date)<=lstDay);
+
+    // console.log("last month's transactions");
+    // console.log(lastMnTransactions);
+    setLastMnTrans(lastMnTransactions);
+
+    // ALL EX:::
+      const lstEx=lastMnTransactions.filter(t=>t.type=="expense");
+      setLastMnEx(lstEx);
+      const lsext = lstEx.reduce((sum,num)=>{return sum +num.amount},0)
+      setLastMnExTotal(lsext);
+      // console.log("Ls Exs::-",lastMnEx);
+      // console.log("Ls Exs total::-",lastMnExTotal);
+      
+    // ALL IN:::
+      const lstIn=lastMnTransactions.filter(t=>t.type=="income");
+      setLastMnIn(lstIn);
+      const lsint = lstIn.reduce((sum,num)=>{return sum +num.amount},0)
+      setLastMnInTotal(lsint); 
+      // console.log("Ls Ins::-",lastMnIn );
+      // console.log("Ls Ins total::-",lastMnInTotal);
+    
+    
+
   }, [transactions,expenses, incomes, count, manualFilter,crntMnCate]);
 
   return (
@@ -304,17 +414,23 @@ function App() {
         setTransactions: setTransactions,
         recentTransactions: recentTransactions,
         setRecentTrans: setRecentTrans,
+        lastMnTrans, 
+        thisYrTrans,
 
         expenses: expenses,
         currentMnEx,
+        crExpenses,currentMnExTotal,
+        crTotalEx,
+        lastMnExTotal,
         setExpenses: setExpenses,
         totalExpense: totalExpense,
         setTotalExpense: setTotalExpense,
 
         incomes: incomes,
         setIncomes: setIncomes,
-        totalIncome: totalIncome,
-        setTotalIncome: setTotalIncome,
+        totalIncome: totalIncome,currentMnInTotal,
+        setTotalIncome: setTotalIncome,crIncomes,lastMnInTotal,
+        crTotalIn,
 
         categories,
         crntMnCate,
