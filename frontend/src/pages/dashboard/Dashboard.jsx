@@ -25,7 +25,7 @@ export default function Dashboard() {
 // console.log("this month exxx");
 // console.log(monthlyExpense);
 // console.log('----------');
-// console.log(currentMnEx);
+// console.log(crntMnCate);
 
     useMemo(()=>{
       let int= monthlyIncome.reduce((sum,num)=> { return sum+Number(num.total)},0 )
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
 
       const sortCate = Object.entries(crntMnCate)?.sort((a, b) => b[1] - a[1]).slice(0, 3);
-        console.log("crnt mn Top cate",sortCate);
+        // console.log("crnt mn Top cate",sortCate);
       const top3 = sortCate.map(([category, total]) => ({ category, total }));
       // console.log(top3);
       setTopExCate(top3);
