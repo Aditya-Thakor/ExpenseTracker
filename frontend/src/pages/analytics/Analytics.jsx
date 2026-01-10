@@ -10,7 +10,7 @@ import TransactionContext from "../../context/TransactionContext";
 import { Link } from "react-router-dom";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense } =
+  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense,crTotalEx, lastMnExTotal} =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
@@ -62,8 +62,14 @@ export default function Analytics() {
     };
     top5Cate();
   }, [expenses]);
-  // console.log(top5);
 
+
+  // console.log(top5);
+ const exState=()=>{
+   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+  //  console.log("state---",state.toFixed(1));
+   return Number(state.toFixed(1));
+  }
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
@@ -93,7 +99,7 @@ export default function Analytics() {
           ibgfrom="#A855F7"
           ibgto="#EC4899"
           arrow={i.aupRed}
-          subtag="23.5% from last month"
+          subtag={`${exState()}% from last month`}
         />
         <Datacard
           icon={i.calendar}
