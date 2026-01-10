@@ -39,7 +39,7 @@ export default function DataCard2({
         <span 
             className="text-sm "
             style={styles.ptxt}
-        >+ {pr} %</span>
+        > {pr} %</span>
       </div>
       {/* data */}
       <div className="h-[70%] lg:h-3/5 w-full flex flex-col mt-1">
