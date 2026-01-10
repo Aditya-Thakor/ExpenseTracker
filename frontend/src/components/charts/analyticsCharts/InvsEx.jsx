@@ -30,8 +30,8 @@ export default function InEx() {
   // }
   // handleExpense();
   // console.log("manual filter,", manualFilter)
-console.log("mnt main");
-console.log(monthlyExpense);
+// console.log("mnt main");
+// console.log(monthlyExpense);
   const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   
   const labels1=[];
@@ -48,9 +48,9 @@ console.log(monthlyExpense);
   console.log("innn",inData);
   
 
-  console.log("lbl1",labels1);
-  console.log("data1");
-  console.log(data1);
+  // console.log("lbl1",labels1);
+  // console.log("data1");
+  // console.log(data1);
   const slice = labels.slice(labels.length-manualFilter, labels.length);
   // console.log("sliced data->", slice);
   
