@@ -17,7 +17,7 @@ export default function Dashboard() {
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const { transactions, totalExpense, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome } =
+  const { transactions, lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,totalExpense } =
     useContext(TransactionContext);
 
     const [inTotal,setInTotal]= useState(0);
@@ -109,6 +109,18 @@ export default function Dashboard() {
     getTransactions();
   }, [user]);
 
+  const exState=()=>{
+   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+  //  console.log("state---",state.toFixed(1));
+   return Number(state.toFixed(1));
+  } 
+  const inState=()=>{
+   let state = ((crTotalIn-lastMnInTotal)/lastMnInTotal)*100;
+   console.log("state---",state.toFixed(1));
+   return state.toFixed(1);
+  } 
+  // inState();
+
   const labels = () => {
     const topct = topExCategories.map((n) => n.category);
     const lbl = topct.length>3?[...topct, "other"] : [...topct];
@@ -145,12 +157,12 @@ export default function Dashboard() {
         <DataCard
           type="expense"
           amount={exTotal}
-          stats="-2% from last month"
+          stats={`${exState()}% from last month`}
         />
         <DataCard
           type="Income"
           amount={inTotal}
-          stats="+8% from last month"
+          stats={`${inState()}% from last month`}
         />
         </div>
         <div className="h-full w-full flex flex-col justify-around gap-3 sm:gap-0 bg-white rounded-xl px-4 py-2">
