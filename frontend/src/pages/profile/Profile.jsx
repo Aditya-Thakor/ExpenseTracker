@@ -23,7 +23,7 @@ import TransactionContext from "../../context/TransactionContext";
 // Main function-----------------------------------------------------------------
 export default function Profile() {
   const navigate = useNavigate();
-  const {totalExpense,totalIncome}= useContext(TransactionContext);
+  const {lastMnExTotal,lastMnInTotal,crTotalEx,crTotalIn,currentMnInTotal,currentMnExTotal}= useContext(TransactionContext);
 
   // const user = JSON.parse(localStorage.getItem("user"));
   const storedUser = localStorage.getItem("user");
@@ -107,6 +107,23 @@ export default function Profile() {
 
 //---------------------------------------------------------------------  
 
+   const exState=()=>{
+   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+  //  console.log("state---",state.toFixed(1));
+   return Number(state.toFixed(1));
+  } 
+  const inState=()=>{
+   let state = ((crTotalIn-lastMnInTotal)/lastMnInTotal)*100;
+   console.log("state---",state.toFixed(1));
+   return state.toFixed(1);
+  } 
+
+  const saving=()=>{
+    let state = ((currentMnInTotal-currentMnExTotal)/currentMnInTotal)*100
+    return Number(state.toFixed(1));
+  }
+
+
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
       {/* Heading */}
@@ -178,17 +195,17 @@ export default function Profile() {
         {/* <div className="h-full w-full bg-white border rounded-xl" >  </div> */}
         <DataCard2
           name="Total balance"
-          amount={totalIncome-totalExpense}
+          amount={crTotalIn-crTotalEx}
           icon={i.transaction}
           pr="12.5"
           prcolor="#16A34A"
         />
         <DataCard2
           name="Total expense"
-          amount={totalExpense}
+          amount={crTotalEx}
           icon={i.expense}
-          pr="8.2"
-          prcolor="#DC2626"
+          pr={exState()}
+          prcolor={inState()>0?"#DC2626":"#16A34A"}   // DC2626-red || 16A34A-green
           bgfrom="#FEF2F2"
           bgto="#FFF7ED"
           ibgfrom="#EF4444"
@@ -198,10 +215,10 @@ export default function Profile() {
         />
         <DataCard2
           name="Total income"
-          amount={totalIncome}
+          amount={crTotalIn}
           icon={i.income}
-          pr="9.1"
-          prcolor="#16A34A"
+          pr={inState()}
+          prcolor={inState()<0?"#DC2626":"#16A34A"}
           bgfrom="#F0FDF4"
           bgto="#ECFDF5"
           ibgfrom="#22C55E"
@@ -211,9 +228,9 @@ export default function Profile() {
         />
         <DataCard2
           name="Saving this month"
-          amount={totalIncome-totalExpense}
+          amount={crTotalIn-crTotalEx}
           icon={i.savingIcon}
-          pr="28.3"
+          pr={saving()}
           prcolor="#16A34A"
           bgfrom="#F0FDF4"
           bgto="#ECFDF5"
