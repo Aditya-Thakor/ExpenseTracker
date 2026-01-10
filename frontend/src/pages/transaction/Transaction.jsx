@@ -2,12 +2,15 @@ import Heading from "../../components/heading/Heading";
 import { NutIcon, Plus, Search, UserStar } from "lucide-react";
 import i from "../../assets/icons/index";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddTransactionModal from "../../components/addTransactions/modelDemoz/D1";
+import TransactionContext from "../../context/TransactionContext";
 
 export default function Transaction() {
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
+
+  const {crTotalEx,crTotalIn,thisYrTrans}= useContext(TransactionContext);
 
   const [user, setUser] = useState(null);
   const [trans, setTransactions] = useState([]);
@@ -114,9 +117,9 @@ export default function Transaction() {
   }, [user, filterType, filterCategory, search]);
 
   const netBalance = () => {
-    if (!totalIn && !totalEx) return;
+    if (!crTotalIn && !crTotalEx) return;
 
-    return totalIn - totalEx;
+    return crTotalIn - crTotalEx;
   };
   // console.log("filterBy-",filterType);
 
@@ -161,7 +164,7 @@ export default function Transaction() {
         {/* <div className="h-full w-full bg-white rounded-xl"></div> */}
         <Datacard
           name="Total Expense"
-          amount={totalEx}
+          amount={crTotalEx}
           icon={i.expense}
           bgfrom="#F6D1D1"
           bgto="#F9DEC6"
@@ -172,7 +175,7 @@ export default function Transaction() {
         />
         <Datacard
           name="Total Income"
-          amount={totalIn}
+          amount={crTotalIn}
           icon={i.income}
           bgfrom="#D2F9DE"
           bgto="#ACF6D3"
@@ -264,7 +267,8 @@ export default function Transaction() {
 
       {/* transactions */}
       <div className="h-auto grid grid-cols-1 gap-3 p-4">
-        {!filteredTr
+         {/* NOTE: CHANGE "recentTransactions" —> CURRENT YEAR'S TRANSACTIONS DATA */}
+        {!filteredTr 
           ? recentTransactions.map((tr) => (
               <TransactionCard
                 icon={i[tr.type]}
