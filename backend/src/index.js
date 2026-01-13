@@ -1,18 +1,23 @@
 const { error, log } = require('console')
-const fs = require('fs')
+require('dotenv').config();
 
-fs.writeFile('et.xls','React js \tNode js\nReact Demo\tNode demo', (error)=>{
-    if(error) return console.log("Error at creating the file!!",error);
-    console.log('File created Successfully!!!');        
-})
+const port = process.env.PORT;
+console.log(`Server running on port ${port}`);
 
-fs.readFile('et.xls','utf-8',(error,data)=>{
-    console.log(data);    
-})
+// const fs = require('fs')
 
-data = fs.readFileSync("et.xls","utf-8");
-console.log(data);
+// fs.writeFile('et.xls','React js \tNode js\nReact Demo\tNode demo', (error)=>{
+//     if(error) return console.log("Error at creating the file!!",error);
+//     console.log('File created Successfully!!!');        
+// })
 
-fs.readFile("et.xls","utf-8",(error,data)=>{
-    console.log(data);    
-})
+// fs.readFile('et.xls','utf-8',(error,data)=>{
+//     console.log(data);    
+// })
+
+// data = fs.readFileSync("et.xls","utf-8");
+// console.log(data);
+
+// fs.readFile("et.xls","utf-8",(error,data)=>{
+//     console.log(data);    
+// })
