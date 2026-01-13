@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TransactionContext from "./TransactionContext";
 
 const TransactionContextProvider = ({ childern }) => {
@@ -15,6 +15,19 @@ const TransactionContextProvider = ({ childern }) => {
   const [incomes,setIncomes]=useState([]);
   const [totalIncome,setTotalIncome]=useState(0);
 
+
+  // ALL DATA:::::::
+  const [allTransactions, setAllTransactions]= useState([]);
+  const [allExpenses, setAllExpenses]=useState([]);
+  const [allIncomes, setAllIncomes]=useState([]);
+
+  // CURRENT YEAR DATA 
+  const [thisYrTrans, setThisYrTrans]=useState([]);
+  const [thisYrEX,setThisYrEx]=useState([]);
+  const [thisYrIn,setThisYrIn]=useState([]);
+
+
+
   useEffect(() => {
     async function fetchUser() {
       await fetch("http://localhost:5000/usersdata/")
@@ -29,7 +42,39 @@ const TransactionContextProvider = ({ childern }) => {
         });
     }
     fetchUser();
-  }, [userId]);
+
+    async function getTransactions(){
+      if(!user) return console.log("User not found!!!!!");
+      
+      const altr= user?.transactions;
+      // console.log("all trasactions");
+      // console.log(altr);
+      
+      setAllTransactions(altr); //set all transactions...
+
+      // All Incomes ::::
+      const alin = altr.filter(t=>t.type=="income");
+      // console.log("all incomes");
+      // console.log(alin);
+      setAllIncomes(alin);
+
+      // All Expenses:::;
+      const alex = altr.filter(t=>t.type=="expense");
+      setAllExpenses(alex);
+      }
+    getTransactions()
+  }, [userId,allTransactions]); 
+
+  useMemo(()=>{
+    if(user === null) return console.log("user not found!!");
+    
+    const today = new Date();
+    const crYear= new Date(today.getFullYear(),0,1);
+    const crMonth = new Date(today.getFullYear(),today.getMonth(),1);
+    const week = today.getDate(-7);
+    const yeasterDay = today.getDate(-1);
+
+  },[allTransactions])
 
   useEffect(() => {
     console.log("user updated!!!", user);
