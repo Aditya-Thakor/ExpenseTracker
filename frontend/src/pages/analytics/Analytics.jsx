@@ -113,6 +113,22 @@ export default function Analytics() {
     }
   ]
 
+  // FILTER BUTTONS DATA::::
+    const filterBtns = [
+      {
+        name:"This week"
+      },
+      {
+        name:"1 Month", clickEvent:()=>setManualFilter(1)
+      },
+      {
+        name:"3 Month", clickEvent:()=>setManualFilter(3)
+      },
+      {
+        name:"6 Month", clickEvent:()=>setManualFilter(6)
+      },
+    ]
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
@@ -158,13 +174,11 @@ export default function Analytics() {
           <span>Time period : </span>
         </div>
         <div className="h-auto lg:h-full lg:w-[calc(100%-80px)] grid grid-cols-2 lg:grid-cols-5 gap-5  ">
-          {/* Add Navlink instead of btns.. */}
-          <FilterBtn name="This week" />
-          <FilterBtn name="1 Month" clickEvent={()=>setManualFilter(1)} />
-          <FilterBtn name="3 Month" clickEvent={()=>setManualFilter(3) }/>
-            
-          <FilterBtn name="6 Month" clickEvent={()=>setManualFilter(6)} />
-          {/* <FilterBtn name="1 Year" /> */}
+          {
+            filterBtns.map((fl,ind)=>(
+              <FilterBtn key={ind} name={fl.name} clickEvent={fl.clickEvent} />
+            ))
+          }
           <YearBtn/>
         </div>
       </div>
