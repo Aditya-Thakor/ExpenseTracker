@@ -23,34 +23,40 @@ import TransactionContext from "../../context/TransactionContext";
 // Main function-----------------------------------------------------------------
 export default function Profile() {
   const navigate = useNavigate();
-  const {lastMnExTotal,lastMnInTotal,crTotalEx,crTotalIn,currentMnInTotal,currentMnExTotal}= useContext(TransactionContext);
+  const {
+    lastMnExTotal,
+    lastMnInTotal,
+    crTotalEx,
+    crTotalIn,
+    currentMnInTotal,
+    currentMnExTotal,
+  } = useContext(TransactionContext);
 
   // const user = JSON.parse(localStorage.getItem("user"));
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
   // console.log(user)
-  
-  const [etUser,setEtUser]= useState(null);
+
+  const [etUser, setEtUser] = useState(null);
   const profile = etUser?.pfp;
   useEffect(() => {
-      async function fetchUser() {
-        await fetch("http://localhost:5000/usersdata/")
-          .then((res) => res.json())
-          .then((data) => {
-            let usr = data.find((i) => i._id === user._id);
-            // console.log(user);
-            setEtUser(usr);
-          })
-          .catch((error) => {
-            console.log("error at fetching userdata at dashboard", error);
-          });
-      }
-      fetchUser()
+    async function fetchUser() {
+      await fetch("http://localhost:5000/usersdata/")
+        .then((res) => res.json())
+        .then((data) => {
+          let usr = data.find((i) => i._id === user._id);
+          // console.log(user);
+          setEtUser(usr);
+        })
+        .catch((error) => {
+          console.log("error at fetching userdata at dashboard", error);
+        });
+    }
+    fetchUser();
+  }, []);
 
-    }, []);
+  console.log("et-", etUser);
 
-    console.log("et-",etUser);
-    
   // password hide&show ----------------------------------------------------
   const [hide, setHide] = useState(false);
   const showPassword = () => {
@@ -105,24 +111,74 @@ export default function Profile() {
     }
   };
 
-//---------------------------------------------------------------------  
+  //---------------------------------------------------------------------
 
-   const exState=()=>{
-   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
-  //  console.log("state---",state.toFixed(1));
-   return Number(state.toFixed(1));
-  } 
-  const inState=()=>{
-   let state = ((crTotalIn-lastMnInTotal)/lastMnInTotal)*100;
-   console.log("state---",state.toFixed(1));
-   return state.toFixed(1);
-  } 
-
-  const saving=()=>{
-    let state = ((currentMnInTotal-currentMnExTotal)/currentMnInTotal)*100
+  const exState = () => {
+    let state = ((crTotalEx - lastMnExTotal) / lastMnExTotal) * 100;
+    //  console.log("state---",state.toFixed(1));
     return Number(state.toFixed(1));
-  }
+  };
+  const inState = () => {
+    let state = ((crTotalIn - lastMnInTotal) / lastMnInTotal) * 100;
+    console.log("state---", state.toFixed(1));
+    return state.toFixed(1);
+  };
 
+  const saving = () => {
+    let state =
+      ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
+    return Number(state.toFixed(1));
+  };
+
+  // DATA CARD :::
+  const dataCards = [
+    {
+      name: "Total balance",
+      amount: crTotalIn - crTotalEx,
+      icon: i.transaction,
+      pr: "12.5",
+      prcolor: "#16A34A",
+    },
+    {
+      name: "Total expense",
+      amount: crTotalEx,
+      icon: i.expense,
+      pr: exState(),
+      prcolor: inState() > 0 ? "#DC2626" : "#16A34A", // DC2626-red || 16A34A-green
+      bgfrom: "#FEF2F2",
+      bgto: "#FFF7ED",
+      ibgfrom: "#EF4444",
+      ibgto: "#F97316",
+      border: "#FEE2E2",
+      shadow: "#FEE2E2",
+    },
+    {
+      name: "Total income",
+      amount: crTotalIn,
+      icon: i.income,
+      pr: inState(),
+      prcolor: inState() < 0 ? "#DC2626" : "#16A34A",
+      bgfrom: "#F0FDF4",
+      bgto: "#ECFDF5",
+      ibgfrom: "#22C55E",
+      ibgto: "#10B981",
+      border: "#DCFCE7",
+      shadow: "#DCFCE7",
+    },
+    {
+      name: "Saving this month",
+      amount: crTotalIn - crTotalEx,
+      icon: i.savingIcon,
+      pr: saving(),
+      prcolor: "#16A34A",
+      bgfrom: "#F0FDF4",
+      bgto: "#ECFDF5",
+      ibgfrom: "#22C55E",
+      ibgto: "#10B981",
+      border: "#DCFCE7",
+      shadow: "#DCFCE7",
+    },
+  ];
 
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
@@ -192,53 +248,22 @@ export default function Profile() {
       </div>
       {/* data cards */}
       <div className="h-auto w-full xl:h-32 rounded-xl grid grid-cols-2 xl:grid-cols-4 gap-4 ">
-        {/* <div className="h-full w-full bg-white border rounded-xl" >  </div> */}
-        <DataCard2
-          name="Total balance"
-          amount={crTotalIn-crTotalEx}
-          icon={i.transaction}
-          pr="12.5"
-          prcolor="#16A34A"
-        />
-        <DataCard2
-          name="Total expense"
-          amount={crTotalEx}
-          icon={i.expense}
-          pr={exState()}
-          prcolor={inState()>0?"#DC2626":"#16A34A"}   // DC2626-red || 16A34A-green
-          bgfrom="#FEF2F2"
-          bgto="#FFF7ED"
-          ibgfrom="#EF4444"
-          ibgto="#F97316"
-          border="#FEE2E2"
-          shadow="#FEE2E2"
-        />
-        <DataCard2
-          name="Total income"
-          amount={crTotalIn}
-          icon={i.income}
-          pr={inState()}
-          prcolor={inState()<0?"#DC2626":"#16A34A"}
-          bgfrom="#F0FDF4"
-          bgto="#ECFDF5"
-          ibgfrom="#22C55E"
-          ibgto="#10B981"
-          border="#DCFCE7"
-          shadow="#DCFCE7"
-        />
-        <DataCard2
-          name="Saving this month"
-          amount={crTotalIn-crTotalEx}
-          icon={i.savingIcon}
-          pr={saving()}
-          prcolor="#16A34A"
-          bgfrom="#F0FDF4"
-          bgto="#ECFDF5"
-          ibgfrom="#22C55E"
-          ibgto="#10B981"
-          border="#DCFCE7"
-          shadow="#DCFCE7"
-        />
+        {dataCards.map((d, ind) => (
+          <DataCard2
+            key={ind}
+            name={d.name}
+            amount={d.amount}
+            icon={d.icon}
+            pr={d.pr}
+            prcolor={d.prcolor}
+            bgfrom={d.bgfrom}
+            bgto={d.bgto}
+            ibgfrom={d.ibgfrom}
+            ibgto={d.ibgto}
+            border={d.border}
+            shadow={d.shadow}
+          />
+        ))}
       </div>
 
       {/*Account Details */}
@@ -260,17 +285,37 @@ export default function Profile() {
 
           {/* data */}
           <div className="h-auto grid grid-cols-3 lg:grid-cols-2 gap-5 lg:gap-10 ">
-
             <Userdata
               title="Full name"
-              data={etUser?.fullname || etUser?.username.toUpperCase() || "not available"}
+              data={
+                etUser?.fullname ||
+                etUser?.username.toUpperCase() ||
+                "not available"
+              }
             />
 
-            <Userdata title="Email address" data={etUser?.email || "not available"} />
-            <Userdata title="Address" data={etUser?.address?.at || etUser?.address?.city || "not available"} />
-            <Userdata title="State" data={etUser?.address?.state || "not available"} />
-            <Userdata title="Country" data={etUser?.address?.country || "not available"} />
-            <Userdata title="PIN" data={etUser?.address?.pincode || "not available"} />
+            <Userdata
+              title="Email address"
+              data={etUser?.email || "not available"}
+            />
+            <Userdata
+              title="Address"
+              data={
+                etUser?.address?.at || etUser?.address?.city || "not available"
+              }
+            />
+            <Userdata
+              title="State"
+              data={etUser?.address?.state || "not available"}
+            />
+            <Userdata
+              title="Country"
+              data={etUser?.address?.country || "not available"}
+            />
+            <Userdata
+              title="PIN"
+              data={etUser?.address?.pincode || "not available"}
+            />
           </div>
         </div>
         <div className="h-full w-full lg:w-2/5 rounded-xl p-5 flex flex-col gap-5 bg-white mb-20">
