@@ -180,6 +180,38 @@ export default function Profile() {
     },
   ];
 
+  // USER DATA:::
+
+  const userData = [
+    {
+      title:"Full name",
+      data:
+        etUser?.fullname ||
+        etUser?.username.toUpperCase() ||
+        "not available" 
+    },
+    {
+      title:"Email address",
+      data:etUser?.email || "not available"
+    },
+    {
+      title:"Address",
+      data:etUser?.address?.at || etUser?.address?.city || "not available"
+    },
+    {
+      title:"State",
+      data:etUser?.address?.state || "not available"
+    },
+    {
+      title:"Country",
+      data:etUser?.address?.country || "not available"
+    },
+    {
+      title:"PIN",
+      data:etUser?.address?.pincode || "not available"
+    },
+  ]
+
   return (
     <div className="h-auto w-full flex flex-col gap-4 p-5 ">
       {/* Heading */}
@@ -285,37 +317,14 @@ export default function Profile() {
 
           {/* data */}
           <div className="h-auto grid grid-cols-3 lg:grid-cols-2 gap-5 lg:gap-10 ">
-            <Userdata
-              title="Full name"
-              data={
-                etUser?.fullname ||
-                etUser?.username.toUpperCase() ||
-                "not available"
-              }
-            />
-
-            <Userdata
-              title="Email address"
-              data={etUser?.email || "not available"}
-            />
-            <Userdata
-              title="Address"
-              data={
-                etUser?.address?.at || etUser?.address?.city || "not available"
-              }
-            />
-            <Userdata
-              title="State"
-              data={etUser?.address?.state || "not available"}
-            />
-            <Userdata
-              title="Country"
-              data={etUser?.address?.country || "not available"}
-            />
-            <Userdata
-              title="PIN"
-              data={etUser?.address?.pincode || "not available"}
-            />
+           {
+            userData.map((u,ind)=>(
+              <Userdata
+                title={u.title}
+                data={u.data}
+              />
+            ))
+           } 
           </div>
         </div>
         <div className="h-full w-full lg:w-2/5 rounded-xl p-5 flex flex-col gap-5 bg-white mb-20">
