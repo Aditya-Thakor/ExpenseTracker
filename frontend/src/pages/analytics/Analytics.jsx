@@ -70,6 +70,49 @@ export default function Analytics() {
   //  console.log("state---",state.toFixed(1));
    return Number(state.toFixed(1));
   }
+
+  // SUMMARY CARDS OBJ..
+  const summaryCards = [
+    {
+      name:"This month's spending",
+      icon:i.aupWhite,
+      amount:`Rs. ${exTotal}`,
+      bgfrom:"#E7D1FF",
+      bgto:"#FAD6EB",
+      shadow:"#DFC2FF",
+      border:"#DFC2FF",
+      ibgfrom:"#A855F7",
+      ibgto:"#EC4899",
+      arrow:i.aupRed,
+      subtag:`${exState()}% from last month`
+    },
+    {
+      icon:i.calendar,
+      name:"Average Daily Expense",
+      amount:`Rs. ${dailyEx()}`,
+      bgfrom:"#CCE2FF",
+      bgto:"#CCFCFF",
+      border:"#C3DCFD",
+      shadow:"#C3DCFD",
+      ibgfrom:"#3B82F6",
+      ibgto:"#06B6D4",
+      subtag:"Based on current month"
+    },
+    {
+      icon:i.savingIcon,
+      name:"Saving rate",
+      amount:`${savingRate()} %`,
+      bgfrom:"#D2F9DE",
+      bgto:"#ACF6D3",
+      border:"#8EF5B2",
+      shadow:"#8EF5B2",
+      ibgfrom:"#22C55E",
+      ibgto:"#10B981",
+      save:`Rs. ${totalIncome - totalExpense}`,
+      subtag:"saved"
+    }
+  ]
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
@@ -88,44 +131,25 @@ export default function Analytics() {
       </div>
       {/* data card */}
       <div className="h-auto lg:h-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
-        <Datacard
-          icon={i.aupWhite}
-          name="This month's spending"
-          amount={`Rs. ${exTotal}`}
-          bgfrom="#E7D1FF"
-          bgto="#FAD6EB"
-          border="#DFC2FF"
-          shadow="#DFC2FF"
-          ibgfrom="#A855F7"
-          ibgto="#EC4899"
-          arrow={i.aupRed}
-          subtag={`${exState()}% from last month`}
-        />
-        <Datacard
-          icon={i.calendar}
-          name="Average Daily Expense"
-          amount={`Rs. ${dailyEx()}`}
-          bgfrom="#CCE2FF"
-          bgto="#CCFCFF"
-          border="#C3DCFD"
-          shadow="#C3DCFD"
-          ibgfrom="#3B82F6"
-          ibgto="#06B6D4"
-          subtag="Based on current month"
-        />
-        <Datacard
-          icon={i.savingIcon}
-          name="Saving rate"
-          amount={`${savingRate()} %`}
-          bgfrom="#D2F9DE"
-          bgto="#ACF6D3"
-          border="#8EF5B2"
-          shadow="#8EF5B2"
-          ibgfrom="#22C55E"
-          ibgto="#10B981"
-          save={`Rs. ${totalIncome - totalExpense}`}
-          subtag="saved"
-        />
+        {
+          summaryCards.map((cd,ind)=>(
+            <Datacard
+              key={ind}
+              icon={cd.icon}
+              name={cd.name}
+              amount={cd.amount}
+              bgfrom={cd.bgfrom}
+              bgto={cd.bgto}
+              border={cd.border}
+              shadow={cd.shadow}
+              ibgfrom={cd.ibgfrom}
+              ibgto={cd.ibgto}
+              arrow={cd.arrow}
+              subtag={cd.subtag}
+            />
+          ))
+        }
+        
       </div>
 
       {/* filter */}
