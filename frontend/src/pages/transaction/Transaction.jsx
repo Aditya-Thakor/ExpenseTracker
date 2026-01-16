@@ -142,6 +142,43 @@ export default function Transaction() {
     boxShadow: `0px 3px 10px rgba(59, 130, 246, 0.7)`,
   };
 
+  // DATA CARDS::::
+  const dataCards = [
+    {
+      name:"Total Expense",
+      amount:crTotalEx,
+      icon:i.expense,
+      bgfrom:"#F6D1D1",
+      bgto:"#F9DEC6",
+      border:"#F3BFBF",
+      shadow:"#F3BFBF",
+      ibgfrom:"#EF4444",
+      ibgto:"#F97316"
+    },
+    {
+      name:"Total Income",
+      amount:crTotalIn,
+      icon:i.income,
+      bgfrom:"#D2F9DE",
+      bgto:"#ACF6D3",
+      border:"#8EF5B2",
+      shadow:"#8EF5B2",
+      ibgfrom:"#22C55E",
+      ibgto:"#10B981"
+    },
+    {
+      name:"Net Balance",
+      amount:netBalance(),
+      icon:i.transaction,
+      bgfrom:"#CCE2FF",
+      bgto:"#CCFCFF",
+      border:"#C3DCFD",
+      shadow:"#C3DCFD",
+      ibgfrom:"#3B82F6",
+      ibgto:"#06B6D4"
+    }
+  ]
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 ">
       {/* heading */}
@@ -162,39 +199,22 @@ export default function Transaction() {
       {/* data cards */}
       <div className="h-auto lg:h-24 w-full grid grid-cols-1 lg:grid-cols-3 gap-4 ">
         {/* <div className="h-full w-full bg-white rounded-xl"></div> */}
-        <Datacard
-          name="Total Expense"
-          amount={crTotalEx}
-          icon={i.expense}
-          bgfrom="#F6D1D1"
-          bgto="#F9DEC6"
-          border="#F3BFBF"
-          shadow="#F3BFBF"
-          ibgfrom="#EF4444"
-          ibgto="#F97316"
-        />
-        <Datacard
-          name="Total Income"
-          amount={crTotalIn}
-          icon={i.income}
-          bgfrom="#D2F9DE"
-          bgto="#ACF6D3"
-          border="#8EF5B2"
-          shadow="#8EF5B2"
-          ibgfrom="#22C55E"
-          ibgto="#10B981"
-        />
-        <Datacard
-          name="Net Balance"
-          amount={netBalance()}
-          icon={i.transaction}
-          bgfrom="#CCE2FF"
-          bgto="#CCFCFF"
-          border="#C3DCFD"
-          shadow="#C3DCFD"
-          ibgfrom="#3B82F6"
-          ibgto="#06B6D4"
-        />
+      {
+        dataCards.map((d,ind)=>(
+          <Datacard
+              key={ind}
+              name={d.name}
+              amount={d.amount}
+              icon={d.icon}
+              bgfrom={d.bgfrom}
+              bgto={d.bgto}
+              border={d.border}
+              shadow={d.shadow}
+              ibgfrom={d.ibgfrom}
+              ibgto={d.ibgto}
+          />
+        ))
+      } 
       </div>
 
       {/* data filtering  */}
