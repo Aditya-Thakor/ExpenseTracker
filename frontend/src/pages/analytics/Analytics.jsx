@@ -129,6 +129,26 @@ export default function Analytics() {
       },
     ]
 
+
+  // CHART CARDS DATA:::
+  const chartCardData = [
+    {
+      title:"Income vs Expenses Trend",
+      subtag:"Last  6 months overview",
+      chart:<InEx />
+    },
+    {
+      title:"Expense by Category",
+      subtag:"Current month distribution",
+      chart:<CategoryPieChart  />
+    },
+    {
+      title:"Monthly Spending Pattern",
+      subtag:"Expense trend over time",
+      chart:<Barchart  />
+    },
+  ]
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
@@ -185,21 +205,15 @@ export default function Analytics() {
 
       {/* charts */}
       <div className="h-auto lg:h-screen  w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mb-32">
-        <ChartCard
-          title="Income vs Expenses Trend"
-          subtag="Last  6 months overview"
-          chart={<InEx />}
-        />
-        <ChartCard
-          title="Expense by Category"
-          subtag="Current month distribution"
-          chart={<CategoryPieChart />}
-        />
-        <ChartCard
-          title="Monthly Spending Pattern"
-          subtag="Expense trend over time"
-          chart={<Barchart />}
-        />
+        {
+          chartCardData.map((ch,ind)=>(
+            <ChartCard
+              key={ind}
+              title={ch.title}
+              subtag={ch.subtag}
+              chart={ch.chart}/>
+          ))
+        } 
 
         <div className="h-auto lg:h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
           <div className="h-[15%] w-full flex flex-col">
