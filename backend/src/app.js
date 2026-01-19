@@ -332,8 +332,9 @@ app.post("/analytics/report/export-report", upload.none(), async (req, res) => {
       //fs.unlinkSync(filePath); // cleanup
     });
     path.join(__dirname, "report.xls");
-  res.send();
-  res.end();
+  // res.send();
+  // res.end(); 
+  //  now, file downloaded successfully!!! but 1. we need the file in backend first!! thn we can download the file. 2. when we redownload the file, old data also comes with new data.
 });
 
 app.get("/analytics/report/export-report", async (req, res) => {
