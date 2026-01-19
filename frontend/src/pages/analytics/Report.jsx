@@ -109,7 +109,15 @@ export default function Report() {
         method:"post",
         body: formdata
       })
-      console.log(await r.text());  
+      console.log("report response");
+      const blob = await r.blob();
+      const url = window.URL.createObjectURL(blob);
+      console.log(url);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'users.xls';
+      a.click();
+      console.log(blob);  
     }
     //  if(tr.length>0){
     //  const r =  await fetch("http://localhost:5000/analytics/report/export-report",{

@@ -309,7 +309,30 @@ app.post("/analytics/report/export-report", upload.none(), async (req, res) => {
       });
     }
   );
+  // res.setHeader(
+  //   'Content-Type',
+  //   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  // );
+  // res.setHeader(
+  //   'Content-Disposition',
+  //   'attachment;filename=report.xls'
+  // );
 
+  res.setHeader(
+      "Content-Type",
+      "application/vnd.ms-excel"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=report.xls"
+    );
+    const filePath="report.xls";
+    res.download(filePath, "report.xls", (err) => {
+      if (err) console.error("Download error:", err);
+      //fs.unlinkSync(filePath); // cleanup
+    });
+    path.join(__dirname, "report.xls");
+  res.send();
   res.end();
 });
 
