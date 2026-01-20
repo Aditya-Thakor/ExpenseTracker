@@ -111,6 +111,15 @@ export default function Report() {
       })
       console.log("report response");
       const blob = await r.blob();
+      // if(blob){
+      //     const url = window.URL.createObjectURL(blob);
+      //     console.log(url);
+      //     const a = document.createElement('a');
+      //     a.href = url;
+      //     a.download = 'users.xls';
+      //     a.click();
+      //     console.log(blob);  
+      // }
       const url = window.URL.createObjectURL(blob);
       console.log(url);
       const a = document.createElement('a');
