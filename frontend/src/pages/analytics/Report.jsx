@@ -94,7 +94,7 @@ export default function Report() {
     // console.log("extt-",ext);
   }, [tr, from, to]);
 
-  /* SEND TRANSACTIONS */
+  /* SEND TRANSACTIONS */ 
   const sendTr = async()=>{
     if (tr.length>0) {
       // console.log("sorted Transactions :")
@@ -120,11 +120,28 @@ export default function Report() {
       //     a.click();
       //     console.log(blob);  
       // }
+      const fromDate = ()=>{
+          let fm = new Date(from);
+          let day = fm.getDay();
+          let month = fm.getMonth()+1;
+          let year = fm.getFullYear();
+
+          return `${day}_${month}_${year}` 
+      }
+      const toDate = ()=>{
+          let t = new Date(to);
+          let day = t.getDay();
+          let month = t.getMonth()+1;
+          let year = t.getFullYear();
+
+          return `${day}_${month}_${year}` 
+      }
       const url = window.URL.createObjectURL(blob);
       console.log(url);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'users.xls';
+        
+      a.download ="transaction_report –"+ fromDate()+ " TO " +toDate()+'.xls';
       a.click();
       console.log(blob);  
     }

@@ -1,10 +1,13 @@
+
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./db/index");
 const multer = require("multer");
 const path = require("path");
+const promise = require("fs/promises");
 const fs = require("fs");
 const { ObjectId } = require("mongodb");
+const { totalmem } = require("os");
 const app = express();
 const upload = multer();
 const port = 5000;
@@ -265,152 +268,107 @@ app.get("/categories", async (req, res) => {
 
 // Export Data
 ////////////////////////////////////////////////
-const createFile = async(d,rdata)=>{
- const userTransactions = d[0].transactions;
-  // console.log(userTransactions);
+
+
+
+const createFile = async (d, rdata) => {
+  const userTransactions = d[0].transactions;
+
   const trReport = userTransactions.filter((t) =>
-    rdata.from.length > 0
+    rdata.from?.length > 0
       ? new Date(t.date) <= new Date(rdata.to) &&
         new Date(t.date) >= new Date(rdata.from)
       : new Date(t.date) <= new Date(rdata.to)
   );
-  // const trReport = userTransactions.filter((t)=> t.date.slice(0,10) <= rdata.to && t.date.slice(0,10) >= rdata.from)
-  // console.log(trReport);
-//  fs.writeFile("report.xls",'');
- 
-    const filePath= path.join(__dirname, "report.xls");
-//  path.join(__dirname, "report.xls");
-//     const filePath= "report.xls";
-fs.writeFile(filePath, '', (err) => {
-  if (err) throw err;
-  console.log('File content cleared!');
-});
-  fs.appendFile(
-    "report.xls",
-    "Date \tDescription \tClass \tAmount\n",
-    (error) => {
-      if (error) return console.log("Error at creating the file!!", error);
-      console.log("File created Successfully!!!");
-      trReport.forEach((element) =>  {
-        fs.appendFile(
-          "report.xls",
-          `${element.date} \t${element.description} \t${
-            element.type == "expense" ? element.category : element.incomeFrom
-          } \t${element.amount}\n`,
-          (error) => {
-            if (error)
-              return console.log("Error at creating the file!!", error);
-            console.log("File created Successfully!!!");
-          }
-        );
-      });
-    }
+
+  const filePath = path.join(__dirname, "report.xls");
+
+  console.log("function start");
+
+  // 1️⃣ Clear old file content
+  await promise.writeFile(filePath, "");
+
+  // 2️⃣ Write header
+  await promise.appendFile(
+    filePath,
+    "Date\tDescription\tClass\tExpense\tIncome\n"
   );
-}
-
-app.post("/analytics/report/export-report", upload.none(), async (req, res) => {
-  const rdata = req.body;
-  // console.log("userdata",rdata);
-
-  const db = await connectDB();
-  const data = await db.collection("usersdata").find().toArray();
-  var d = data.filter((t) => t._id == rdata.userid);
-  // console.log("user report ");
-  // console.log(d[0]);
-
-  await createFile(d,rdata);  
-    ///////////
-  console.log("report-data");
-  // console.log(d[0].transactions);
-//   const userTransactions = d[0].transactions;
-//   // console.log(userTransactions);
-//   const trReport =await userTransactions.filter((t) =>
-//     rdata.from.length > 0
-//       ? new Date(t.date) <= new Date(rdata.to) &&
-//         new Date(t.date) >= new Date(rdata.from)
-//       : new Date(t.date) <= new Date(rdata.to)
-//   );
-//   // const trReport = userTransactions.filter((t)=> t.date.slice(0,10) <= rdata.to && t.date.slice(0,10) >= rdata.from)
-//   // console.log(trReport);
-// //  fs.writeFile("report.xls",'');
-//  path.join(__dirname, "report.xls");
-//     const filePath= "report.xls";
-// fs.writeFile(filePath, '', (err) => {
-//   if (err) throw err;
-//   console.log('File content cleared!');
-// });
-//   fs.appendFile(
-//     "report.xls",
-//     "Date \tDescription \tClass \tAmount\n",
-//     (error) => {
-//       if (error) return console.log("Error at creating the file!!", error);
-//       console.log("File created Successfully!!!");
-//       trReport.forEach((element) =>  {
-//         fs.appendFile(
-//           "report.xls",
-//           `${element.date} \t${element.description} \t${
-//             element.type == "expense" ? element.category : element.incomeFrom
-//           } \t${element.amount}\n`,
-//           (error) => {
-//             if (error)
-//               return console.log("Error at creating the file!!", error);
-//             console.log("File created Successfully!!!");
-//           }
-//         );
-//       });
-//     }
-//   );
-  // res.setHeader(
-  //   'Content-Type',
-  //   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  // );
-  // res.setHeader(
-  //   'Content-Disposition',
-  //   'attachment;filename=report.xls'
-  // );
-
-  try {
-    if (res) {   
-      // res.setHeader(
-      // "Content-Type",
-      // "application/vnd.ms-excel"
-      // );
-      // res.setHeader(
-      //     "Content-Disposition",
-      //     "attachment; filename=report.xls"
-      //   );
-      // const filePath = "report.xls";
-      const filePath= path.join(__dirname, "report.xls");
-        res.download(filePath, "report.xls", (err) => {
-          if (err) console.error("Download error:", err);
-          //fs.unlinkSync(filePath); // cleanup
-        });
-    }     
-
-  } catch (error) {
-    console.log("error at downloading the report file...",error);
-    
+  totalIncome=0;
+  totalExpense=0;
+  // 3️⃣ Write rows (WAIT PROPERLY)
+  for (const element of trReport) {
+    if(element.type==="income")
+    {
+      totalIncome += element.amount;
+    }
+    else{
+      totalExpense += element.amount;
+    }
+    await promise.appendFile(
+      filePath,
+      `${element.date}\t${element.description}\t${
+        element.type === "expense"
+          ? element.category
+          : element.incomeFrom
+      }\t${
+        element.type === "expense"
+          ? element.amount
+          : 0
+      }\t${
+        element.type === "income"
+          ? element.amount
+          : 0
+      }\n`
+    );
   }
 
-  // res.setHeader(
-  //     "Content-Type",
-  //     "application/vnd.ms-excel"
-  //   );
-  //  res.setHeader(
-  //     "Content-Disposition",
-  //     "attachment; filename=report.xls"
-  //   );
-  //  const filePath = "report.xls";
-  //   res.download(filePath, "report.xls", (err) => {
-  //     if (err) console.error("Download error:", err);
-  //     //fs.unlinkSync(filePath); // cleanup
-  //   });
-  //   path.join(__dirname, "report.xls");
-  // res.send();
-  // res.end(); 
+  await promise.appendFile(
+    filePath,
+    "\n\n\n"
+  );
+  await promise.appendFile(
+    filePath,
+    "Summary"
+  );
+  await promise.appendFile(
+    filePath,
+    `\t\t\t${totalExpense}\t${totalIncome}\n`
+  );
 
-  //  now, file downloaded successfully!!! but 1. we need the file in backend first!! thn we can download the file. 2. when we redownload the file, old data also comes with new data.
+  console.log("Total Income:- ",totalIncome);
+  console.log("Total Expense:- ",totalExpense);
+  console.log("File created successfully");
+
+  return filePath;
+};
+
+app.post("/analytics/report/export-report", upload.none(), async (req, res) => {
+  try {
+    const rdata = req.body;
+
+    const db = await connectDB();
+    const data = await db.collection("usersdata").find().toArray();
+    const d = data.filter((t) => t._id == rdata.userid);
+
+    // 1️⃣ Create file and WAIT
+    const filePath = await createFile(d, rdata);
+
+    console.log("report-data");
+
+    // 2️⃣ Download after file is ready
+    res.download(filePath, "report.xls", (err) => {
+      if (err) {
+        console.error("Download error:", err);
+        return res.status(500).send("Download failed");
+      }
+    });
+
+  } catch (error) {
+    console.error("Export error:", error);
+    res.status(500).send("Server error");
+  }
 });
+
 
 app.get("/analytics/report/export-report", async (req, res) => {
   res.send("getting data");
