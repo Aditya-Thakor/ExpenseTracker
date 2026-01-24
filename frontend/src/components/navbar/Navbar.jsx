@@ -17,15 +17,15 @@ const Navbar = () => {
   
 
   return (
-    <div className="h-20 w-full z-10 lg:z-auto fixed bottom-0 lg:static  lg:h-auto lg:w-20  bg-white  ">
-      <div className="h-full w-full  flex lg:flex-col items-center justify-center lg:justify-between  py-5 px-7 lg:px-0 lg:border-r ">
+    <div className="h-20 w-full z-30 lg:z-auto fixed bottom-0 xl:static  xl:h-auto xl:w-20  bg-white  ">
+      <div className="h-full w-full  flex xl:flex-col items-center justify-center lg:justify-between  py-5 px-7 xl:px-0 xl:border-r ">
         {/* Logo */}
-        <div className="h-14 w-14 fixed hidden lg:flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
+        <div className="h-14 w-14 fixed hidden xl:flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
           <img src={icons.logo} alt="logo" className="size-10" />
         </div>
         {/* NavLinks */}
-        <div className="h-full w-full lg:w-auto lg:fixed lg:top-40">
-            <div className="flex lg:flex-col items-center justify-between gap-3 text-slate-300">
+        <div className="h-full w-full xl:w-auto xl:fixed xl:top-40">
+            <div className="flex xl:flex-col items-center justify-between gap-3 text-slate-300">
           <NavLink 
             to=""
             className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
@@ -76,7 +76,7 @@ const Navbar = () => {
         
 
         {/* Add Transaction & LogOut */}
-        <div className="hidden lg:flex flex-col gap-3 items-center fixed bottom-0">
+        <div className="hidden xl:flex flex-col gap-3 items-center fixed bottom-0">
           <span 
             className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
             onClick={()=>setShowmodal(true)}
@@ -102,7 +102,7 @@ const Navbar = () => {
 
 const Plusbtn = ()=>{
   return(
-    <div className="size-12 absolute -top-14 right-7 lg:hidden">
+    <div className="size-12 absolute -top-14 right-7 xl:hidden">
       <span 
             className="h-full w-full flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
             onClick={()=>setShowmodal(true)}
