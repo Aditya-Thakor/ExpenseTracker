@@ -264,7 +264,7 @@ export default function Category() {
   // },[search])
 
   return (
-    <div className="h-auto w-full flex flex-col gap-5 p-5 ">
+    <div className="h-auto sm:min-h-screen w-full flex flex-col gap-5 p-5 ">
       <Heading
         title="Categories"
         tagline="Manage and track your expense categories"
