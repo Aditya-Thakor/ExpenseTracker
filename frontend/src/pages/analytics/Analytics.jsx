@@ -150,7 +150,7 @@ export default function Analytics() {
   ]
 
   return (
-    <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
+    <div className="h-auto md:min-h-screen w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
       <div className="flex lg:justify-between justify-end">
         <Heading
@@ -204,7 +204,7 @@ export default function Analytics() {
       </div>
 
       {/* charts */}
-      <div className="h-auto lg:h-screen  w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mb-32">
+      <div className="h-auto xl:h-screen  w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mb-32">
         {
           chartCardData.map((ch,ind)=>(
             <ChartCard
