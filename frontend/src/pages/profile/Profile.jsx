@@ -213,7 +213,7 @@ export default function Profile() {
   ]
 
   return (
-    <div className="h-auto w-full flex flex-col gap-4 p-5 ">
+    <div className="h-auto md:min-h-screen w-full flex flex-col gap-4 p-5 ">
       {/* Heading */}
       <Heading
         title="Profile"
