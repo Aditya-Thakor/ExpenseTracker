@@ -251,9 +251,9 @@ export default function Report() {
           </tbody>
         </table>
 
-        {/* SUMMERY CARD */}
+        {/* SUMMARY CARD */}
         <div className="h-auto w-full  sm:max-w-lg sm:w-1/2 ml-auto bg-white text-neutral-800 font-lato p-5 mb-10 border border-dashed border-blue-300 shadow-lg">
-          <h3 className="font-semibold text-lg sm:text-xl mb-3">Summery</h3>
+          <h3 className="font-semibold text-lg sm:text-xl mb-3">Summary</h3>
           <div className="h-full w-full flex flex-col  text-xs sm:text-sm">
             <div className="flex items-center justify-between">
               <span>Total Income :- </span>
