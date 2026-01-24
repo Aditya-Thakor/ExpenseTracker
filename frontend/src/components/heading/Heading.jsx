@@ -9,7 +9,7 @@ export default function Heading({title,tagline}) {
         <span className="text-gray-500 text-xs">
           {tagline}
         </span>
-        <h2 style={{color:clr}}>Demo Text</h2>
+        {/* <h2 style={{color:clr}}>Demo Text</h2> */}
       </div>
     )
 }
