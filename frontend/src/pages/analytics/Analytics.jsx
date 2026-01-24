@@ -10,7 +10,7 @@ import TransactionContext from "../../context/TransactionContext";
 import { Link } from "react-router-dom";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense,crTotalEx, lastMnExTotal} =
+  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense,crTotalEx, lastMnExTotal,currentMnInTotal,currentMnExTotal} =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
@@ -33,7 +33,7 @@ export default function Analytics() {
   //  dailyEx();
 
   const savingRate = () => {
-    const sr = ((totalIncome - totalExpense) / totalIncome) * 100;
+    const sr = ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
     // console.log(sr.toFixed(2));
     // console.log("saving rate",Math.floor(sr).toFixed(2));
     return sr.toFixed(2);
