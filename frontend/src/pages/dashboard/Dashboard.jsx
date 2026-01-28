@@ -171,7 +171,7 @@ export default function Dashboard() {
               Top expenses in category
             </span>
             <span
-              className="text-sm py-0.5 px-2 cursor-pointer text-blue-500 hover:bg-blue-500 hover:text-white hover:rounded-xl transition-all ease-in-out"
+              className="text-xs py-1 px-2 cursor-pointer text-blue-500 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-cyan-400 hover:text-white hover:rounded-xl transition-all ease-in-out"
               onClick={() => navigate("/category")}
             >
               View all
