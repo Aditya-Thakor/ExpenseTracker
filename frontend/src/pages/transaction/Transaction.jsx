@@ -188,7 +188,7 @@ export default function Transaction() {
           tagline="Track and manage all your transactions"
         />
         <button
-          className=" h-min hidden lg:flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB]  "
+          className=" h-min hidden lg:flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#25baeb]  "
           style={styles}
           onClick={() => setShowmodal(true)}
         >
