@@ -47,7 +47,7 @@ const Navbar = () => {
         </div>
         {/* NavLinks */}
         <div className="h-full w-full xl:w-auto xl:fixed xl:top-40">
-            <div className="flex xl:flex-col items-center justify-between gap-3 text-slate-400 ">
+            <div className="flex xl:flex-col items-center justify-between gap-3 text-slate-400/80 ">
           {//bg-[#3B82F6]
             navLinks.map((n,ind)=>(
               <NavLink 
