@@ -13,7 +13,7 @@ import {
 import AddTransactionModal from "../addTransactions/modelDemoz/D1";
 
 const Navbar = () => {
-  const [showmodal,setShowmodal]= useState(false)
+  const [showmodal,setShowmodal]= useState(false);
   
 
   return (
@@ -78,10 +78,10 @@ const Navbar = () => {
         {/* Add Transaction & LogOut */}
         <div className="hidden xl:flex flex-col gap-3 items-center fixed bottom-0">
           <span 
-            className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
+            className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-600 to-cyan-400 shadow-black/40 text-white active:scale-90"
             onClick={()=>setShowmodal(true)}
           >
-            <Plus className="size-6 "/>
+            <Plus className="size-7 "/>
           </span>
           <Link
             to='signin'
@@ -104,10 +104,10 @@ const Plusbtn = ()=>{
   return(
     <div className="size-12 absolute -top-14 right-7 xl:hidden">
       <span 
-            className="h-full w-full flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
+            className="h-full w-full flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-400 shadow-black/40 text-white active:scale-90"
             onClick={()=>setShowmodal(true)}
           >
-            <Plus className="size-6 "/>
+            <Plus className="size-7 "/>
           </span>
     </div>
   )
