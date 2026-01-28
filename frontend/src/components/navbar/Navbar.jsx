@@ -15,6 +15,28 @@ import AddTransactionModal from "../addTransactions/modelDemoz/D1";
 const Navbar = () => {
   const [showmodal,setShowmodal]= useState(false);
   
+  const navLinks=[
+    {
+      to:'',
+      icon:<LayoutDashboard />
+    },
+    {
+      to:'category',
+      icon:<Grid3x3 />
+    },
+    {
+      to:'transaction',
+      icon:<Wallet />
+    },
+    {
+      to:'analytics',
+      icon:<ChartColumn />
+    },
+    {
+      to:'profile',
+      icon:<UserRound />
+    },
+  ]
 
   return (
     <div className="h-20 w-full z-50 lg:z-auto fixed bottom-0 xl:static  xl:h-auto xl:w-20  bg-white  ">
@@ -25,52 +47,21 @@ const Navbar = () => {
         </div>
         {/* NavLinks */}
         <div className="h-full w-full xl:w-auto xl:fixed xl:top-40">
-            <div className="flex xl:flex-col items-center justify-between gap-3 text-slate-300">
-          <NavLink 
-            to=""
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <LayoutDashboard />
-          </NavLink>
-          <NavLink 
-            to="category"
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <Grid3x3 />
-          </NavLink>
-          <NavLink 
-            to='transaction'
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <Wallet />
-          </NavLink>
-          <NavLink 
-            to='analytics'
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <ChartColumn />
-          </NavLink>
-          <NavLink 
-            to='profile'
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <UserRound />
-          </NavLink>
+            <div className="flex xl:flex-col items-center justify-between gap-3 text-slate-400 ">
+          {//bg-[#3B82F6]
+            navLinks.map((n,ind)=>(
+              <NavLink 
+                key={ind}
+                to={n.to}
+                className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
+                ${isActive? 
+                "bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)] transition-all ease-in size-[2.70rem]": 
+                "bg-transparent  hover:bg-blue-100/80 hover:text-gray-600"} 
+                `}>
+                 {n.icon}
+              </NavLink>
+            ))
+          }
         </div>
         </div>
         
