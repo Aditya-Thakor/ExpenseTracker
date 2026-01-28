@@ -145,9 +145,9 @@ export default function Dashboard() {
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 font-lato">
       <div className="h-auto hidden sm:block">
-        <h1 className="text-gray-800 text-2xl font-bold">Dashboard</h1>
+        <h1 className="bg-clip-text bg-gradient-to-b from-neutral-900 to-neutral-400 text-transparent text-2xl font-bold">Dashboard</h1>
         {/* <h2>{n}{tex}</h2> */}
-        <span className="text-gray-500 text-xs">
+        <span className="text-gray-500/70 text-xs">
           Welcome! here is your financial overview
         </span>
       </div>
