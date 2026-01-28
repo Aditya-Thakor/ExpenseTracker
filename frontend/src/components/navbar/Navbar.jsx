@@ -55,7 +55,7 @@ const Navbar = () => {
                 to={n.to}
                 className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
                 ${isActive? 
-                "bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)] transition-all ease-in size-[2.70rem]": 
+                "bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)] transition ease-in size-[2.70rem]": 
                 "bg-transparent  hover:bg-blue-100/80 hover:text-gray-600"} 
                 `}>
                  {n.icon}
