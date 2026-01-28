@@ -20,8 +20,8 @@ const Navbar = () => {
     <div className="h-20 w-full z-50 lg:z-auto fixed bottom-0 xl:static  xl:h-auto xl:w-20  bg-white  ">
       <div className="h-full w-full  flex xl:flex-col items-center justify-center lg:justify-between  py-5 px-7 xl:px-0 xl:border-r ">
         {/* Logo */}
-        <div className="h-14 w-14 fixed hidden xl:flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
-          <img src={icons.logo} alt="logo" className="size-10" />
+        <div className="h-14 w-14 fixed hidden xl:flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-500">
+          <img src={icons.logo} alt="logo" className="size-9" />
         </div>
         {/* NavLinks */}
         <div className="h-full w-full xl:w-auto xl:fixed xl:top-40">
