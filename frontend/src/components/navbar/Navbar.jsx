@@ -42,7 +42,7 @@ const Navbar = () => {
     <div className="h-20 w-full sm:max-w-lg sm:mx-auto xl:mx-0 z-50 xl:z-auto fixed bottom-0 sm:bottom-4 sm:inset-x-2 xl:inset-x-0 xl:static  xl:h-auto xl:w-20  bg-white sm:rounded-3xl xl:rounded-none sm:shadow-md sm:shadow-blue-300/80 border-t xl:border-t-0 border-t-blue-300 xl:shadow-none sm:px-5 xl:px-0 transition-all duration-500 ease-in-out ">
       <div className="h-full w-full  flex xl:flex-col items-center justify-center lg:justify-between  py-5 px-7 xl:px-0 xl:border-r xl:border-r-blue-100 ">
         {/* Logo */}
-        <div className="h-14 w-14 fixed hidden xl:flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-500">
+        <div className="h-14 w-14 fixed hidden xl:flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-400">
           <img src={icons.logo} alt="logo" className="size-9" />
         </div>
         {/* NavLinks */}
