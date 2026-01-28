@@ -1,10 +1,14 @@
 import { EllipsisVertical, NotebookPen, Trash2 } from "lucide-react";
 import { useState } from "react";
+import DeleteModal from "../modals/deleteModal/DeleteModal";
+import EditModal from "../modals/editModal/EditModal";
 
 export default function TransactionCard({type,icon, tag, date, amount,bg, category="Other"}) {
 
   const [hidden,setHidden]= useState(false);
-  
+  const [showDeleteModal,setShowDeleteMdl]=useState(false);
+  const [showEditModal, setShowEditMdl]=useState(false);
+
   return (
     <div 
         className={`h-auto max-h-20 w-full flex justify-between items-center px-5 py-3 rounded-xl border shadow-sm
@@ -42,16 +46,22 @@ export default function TransactionCard({type,icon, tag, date, amount,bg, catego
         />
         {
           hidden? <div className="h-10 w-20 absolute flex justify-center items-center gap-3 -top-10 right-3 bg-white border rounded-xl transition-all ease-in-out">
-              <NotebookPen className="size-5 text-gray-400 hover:text-blue-600 hover:fill-blue-100 cursor-pointer" />
+              <NotebookPen 
+                className="size-5 text-gray-400 hover:text-blue-600 hover:fill-blue-100 cursor-pointer" 
+                onClick={()=>setShowEditMdl(true)}
+              />
               <Trash2 
                 className="size-5 text-gray-400 hover:text-red-600 cursor-pointer " 
-                onClick={()=>alert("Are you sure you want to delete this??")}
+                onClick={()=>setShowDeleteMdl(true)}
               />
               
           </div> : ''
         }
-          
+        <DeleteModal open={showDeleteModal} onClose={()=>setShowDeleteMdl(false)}/>
+        <EditModal open={showEditModal} onClose={()=>setShowEditMdl(false)} />
       </div>
+      
     </div>
   );
 }
+
