@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -16,6 +16,9 @@ export default function MonthlyExpenseBarChart() {
   const {monthlyExpense}= useContext(TransactionContext);
   const chartRef = useRef();
   const [gradient, setGradient] = useState(null);
+  // console.log("monthly-expense:")
+  // console.log(monthlyExpense)
+  const [thisMnEx,setThisMnEx]=useState([]);
 
   const expenses = [
     45000, 72000, 38000, 90000, 67000, 82000,
@@ -36,6 +39,20 @@ export default function MonthlyExpenseBarChart() {
     setGradient(g);
   }, []);
 
+  useMemo(()=>{
+    const mn = monthlyExpense.reduce((mn, t) => {
+      const month = t.month;
+      mn[month] = (mn[month] || 0) + t.total;
+      return mn;
+    }, {});
+
+    const sortMn = Object.entries(mn).sort();
+    const mnArr= sortMn.map((mn)=>({month:mn[0],total:mn[1]}));
+
+    setThisMnEx(mnArr)
+
+  },[monthlyExpense])
+
   const data = {
     labels: [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -45,7 +62,8 @@ export default function MonthlyExpenseBarChart() {
       {
         label: "Monthly Expenses",
         // data: expenses,
-        data:monthlyExpense.map(e=>e.total),
+        // data:monthlyExpense.map(e=>e.total),
+        data:thisMnEx.map(e=>e.total),
         backgroundColor: gradient || "#3B82F6",
         borderRadius: 5,
         borderSkipped: false, 
