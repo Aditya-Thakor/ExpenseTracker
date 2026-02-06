@@ -17,7 +17,7 @@ export default function Dashboard() {
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const { transactions, lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,totalExpense } =
+  const { transactions, lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,totalExpense,currentMnInTotal } =
     useContext(TransactionContext);
 
     const [inTotal,setInTotal]= useState(0);
@@ -25,7 +25,7 @@ export default function Dashboard() {
 // console.log("this month exxx");
 // console.log(monthlyExpense);
 // console.log('----------');
-// console.log(crntMnCate);
+// console.log(crTotalIn);
 
     useMemo(()=>{
       let int= monthlyIncome.reduce((sum,num)=> { return sum+Number(num.total)},0 )
@@ -161,7 +161,8 @@ export default function Dashboard() {
         />
         <DataCard
           type="Income"
-          amount={inTotal}
+          // amount={inTotal}
+          amount={currentMnInTotal}
           stats={`${inState()}% from last month`}
         />
         </div>
