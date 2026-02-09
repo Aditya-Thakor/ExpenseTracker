@@ -229,6 +229,37 @@ app.get("/usersdata/transactions", async (req, res) => {
   res.end();
 });
 
+//Delete transactions::
+app.post("/transactions/delete", async(req,res)=>{
+  // console.log(req.body)
+  try {
+    const {id,userId} = req.body;
+
+    const db = await connectDB();
+    const userData =  db.collection("usersdata")
+
+    const deleteTr = await userData.updateOne(
+      {_id: new ObjectId(userId)},
+      {
+        $pull: {
+          transactions:{_id : new ObjectId(id)}
+        }
+      }
+    );
+
+    if(deleteTr.modifiedCount===0){
+       return res.status(404).json({ message: "Transaction not found" });
+    }
+    res.status(200).json({
+      message:"Transaction deleted.."
+    });
+
+  } catch (error) {
+    console.log("error at deleting transaction ::: ",error);    
+  }
+  
+})
+
 // Category
 
 app.post("/category/addcategory", upload.none(), async (req, res) => {

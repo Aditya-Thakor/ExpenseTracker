@@ -96,7 +96,7 @@ export default function Transaction() {
           t.description.toLowerCase().includes(search)
         );
         allData = f33;
-        console.log(f33);
+        // console.log(f33);
 
         setFilterdTr(allData);
       }
@@ -127,6 +127,8 @@ export default function Transaction() {
     if (!tr) return;
     return (
       <TransactionCard
+        key={tr._id}
+        trId={tr._id}
         icon={i[tr.type]}
         tag={tr.description}
         date={tr.date.replace("T00:00:00.000Z", "")}
@@ -291,12 +293,13 @@ export default function Transaction() {
         {!filteredTr 
           ? recentTransactions.map((tr) => (
               <TransactionCard
+                key={tr._id}
                 icon={i[tr.type]}
                 tag={tr.description}
                 date={tr.date.replace("T00:00:00.000Z", "")}
                 amount={tr.amount}
                 type={tr.type}
-                key={tr._id}
+                trId={tr._id}
                 bg="whitebg"
                 category={tr.type === "expense" ? tr.category : tr.incomeFrom}
               />

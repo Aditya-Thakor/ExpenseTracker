@@ -1,13 +1,40 @@
-import { EllipsisVertical, NotebookPen, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { EllipsisVertical, Key, NotebookPen, Trash2 } from "lucide-react";
+import { useContext, useState } from "react";
 import DeleteModal from "../modals/deleteModal/DeleteModal";
 import EditModal from "../modals/editModal/EditModal";
+import TransactionContext from "../../context/TransactionContext";
 
-export default function TransactionCard({type,icon, tag, date, amount,bg, category="Other"}) {
+export default function TransactionCard({trId,type,icon, tag, date, amount,bg, category="Other"}) {
 
   const [hidden,setHidden]= useState(false);
   const [showDeleteModal,setShowDeleteMdl]=useState(false);
   const [showEditModal, setShowEditMdl]=useState(false);
+
+  const {user} =useContext(TransactionContext);
+ 
+  const deleteTransaction=async()=>{
+    console.log('transaction id is:::')
+    console.log(trId);
+    try {
+     const deleteTr= await fetch('http://localhost:5000/transactions/delete',{
+        method:"post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: trId , userId:user._id})
+      })
+      const msg= await deleteTr.json();
+      console.log(msg);
+      
+      if (deleteTr.ok) {
+        setShowDeleteMdl(false)
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("Error at deleting transaction:::",error);
+      setShowDeleteMdl(false)
+    }
+  }
 
   return (
     <div 
@@ -53,11 +80,13 @@ export default function TransactionCard({type,icon, tag, date, amount,bg, catego
               <Trash2 
                 className="size-5 text-gray-400 hover:text-red-600 cursor-pointer " 
                 onClick={()=>setShowDeleteMdl(true)}
+               
               />
               
           </div> : ''
         }
-        <DeleteModal open={showDeleteModal} onClose={()=>setShowDeleteMdl(false)}/>
+        {/* <DeleteModal open={showDeleteModal} onClose={()=>setShowDeleteMdl(false)}/> */}
+        <DeleteModal open={showDeleteModal} onClose={deleteTransaction}/>
         <EditModal open={showEditModal} onClose={()=>setShowEditMdl(false)} />
       </div>
       

@@ -16,7 +16,7 @@ export default function DeleteModal({open,onClose}) {
   }
 
   const deleteTransaction=()=>{
-    alert("transaction deleted..")
+    console.log("transaction deleted..") 
     closeModal();
   }
 
