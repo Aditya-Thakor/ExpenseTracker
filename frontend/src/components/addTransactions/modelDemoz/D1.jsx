@@ -41,13 +41,10 @@ export default function AddTransactionModal({ open, onClose }) {
     const transaction = await addTransaction.json();
     console.log("trs-", transaction.transaction);
     
-
     if (addTransaction.ok) {
-      const tr = { transactions: [transaction.transaction] };
-      localStorage.setItem("user", JSON.stringify(...user,tr));
+      onClose();
+      window.location.reload();
     }
-    // closeModal();
-    // window.location.reload();
   };
 
   const closeModal = () => {
