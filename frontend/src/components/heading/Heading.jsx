@@ -2,7 +2,7 @@ export default function Heading({title,tagline}) {
 
   const clr = import.meta.env.VITE_TEXT_COLOR
   //process.env.TEXT_COLOR;
-  console.log(import.meta.env.REACT_APP_SOME_KEY)
+  // console.log(import.meta.env.REACT_APP_SOME_KEY)
     return(
         <div className="hidden lg:block lg:h-auto ">
         <h1 className="bg-clip-text bg-gradient-to-b from-neutral-900 to-neutral-500 text-transparent text-2xl font-bold">{title}</h1>
