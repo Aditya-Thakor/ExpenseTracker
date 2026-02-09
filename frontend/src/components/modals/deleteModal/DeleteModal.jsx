@@ -8,7 +8,7 @@ import {
 // import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { TriangleAlert } from "lucide-react";
 
-export default function DeleteModal({open,onClose}) {
+export default function DeleteModal({open,onClose,onClick}) {
 //   const [open, setOpen] = useState(true);
 
   const closeModal = () => {
@@ -16,8 +16,9 @@ export default function DeleteModal({open,onClose}) {
   }
 
   const deleteTransaction=()=>{
-    console.log("transaction deleted..") 
-    closeModal();
+    // console.log("transaction deleted..")
+    onClick(); 
+    // closeModal();
   }
 
   return (

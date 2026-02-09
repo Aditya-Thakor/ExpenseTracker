@@ -86,7 +86,7 @@ export default function TransactionCard({trId,type,icon, tag, date, amount,bg, c
           </div> : ''
         }
         {/* <DeleteModal open={showDeleteModal} onClose={()=>setShowDeleteMdl(false)}/> */}
-        <DeleteModal open={showDeleteModal} onClose={deleteTransaction}/>
+        <DeleteModal open={showDeleteModal} onClick={deleteTransaction} onClose={()=>setShowDeleteMdl(false)}/>
         <EditModal open={showEditModal} onClose={()=>setShowEditMdl(false)} />
       </div>
       
