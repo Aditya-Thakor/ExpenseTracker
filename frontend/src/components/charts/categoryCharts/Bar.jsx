@@ -53,11 +53,14 @@ export default function MonthlyExpenseBarChart() {
 
   },[monthlyExpense])
 
+  const lbls = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
   const data = {
-    labels: [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ],
+    // labels: [
+    //   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    //   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    // ],
+    labels: lbls.slice(0,thisMnEx.length),
     datasets: [
       {
         label: "Monthly Expenses",
