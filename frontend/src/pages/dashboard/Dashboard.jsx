@@ -216,6 +216,7 @@ export default function Dashboard() {
             {recent5tr.map((tr) => (
               <TransactionCard
                 key={tr._id}
+                trId={tr._id}
                 icon={tr.type === "expense" ? i.expense : i.income}
                 tag={tr.description}
                 date={tr.date.replace("T00:00:00.000Z", "")}
