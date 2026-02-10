@@ -31,7 +31,7 @@ export default function DataCard({type,amount=0, stats}) {
             </div>
             <div className='h-1/2 flex flex-col font-bold text-white text-3xl'>
                 <span>Rs.</span>
-                <span>{amount}</span>
+                <span>{amount.toLocaleString("en-IN")}</span>
             </div>
             <span className='h-1/5 text-xs text-white'> {stats}</span>
         </div>

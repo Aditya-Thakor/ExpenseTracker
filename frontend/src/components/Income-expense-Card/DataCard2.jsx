@@ -45,7 +45,7 @@ export default function DataCard2({
       <div className="h-[70%] lg:h-3/5 w-full flex flex-col mt-1">
             <span className="text-sm lg:text-md font-normal text-slate-700">{name}</span>
             <span className="text-lg lg:text-3xl font-medium text-gray-800">
-                Rs. {amount}
+                Rs. {amount.toLocaleString("en-IN")}
             </span>
       </div>
     </div>
