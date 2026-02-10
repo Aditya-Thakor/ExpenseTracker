@@ -206,7 +206,7 @@ export default function Transaction() {
           <Datacard
               key={ind}
               name={d.name}
-              amount={d.amount}
+              amount={d.amount.toLocaleString("en-IN")}
               icon={d.icon}
               bgfrom={d.bgfrom}
               bgto={d.bgto}
