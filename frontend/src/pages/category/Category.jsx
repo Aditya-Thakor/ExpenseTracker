@@ -302,7 +302,7 @@ export default function Category() {
           </label>
         </div>
       </div>
-      <div className="h-auto xl:h-[calc(100vh-47vh)] w-full mb-32 lg:mb-0 ">
+      <div className="h-auto xl:h-auto w-full mb-32 lg:mb-0 "> 
         <div className="h-full w-full grid grid-cols-2 sm:grid-cols-3 gap-5">
          {
           cate? cate.map((c, ind) =>
