@@ -30,12 +30,12 @@ export default function Dashboard() {
     useMemo(()=>{
       let int= monthlyIncome.reduce((sum,num)=> { return sum+Number(num.total)},0 )
       // console.log("INCOME TOTAL:-",int);
-      setInTotal(int);
+      setInTotal(int.toLocaleString("en-IN"));
       
       // let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
       // setExTotal(ext);
       let ext = currentMnEx.reduce((sum,num)=>{ return sum+Number(num.amount)},0)
-      setExTotal(ext);
+      setExTotal(ext.toLocaleString("en-IN"));
 
 
       const sortCate = Object.entries(crntMnCate)?.sort((a, b) => b[1] - a[1]).slice(0, 3);

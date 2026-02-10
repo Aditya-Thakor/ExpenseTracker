@@ -146,7 +146,7 @@ function App() {
       setCurrentMnIn(thisMonthIncomes);
 
       const crTotalIn = thisMonthIncomes.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
-      setCurrentMnInTotal(crTotalIn);
+      setCurrentMnInTotal(crTotalIn.toLocaleString("en-IN"));
       // console.log("this month ex total");
       // console.log(crTotalEx);
 
@@ -157,7 +157,7 @@ function App() {
       setCurrentMnEX(thisMonthExpenses);
 
       const crTotalEx = thisMonthExpenses.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
-      setCurrentMnEXTotal(crTotalEx);
+      setCurrentMnEXTotal(crTotalEx.toLocaleString("en-IN"));
       // console.log("this month ex total");
       // console.log(crTotalEx);
       
@@ -319,6 +319,7 @@ function App() {
     },0)
     // console.log("currenctYear total Income- ", cryrTotalIn);
     setCrTotalIn(cryrTotalIn);
+    // todo: add .toLocaleString("en-IN") to style number data like (10,999)
     
 
     const monthlyIncome1 = incomes.reduce((mn, t) => {
