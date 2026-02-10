@@ -107,7 +107,7 @@ export default function Category() {
   const SummeryCards = [
     {
       title: "Total categories",
-      data: "8",
+      data: 8,
       bgfrom: "#CCE2FF",
       bgto: "#CCFCFF",
       border: "#C3DCFD",
@@ -115,7 +115,7 @@ export default function Category() {
     },
     {
       title: "Total spending",
-      data: ` Rs. ${crTotalEx}`,
+      data: ` Rs. ${crTotalEx.toLocaleString("en-IN")}`,
       bgfrom: "#E4D6FF",
       bgto: "#F5CDE2",
       border: "#D7C3F5",
