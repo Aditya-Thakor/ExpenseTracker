@@ -146,7 +146,7 @@ function App() {
       setCurrentMnIn(thisMonthIncomes);
 
       const crTotalIn = thisMonthIncomes.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
-      setCurrentMnInTotal(crTotalIn.toLocaleString("en-IN"));
+      setCurrentMnInTotal(crTotalIn);
       // console.log("this month ex total");
       // console.log(crTotalEx);
 
@@ -157,7 +157,7 @@ function App() {
       setCurrentMnEX(thisMonthExpenses);
 
       const crTotalEx = thisMonthExpenses.reduce((mnTotal,num)=>{return mnTotal + num.amount},0)
-      setCurrentMnEXTotal(crTotalEx.toLocaleString("en-IN"));
+      setCurrentMnEXTotal(crTotalEx);
       // console.log("this month ex total");
       // console.log(crTotalEx);
       
