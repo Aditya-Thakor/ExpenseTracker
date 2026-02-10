@@ -15,7 +15,7 @@ export default function CategoryTempCard({icon, name, amount}) {
         </span>
         <h3 className="flex sm:flex-col font-bold text-lg sm:text-sm lg:text-md text-gray-700 ">
           <span>Rs.</span>
-          <span>{amount}</span>
+          <span>{amount.toLocaleString("en-IN")}</span>
         </h3>
       </div>
     </div>
