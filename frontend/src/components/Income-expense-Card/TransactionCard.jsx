@@ -65,7 +65,7 @@ export default function TransactionCard({trId,type,icon, tag, date, amount,bg, c
       </div>
       <div className=" relative flex items-center gap-3">
         <h2 
-            className={`text-md lg:text-xl cursor-default ${type==="income" ? "text-green-500" : "text-red-500"}  `}>Rs. {amount}
+            className={`text-md lg:text-xl cursor-default ${type==="income" ? "text-green-500" : "text-red-500"}  `}>Rs. {amount.toLocaleString("en-IN")}
         </h2>
         <EllipsisVertical 
           className="size-4 text-gray-400 hover:text-blue-600 cursor-pointer"
