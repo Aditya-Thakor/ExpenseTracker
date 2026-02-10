@@ -28,7 +28,7 @@ export default function Analytics() {
     // console.log("ddd-",d);
     const todayEx = d.reduce((sum, e) => sum + e.amount, 0);
     // console.log("todayExpense",todayEx);
-    return todayEx;
+    return todayEx.toLocaleString("en-IN");
   };
   //  dailyEx();
 
@@ -76,7 +76,7 @@ export default function Analytics() {
     {
       name:"This month's spending",
       icon:i.aupWhite,
-      amount:`Rs. ${exTotal}`,
+      amount:`Rs. ${exTotal.toLocaleString("en-IN")}`,
       bgfrom:"#E7D1FF",
       bgto:"#FAD6EB",
       shadow:"#DFC2FF",
