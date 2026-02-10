@@ -162,7 +162,7 @@ export default function Dashboard() {
         <DataCard
           type="Income"
           // amount={inTotal}
-          amount={currentMnInTotal}
+          amount={currentMnInTotal.toLocaleString("en-IN")}
           stats={`${inState()}% from last month`}
         />
         </div>
@@ -185,7 +185,7 @@ export default function Dashboard() {
                 key={ind}
                 icon={i[c.category]}
                 name={c.category.toUpperCase()}
-                amount={c.total}
+                amount={c.total.toLocaleString("en-IN")}
               />
             ))}
           </div>
