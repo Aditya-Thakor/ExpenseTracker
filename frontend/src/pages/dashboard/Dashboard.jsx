@@ -22,10 +22,13 @@ export default function Dashboard() {
 
     const [inTotal,setInTotal]= useState(0);
     const [exTotal,setExTotal]= useState(0);
+    const [categories,setCategories]=useState([]);
 // console.log("this month exxx");
 // console.log(monthlyExpense);
 // console.log('----------');
 // console.log(crTotalIn);
+console.log(crntMnCate);
+
 
     useMemo(()=>{
       let int= monthlyIncome.reduce((sum,num)=> { return sum+Number(num.total)},0 )
@@ -35,9 +38,10 @@ export default function Dashboard() {
       // let ext = monthlyExpense.reduce((sum,num)=>{ return sum+Number(num.total)},0)
       // setExTotal(ext);
       let ext = currentMnEx.reduce((sum,num)=>{ return sum+Number(num.amount)},0)
-      setExTotal(ext.toLocaleString("en-IN"));
+      setExTotal(ext);
 
-
+      const cateArr =  Object.entries(crntMnCate)?.sort((a, b) => b[1] - a[1])
+      setCategories(cateArr);
       const sortCate = Object.entries(crntMnCate)?.sort((a, b) => b[1] - a[1]).slice(0, 3);
         // console.log("crnt mn Top cate",sortCate);
       const top3 = sortCate.map(([category, total]) => ({ category, total }));
@@ -86,28 +90,28 @@ export default function Dashboard() {
       // console.log("recents", recentT);
       setRecent5tr(recentT);
 
-      const ct = transactions.reduce((cate, tex) => {
-        if (tex.type === "expense") {
-          cate[tex.category] = (cate[tex.category] || 0) + tex.amount;
-        }
-        return cate;
-      }, {});
+      // const ct = transactions.reduce((cate, tex) => {
+      //   if (tex.type === "expense") {
+      //     cate[tex.category] = (cate[tex.category] || 0) + tex.amount;
+      //   }
+      //   return cate;
+      // }, {});
       // console.log("ct- ", ct);
       // const sortCate = Object.entries(ct)
       //   .sort((a, b) => b[1] - a[1])
       //   .slice(0, 3);
       // // console.log(sortCate); // <- get overall category and total
 
-      // const sortCate = Object.entries(crntMnCate)
-      //   ?.sort((a, b) => b[1] - a[1])
-      //   .slice(0, 3);
+      const sortCate = Object.entries(crntMnCate)
+        ?.sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
       //   console.log("****",sortCate);
-      // const top3 = sortCate.map(([category, total]) => ({ category, total }));
+      const top3 = sortCate.map(([category, total]) => ({ category, total }));
       // // console.log(top3);
-      // setTopExCate(top3);
+      setTopExCate(top3);
     };
     getTransactions();
-  }, [user]);
+  }, [user,crntMnCate]);
 
   const exState=()=>{
    let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
@@ -122,8 +126,8 @@ export default function Dashboard() {
   // inState();
 
   const labels = () => {
-    const topct = topExCategories.map((n) => n.category);
-    const lbl = topct.length>3?[...topct, "other"] : [...topct];
+    const topct = topExCategories.map((n) => n.category); 
+    const lbl = categories.length>3?[...topct, "other"] : [...topct,];
     return lbl;
     // return topExCategories.map(n=>n.category) || "Other";
   };
@@ -156,7 +160,7 @@ export default function Dashboard() {
        <div className="h-full w-full xl:w-1/2 flex  gap-3"> 
         <DataCard
           type="expense"
-          amount={exTotal}
+          amount={exTotal.toLocaleString("en-IN")}
           stats={`${exState()}% from last month`}
         />
         <DataCard
