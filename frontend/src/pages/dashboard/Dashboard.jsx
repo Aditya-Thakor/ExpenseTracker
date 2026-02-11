@@ -27,7 +27,7 @@ export default function Dashboard() {
 // console.log(monthlyExpense);
 // console.log('----------');
 // console.log(crTotalIn);
-console.log(crntMnCate);
+// console.log(crntMnCate);
 
 
     useMemo(()=>{
