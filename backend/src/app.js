@@ -8,6 +8,7 @@ const promise = require("fs/promises");
 const fs = require("fs");
 const { ObjectId } = require("mongodb");
 const { totalmem } = require("os");
+const { log } = require("console");
 const app = express();
 const upload = multer();
 const port = 5000;
@@ -258,6 +259,49 @@ app.post("/transactions/delete", async(req,res)=>{
     console.log("error at deleting transaction ::: ",error);    
   }
   
+})
+
+// Edit transactions:::
+app.post("/transaction/edit",upload.none(),async(req,res)=>{
+  const data =req.body;
+  console.log(data);
+
+  try {
+    const {transactionId,userId,description,amount,incomeFrom,category}=data;
+
+    const db =await connectDB();
+    const userData = db.collection("usersdata")
+    // const transaction =await userData.findOne({_id:new ObjectId(transactionId)});
+   
+  //   const editTr = await userData.updateOne(
+  //      { 
+  //        _id: new ObjectId(userId),
+  //       transactions: { $elemMatch: { _id: new ObjectId("69429652ed7fa9e526ba096d") } } },
+  //  { $set: { "transactions.$.description": "Update query run" } }
+  //   );  // a optional code for update transaction.. (option-2)
+
+  const editTr = await userData.updateOne(
+  {
+    _id: new ObjectId(userId),
+    "transactions._id": new ObjectId(transactionId)
+  },
+  {
+    $set: {
+      "transactions.$.description": description,
+      "transactions.$.amount": Number(amount),
+      "transactions.$.incomeFrom": incomeFrom,
+      "transactions.$.category": category,
+    }
+  }
+);
+
+    if(editTr.modifiedCount===0){
+      return res.status(404).json({message:"Transaction not found"})
+    }
+    res.status(200).json({message:"Transaction Updated.."})
+  } catch (error) {
+    console.log("Error at editing the transaction",error)
+  }
 })
 
 // Category
