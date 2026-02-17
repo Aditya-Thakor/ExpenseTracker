@@ -1,17 +1,100 @@
-import { NotebookPen } from "lucide-react";
+import { LockKeyhole, NotebookPen } from "lucide-react";
 import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-export default function EditModal({ open, onClose }) {
+import { useContext } from "react";
+import TransactionContext from "../../../context/TransactionContext";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useMemo } from "react";
+import { useRef } from "react";
+export default function EditModal({ open, onClose,transactionId }) {
+
+  const tId = transactionId ? transactionId : undefined; 
+  const {transactions,user} = useContext(TransactionContext);
+
+  const [transaction,setTransaction]=useState([]);
+  const [trName, setName]=useState('');
+  const [trAmount, setAmount]=useState('');
+  const [inFrom,setInFrom]=useState('');
+  const [cate,setCate]=useState('');
+  const [selected,setSelected]=useState('');
+  const [ct,setCt]=useState('');
+  const options=[
+    "bills&utilities",
+    "food",
+    "shopping",
+    "travel",
+    "transportation",
+    "entertainment",
+    "education",
+    "healthcare",
+  ]
+    const selectionRef = useRef(null);
+ 
+    useMemo(()=>{  
+      
+      const tr = transactions?.filter(t=>t._id==tId);
+      setTransaction(tr[0]);
+      
+      
+      
+    },[tId,transactions,cate,selected]) 
+
     const closeModal = () => {
             onClose();
     }
-    const editTransaction=()=>{
-    alert("transaction deleted..")
-    closeModal();
+
+    const formdata= new FormData();
+    const editTransaction=async()=>{ 
+      // console.log("transaction id ::: ", tId);
+      // const tr = await transactions?.filter(t=>t._id==tId);
+      // setTransaction(tr[0]);
+      // console.log("transaction:::");      
+      // console.log(transaction);
+      // console.log("Edited transaction:::");
+      // console.log("tr name:::", trName);
+      // console.log("tr amount:::", trAmount);
+
+      
+      try {
+        formdata.append('transactionId',tId);
+        formdata.append('userId',user?._id)
+
+        if(trName.length!==0) {
+          formdata.append('description',trName);
+        }else{ formdata.append('description',transaction?.description);};
+        
+        if(trAmount.length!==0) {
+          formdata.append('amount',Number(trAmount));
+        }else {formdata.append('amount',transaction?.amount)};
+
+        if(inFrom.length!==0){
+          formdata.append('incomeFrom',inFrom);
+        }else{formdata.append('incomeFrom',transaction?.incomeFrom)};
+        
+        if(cate.length!==0){
+          formdata.append('category',cate);
+        }else{formdata.append('category',transaction?.category)};
+
+        const update = await fetch('http://localhost:5000/transaction/edit',{
+          method:'post',
+          body:formdata
+        })
+        const msg= await update.json();
+        console.log(msg);
+        
+        if (update.ok) {
+          // setShowDeleteMdl(false)
+          closeModal();
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log("Error at Updating transaction!!!",error);
+      }     
   }
   return (
     <div>
@@ -48,19 +131,69 @@ export default function EditModal({ open, onClose }) {
                         <label htmlFor="name">transaction name</label>
                         <input 
                             type="text" 
-                            value="testing"
+                            placeholder={transaction?.description}
+                            value={trName}
+                            onChange={(e)=>{setName(e.target.value)}}
                             className="w-full border rounded-md py-0.5 px-2 text-sm text-gray-500"
                         />
                       </div>
                       <Group>
                         <Label>amount</Label>
-                        <Input type="text" value="testing222" />
+                        <Input 
+                          type="number" 
+                          placeholder={transaction?.amount} 
+                          value={trAmount} 
+                          onChange={(e)=>setAmount(e.target.value)} 
+                        />
                       </Group>
-
-                      <Group>
-                        <Label>From | In</Label>
-                        <Input type="text" value="testing55" />
-                      </Group>
+                     
+                      {
+                        transaction?.type =="income"?  
+                          <Group> 
+                            <Label>IncomeFrom </Label>
+                            <Input 
+                              type="text"
+                              placeholder={transaction?.incomeFrom}
+                              value={inFrom}
+                              onChange={(e)=>setInFrom(e.target.value)}
+                            />
+                          </Group> 
+                          :
+                          <Group> 
+                            <Label>Expense category</Label>
+                            <div className="h-auto w-full flex flex-wrap gap-1.5 text-xs mt-1">
+                              {
+                                
+                                options.map(o=>(
+                                  <span 
+                                  id={o}
+                                    ref={selectionRef} 
+                                    onClick={(e)=>{ 
+                                      console.log(e.target.id)
+                                      setCate(o);
+                                      
+                                      setSelected(e.target.id)
+                                      transaction.category='';
+                                    }}
+                                    className={`
+                                      px-3.5 py-1.5 border rounded-full text-center cursor-pointer text-gray-400 transition-all 
+                                      ${transaction?.category==o ? "bg-neutral-800 text-neutral-50 ring-2 ring-neutral-500" :selected==o ? "bg-neutral-800 text-neutral-50 ring-2 ring-neutral-500"  :"hover:bg-gray-100  hover:ring-2 hover:ring-neutral-400"}
+                                    `}
+                                   
+                                  >{o}  </span>
+                                ))
+                              }
+                             
+                            </div>
+                            {/* <Input 
+                              type="text"
+                              placeholder={transaction?.category}
+                              value={cate}
+                              onChange={(e)=>setCate(e.target.value)}
+                            /> */}
+                          </Group>
+                      }
+                      
                     </div>
                   </div>
                 </div>
