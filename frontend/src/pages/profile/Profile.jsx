@@ -120,7 +120,7 @@ export default function Profile() {
   };
   const inState = () => {
     let state = ((crTotalIn - lastMnInTotal) / lastMnInTotal) * 100;
-    console.log("state---", state.toFixed(1));
+    // console.log("state---", state.toFixed(1));
     return state.toFixed(1);
   };
 
