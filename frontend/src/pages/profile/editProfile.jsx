@@ -2,6 +2,7 @@ import { ChevronLeft } from "lucide-react";
 import i from "../../assets/images/index";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 export default function EditProfile() {
   const navigate = useNavigate();
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -13,7 +14,7 @@ export default function EditProfile() {
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState(null);
   const [fullname, setFullName] = useState("");
-  const [username, setUsername] = useState(user?.username);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
@@ -26,22 +27,54 @@ export default function EditProfile() {
   // useEffect(() => {
 
   // }, [user]);
-  useEffect(() => {
-    async function fetchUser() {
-      await fetch("http://localhost:5000/usersdata/")
-        .then((res) => res.json())
-        .then((data) => {
-          let usr = data.find((i) => i._id === userId);
+  // useEffect(() => {
+  //   async function fetchUser() {
+  //     await fetch("http://localhost:5000/usersdata/")
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         let usr = data.find((i) => i._id === userId);
 
-          setUser(usr);
-          // console.log(user);
-        })
-        .catch((error) => {
-          console.log("error at fetching userdata at dashboard", error);
-        });
+  //         setUser(usr);
+  //         // console.log(user);
+          
+  //       })
+  //       .catch((error) => {
+  //         console.log("error at fetching userdata at dashboard", error);
+  //       });
+  //   }
+  //   fetchUser();
+  // }, [user]);
+
+  useEffect(()=>{
+    try {
+      fetch("http://localhost:5000/usersdata/")
+      .then((res)=>res.json())
+      .then((data)=>{
+        const user = data.find((i)=>i._id === userId);
+        setUser(user);
+      })
+    } catch (error) {
+      console.log("Error at fetching user data at edit profile page :::", error);      
     }
-    fetchUser();
-  }, [user]);
+  },[userId])
+
+
+  useMemo(()=>{
+    try {
+      setFullName(user?.fullname);
+      setUsername(user?.username);
+      setEmail(user?.email);
+      setRole(user?.role);
+      setAt(user?.address?.at);
+      setCity(user?.address?.city);
+      setState(user?.address?.state);
+      setCountry(user?.address?.country);
+      setPincode(user?.address?.pincode);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  },[user])
 
   const handleFileref = () => {
     fileInputRef.current.click();
@@ -57,21 +90,37 @@ export default function EditProfile() {
   };
 
   const editUser = async () => {
-    if (!fullname) return alert("add fullname");
-    if (!username) return alert("add username");
-    if (!email) return alert("add email");
-    if (!role) return alert("add role");
-
+    if(user===null) return console.log("user not found");
+    
+    console.log("Step 1 ") 
+     if (fullname.length===0){
+       setFullName( user?.fullname);
+      // return alert("add fullname");
+    }
+    if (username.length===0) {
+      setUsername(user?.username);
+      // return alert("add username")
+    };
+    if (email.length===0) {
+      setEmail(user?.email);
+      // return alert("add email")
+    };
+    if (role.length===0) {
+      setRole(user?.role);
+      // return alert("add role")
+    };   
+    console.log("user data :::");
+    console.log(fullname,"-",username,"-",email,"-",role);
+    
     const formData = new FormData();
-
+console.log("Step 2") 
     const address = {
       at: at,
       city: city,
       state: state,
       country: country,
-      pincode: pincode,
     };
-
+console.log("Step 3 ") 
     if (!address) return alert("add address or complete address");
 
     formData.append("username", username);
@@ -83,9 +132,13 @@ export default function EditProfile() {
     formData.append("state", state);
     formData.append("country", country);
     formData.append("pincode", pincode);
-    formData.append("file", file);
+    if(file!=null)
+    {
+      formData.append("file", file);
+    }
+    
     formData.append("userId", user._id);
-
+    console.log("Step 4 ") 
     // for (const [key,value] of formData) {
     //     console.log(key,value);
     // }
@@ -172,8 +225,8 @@ export default function EditProfile() {
                   >
                     <span>Change Full name : </span>
                     <input
-                      placeholder={user.fullname}
-                      value={fullname}
+                      placeholder={user?.fullname}
+                      value={fullname?.length==0?user?.fullname:fullname}
                       onChange={(e) => setFullName(e.target.value)}
                       type="text"
                       className="rounded-md p-2 border"
@@ -187,7 +240,7 @@ export default function EditProfile() {
                   >
                     <span>Change username : </span>
                     <input
-                      value={username}
+                      value={username?.length==0?user?.username:username}
                       placeholder={user?.username}
                       onChange={(e) => setUsername(e.target.value)}
                       type="text"
@@ -203,7 +256,7 @@ export default function EditProfile() {
                     <span>Change email address : </span>
                     <input
                       placeholder={user?.email}
-                      value={email}
+                      value={email?.length==0?user?.email:email}
                       onChange={(e) => setEmail(e.target.value)}
                       type="text"
                       className="rounded-md p-2 border"
@@ -218,7 +271,7 @@ export default function EditProfile() {
                     <span>Change role : </span>
                     <input
                       placeholder={user?.role}
-                      value={role}
+                      value={role?.length==0?user?.role:role}
                       onChange={(e) => setRole(e.target.value)}
                       type="text"
                       className="rounded-md p-2 border"
@@ -237,7 +290,7 @@ export default function EditProfile() {
                     rows={2}
                     className="border px-2 py-1 text-gray-400 rounded-md"
                     // placeholder={user?.address.at}
-                    value={at}
+                    value={at?.length==0?user?.address?.at:at}
                     onChange={(e) => setAt(e.target.value)}
                   />
                 </label>
@@ -253,7 +306,7 @@ export default function EditProfile() {
                       id="city"
                       type="text"
                       placeholder={user?.address?.city}
-                      value={city}
+                      value={city?.length==0?user?.address?.city:city}
                       onChange={(e) => setCity(e.target.value)}
                       className="rounded-md p-2 border"
                     />
@@ -269,7 +322,7 @@ export default function EditProfile() {
                       id="state"
                       type="text"
                       placeholder={user?.address?.state}
-                      value={state}
+                      value={state?.length==0?user?.address?.state:state}
                       onChange={(e) => setState(e.target.value)}
                       className="rounded-md p-2 border"
                     />
@@ -285,7 +338,7 @@ export default function EditProfile() {
                       id="country"
                       type="text"
                       placeholder={user.address?.country}
-                      value={country}
+                      value={country?.length==0?user?.address?.country:country}
                       onChange={(e) => setCountry(e.target.value)}
                       className="rounded-md p-2 border"
                     />
@@ -301,7 +354,7 @@ export default function EditProfile() {
                       id="pincode"
                       type="text"
                       placeholder={user.address?.pincode}
-                      value={pincode}
+                      value={pincode?.length==0?user?.address?.pincode:pincode}
                       onChange={(e) => setPincode(e.target.value)}
                       className="rounded-md p-2 border"
                     />

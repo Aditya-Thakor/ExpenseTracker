@@ -118,10 +118,10 @@ app.post(
   async (req, res) => {
     console.log(req.body);
 
-    if (!req.file) {
-      console.log("file not found");
-      return res.status(400).send("No file uploaded");
-    }
+    // if (!req.file) {
+    //   console.log("file not found");
+    //   return res.status(400).send("No file uploaded");
+    // }
     const data = req.body;
 
     const address = {
@@ -137,7 +137,23 @@ app.post(
 
     try {
       const db = await connectDB();
-      const update = await db.collection("usersdata").updateOne(
+      if(req.file==null)
+      {
+        const update = await db.collection("usersdata").updateOne(
+        { _id: new ObjectId(data.userId) },
+        {
+          $set: {
+            username: data.username,
+            email: data.email,
+            fullname: data.fullname,
+            role: data.role,
+            address: address,
+          },
+        }
+      );
+      }
+      else{
+const update = await db.collection("usersdata").updateOne(
         { _id: new ObjectId(data.userId) },
         {
           $set: {
@@ -150,6 +166,20 @@ app.post(
           },
         }
       );
+      }
+      
+// const update = await db.collection("usersdata").updateOne(
+//         { _id: new ObjectId(data.userId) },
+//         {
+//           $set: {
+//             username: data.username,
+//             email: data.email,
+//             fullname: data.fullname,
+//             role: data.role,
+//             address: address,
+//           },
+//         }
+//       );
 
       const updatedUser = await db
         .collection("usersdata")
@@ -162,6 +192,7 @@ app.post(
     } catch (error) {
       console.error("error at updating userdata", error);
     }
+    res.end();
   }
 );
 
