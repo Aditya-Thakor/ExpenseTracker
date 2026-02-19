@@ -241,12 +241,18 @@ export default function Category() {
   useEffect(()=>{
     
       // setCate(CategoryCards);
-     if(search){
+      
+     if(search.trim().length>=1){
       // if(search.length===0) return CategoryCards;
       let cc = CategoryCards.filter((t) =>
-        t.name.toLowerCase().includes(search))
+        t.name.toLowerCase().includes(search));
+      
       setCate(cc);
     } 
+    else{
+      
+      setCate(null);
+    }
     // setCate(CategoryCards);
   },[search])
 
