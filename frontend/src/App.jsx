@@ -425,7 +425,7 @@ function App() {
         lastMnExTotal,
         setExpenses: setExpenses,
         totalExpense: totalExpense,
-        setTotalExpense: setTotalExpense,
+        setTotalExpense: setTotalExpense,lastMnEx,
 
         incomes: incomes,
         setIncomes: setIncomes,
