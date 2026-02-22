@@ -7,9 +7,10 @@ import CategoryPieChart from "../../components/charts/analyticsCharts/CategoryPi
 import Barchart from "../../components/charts/analyticsCharts/Barchart";
 import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
+import { Link } from "react-router-dom";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense } =
+  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense,crTotalEx, lastMnExTotal,currentMnInTotal,currentMnExTotal} =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
@@ -27,12 +28,12 @@ export default function Analytics() {
     // console.log("ddd-",d);
     const todayEx = d.reduce((sum, e) => sum + e.amount, 0);
     // console.log("todayExpense",todayEx);
-    return todayEx;
+    return todayEx.toLocaleString("en-IN");
   };
   //  dailyEx();
 
   const savingRate = () => {
-    const sr = ((totalIncome - totalExpense) / totalIncome) * 100;
+    const sr = ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
     // console.log(sr.toFixed(2));
     // console.log("saving rate",Math.floor(sr).toFixed(2));
     return sr.toFixed(2);
@@ -61,102 +62,160 @@ export default function Analytics() {
     };
     top5Cate();
   }, [expenses]);
+
+
   // console.log(top5);
+ const exState=()=>{
+   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+  //  console.log("state---",state.toFixed(1));
+   return Number(state.toFixed(1));
+  }
+
+  // SUMMARY CARDS OBJ..
+  const summaryCards = [
+    {
+      name:"This month's spending",
+      icon:i.aupWhite,
+      amount:`Rs. ${exTotal.toLocaleString("en-IN")}`,
+      bgfrom:"#E7D1FF",
+      bgto:"#FAD6EB",
+      shadow:"#DFC2FF",
+      border:"#DFC2FF",
+      ibgfrom:"#A855F7",
+      ibgto:"#EC4899",
+      arrow:i.aupRed,
+      subtag:`${exState()}% from last month`
+    },
+    {
+      icon:i.calendar,
+      name:"Average Daily Expense",
+      amount:`Rs. ${dailyEx()}`,
+      bgfrom:"#CCE2FF",
+      bgto:"#CCFCFF",
+      border:"#C3DCFD",
+      shadow:"#C3DCFD",
+      ibgfrom:"#3B82F6",
+      ibgto:"#06B6D4",
+      subtag:"Based on current month"
+    },
+    {
+      icon:i.savingIcon,
+      name:"Saving rate",
+      amount:`${savingRate()} %`,
+      bgfrom:"#D2F9DE",
+      bgto:"#ACF6D3",
+      border:"#8EF5B2",
+      shadow:"#8EF5B2",
+      ibgfrom:"#22C55E",
+      ibgto:"#10B981",
+      save:`Rs. ${totalIncome - totalExpense}`,
+      subtag:"saved"
+    }
+  ]
+
+  // FILTER BUTTONS DATA::::
+    const filterBtns = [
+      {
+        name:"This week"
+      },
+      {
+        name:"1 Month", clickEvent:()=>setManualFilter(1)
+      },
+      {
+        name:"3 Month", clickEvent:()=>setManualFilter(3)
+      },
+      {
+        name:"6 Month", clickEvent:()=>setManualFilter(6)
+      },
+    ]
+
+
+  // CHART CARDS DATA:::
+  const chartCardData = [
+    {
+      title:"Income vs Expenses Trend",
+      subtag:"Last  6 months overview",
+      chart:<InEx />
+    },
+    {
+      title:"Expense by Category",
+      subtag:"Current month distribution",
+      chart:<CategoryPieChart  />
+    },
+    {
+      title:"Monthly Spending Pattern",
+      subtag:"Expense trend over time",
+      chart:<Barchart  />
+    },
+  ]
 
   return (
-    <div className="h-auto w-full flex flex-col gap-5 p-5 mb-5">
+    <div className="h-auto md:min-h-screen w-full flex flex-col gap-5 p-5 mb-5 lg:mb-0">
       {/* heading */}
-      <div className="flex justify-between">
+      <div className="flex lg:justify-between justify-end">
         <Heading
           title="Analytics "
           tagline="Visualize your spending patterns and trends"
         />
 
-        <button className="flex items-center h-min text-gray-700 bg-white rounded-xl py-2 px-3 gap-2 shadow-sm hover:text-gray-900  hover:shadow-md">
+        <button className="flex items-center  h-min text-gray-700 bg-white rounded-xl py-2 px-3 gap-2 shadow-sm hover:text-gray-900  hover:shadow-md">
           <span className="">
             <Download className="size-4" />
           </span>
-          <span className="text-xs ">Export report</span>
+          <Link to="/analytics/report" target="_blank" className="text-xs ">Export report</Link>
         </button>
       </div>
       {/* data card */}
-      <div className="h-28 grid grid-cols-3  gap-4">
-        <Datacard
-          icon={i.aupWhite}
-          name="This month's spending"
-          amount={`Rs. ${exTotal}`}
-          bgfrom="#E7D1FF"
-          bgto="#FAD6EB"
-          border="#DFC2FF"
-          shadow="#DFC2FF"
-          ibgfrom="#A855F7"
-          ibgto="#EC4899"
-          arrow={i.aupRed}
-          subtag="23.5% from last month"
-        />
-        <Datacard
-          icon={i.calendar}
-          name="Average Daily Expense"
-          amount={`Rs. ${dailyEx()}`}
-          bgfrom="#CCE2FF"
-          bgto="#CCFCFF"
-          border="#C3DCFD"
-          shadow="#C3DCFD"
-          ibgfrom="#3B82F6"
-          ibgto="#06B6D4"
-          subtag="Based on current month"
-        />
-        <Datacard
-          icon={i.savingIcon}
-          name="Saving rate"
-          amount={`${savingRate()} %`}
-          bgfrom="#D2F9DE"
-          bgto="#ACF6D3"
-          border="#8EF5B2"
-          shadow="#8EF5B2"
-          ibgfrom="#22C55E"
-          ibgto="#10B981"
-          save={`Rs. ${totalIncome - totalExpense}`}
-          subtag="saved"
-        />
+      <div className="h-auto lg:h-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
+        {
+          summaryCards.map((cd,ind)=>(
+            <Datacard
+              key={ind}
+              icon={cd.icon}
+              name={cd.name}
+              amount={cd.amount}
+              bgfrom={cd.bgfrom}
+              bgto={cd.bgto}
+              border={cd.border}
+              shadow={cd.shadow}
+              ibgfrom={cd.ibgfrom}
+              ibgto={cd.ibgto}
+              arrow={cd.arrow}
+              subtag={cd.subtag}
+            />
+          ))
+        }
+        
       </div>
 
       {/* filter */}
-      <div className="h-20 w-full flex items-center p-3 bg-white rounded-xl z-10 ">
+      <div className="h-auto lg:h-20 w-full flex flex-col lg:flex-row lg:items-center gap-3 sm:gap-0 p-3 bg-white rounded-xl z-10 ">
         <div className="text-gray-500 w-28 ">
           <span>Time period : </span>
         </div>
-        <div className="h-full w-[calc(100%-80px)] grid grid-cols-5 gap-5  ">
-          {/* Add Navlink instead of btns.. */}
-          <FilterBtn name="This week" />
-          <FilterBtn name="1 Month" clickEvent={()=>setManualFilter(1)} />
-          <FilterBtn name="3 Month" clickEvent={()=>setManualFilter(3) }/>
-            
-          <FilterBtn name="6 Month" clickEvent={()=>setManualFilter(6)} />
-          {/* <FilterBtn name="1 Year" /> */}
+        <div className="h-auto lg:h-full lg:w-[calc(100%-80px)] grid grid-cols-2 lg:grid-cols-5 gap-5  ">
+          {
+            filterBtns.map((fl,ind)=>(
+              <FilterBtn key={ind} name={fl.name} clickEvent={fl.clickEvent} />
+            ))
+          }
           <YearBtn/>
         </div>
       </div>
 
       {/* charts */}
-      <div className="h-screen  w-full grid grid-cols-2 gap-5 ">
-        <ChartCard
-          title="Income vs Expenses Trend"
-          subtag="Last  6 months overview"
-          chart={<InEx />}
-        />
-        <ChartCard
-          title="Expense by Category"
-          subtag="Current month distribution"
-          chart={<CategoryPieChart />}
-        />
-        <ChartCard
-          title="Monthly Spending Pattern"
-          subtag="Expense trend over time"
-          chart={<Barchart />}
-        />
+      <div className="h-auto xl:h-screen  w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mb-32">
+        {
+          chartCardData.map((ch,ind)=>(
+            <ChartCard
+              key={ind}
+              title={ch.title}
+              subtag={ch.subtag}
+              chart={ch.chart}/>
+          ))
+        } 
 
-        <div className="h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
+        <div className="h-auto lg:h-80 w-full flex flex-col gap-3 p-3 bg-white rounded-lg">
           <div className="h-[15%] w-full flex flex-col">
             <span className="text-lg font-medium text-gray-800">
               Top 5 Spending Categories
@@ -185,7 +244,7 @@ export default function Analytics() {
 
 const FilterBtn = ({ name, clickEvent }) => {
   return (
-    <button onClick={clickEvent} className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border hover:bg-gray-200 hover:font-bold">
+    <button onClick={clickEvent} className="h-auto lg:h-full w-full py-1.5 bg-gray-50 text-gray-600 flex items-center justify-center rounded-xl border hover:bg-gray-200 hover:font-bold">
       {name}
     </button>
   );
@@ -194,7 +253,7 @@ const FilterBtn = ({ name, clickEvent }) => {
 const YearBtn = () => {
   const {count,setCount, setManualFilter}=useContext(TransactionContext);
   return (
-    <div className="h-full w-full bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
+    <div className="h-auto lg:h-full w-full py-1.5 bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
       <span>
         <ChevronLeft
           className="hover:text-neutral-800"

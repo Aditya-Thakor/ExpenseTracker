@@ -13,75 +13,79 @@ import {
 import AddTransactionModal from "../addTransactions/modelDemoz/D1";
 
 const Navbar = () => {
-  const [showmodal,setShowmodal]= useState(false)
+  const [showmodal,setShowmodal]= useState(false);
   
+  const navLinks=[
+    {
+      to:'',
+      icon:<LayoutDashboard />
+    },
+    {
+      to:'category',
+      icon:<Grid3x3 />
+    },
+    {
+      to:'transaction',
+      icon:<Wallet />
+    },
+    {
+      to:'analytics',
+      icon:<ChartColumn />
+    },
+    {
+      to:'profile',
+      icon:<UserRound />
+    },
+  ]
+
+  const Plusbtn = ()=>{
+  return(
+    <div className="size-12 absolute -top-14 right-7 xl:hidden">
+      <span 
+            className="h-full w-full flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-400 shadow-black/40 text-white active:scale-90"
+            onClick={()=>setShowmodal(true)}
+          >
+            <Plus className="size-7 "/>
+          </span>
+    </div>
+  )
+}
 
   return (
-    <div className="h-20 w-full fixed bottom-0 lg:static  lg:h-auto lg:w-20  bg-white  ">
-      <div className="h-full w-full  flex lg:flex-col items-center justify-center lg:justify-between  py-5 px-7 lg:px-0 lg:border-r ">
+    <div className="h-20 w-full sm:max-w-lg sm:mx-auto xl:mx-0 z-50 xl:z-auto fixed bottom-0 sm:bottom-4 sm:inset-x-2 xl:inset-x-0 xl:static  xl:h-auto xl:w-20  bg-white sm:rounded-3xl xl:rounded-none sm:shadow-md sm:shadow-blue-300/80 border-t xl:border-t-0 border-t-blue-300 xl:shadow-none sm:px-5 xl:px-0 transition-all duration-500 ease-in-out ">
+      <div className="h-full w-full  flex xl:flex-col items-center justify-center lg:justify-between  py-5 px-7 xl:px-0 xl:border-r xl:border-r-blue-100 ">
         {/* Logo */}
-        <div className="h-14 w-14 fixed hidden lg:flex justify-center items-center rounded-xl shadow-sm  bg-blue-500">
-          <img src={icons.logo} alt="logo" className="size-10" />
+        <div className="h-14 w-14 fixed hidden xl:flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-400">
+          <img src={icons.logo} alt="logo" className="size-9" />
         </div>
         {/* NavLinks */}
-        <div className="h-full w-full lg:w-auto lg:fixed lg:top-40">
-            <div className="flex lg:flex-col items-center justify-between gap-3 text-slate-300">
-          <NavLink 
-            to=""
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <LayoutDashboard />
-          </NavLink>
-          <NavLink 
-            to="category"
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <Grid3x3 />
-          </NavLink>
-          <NavLink 
-            to='transaction'
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <Wallet />
-          </NavLink>
-          <NavLink 
-            to='analytics'
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <ChartColumn />
-          </NavLink>
-          <NavLink 
-            to='profile'
-            className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
-           ${isActive? 
-           "bg-[#3B82F6] text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)]": 
-           "bg-transparent  hover:bg-gray-100 hover:text-gray-600"} 
-           `}>
-            <UserRound />
-          </NavLink>
+        <div className="h-full w-full xl:w-auto xl:fixed xl:top-40">
+            <div className="flex xl:flex-col items-center justify-between gap-3 text-slate-400/80 ">
+          {//bg-[#3B82F6]
+            navLinks.map((n,ind)=>(
+              <NavLink 
+                key={ind}
+                to={n.to}
+                className={({isActive})=>` size-10 rounded-lg flex items-center justify-center 
+                ${isActive? 
+                "bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-[0px_6px_10px_rgba(59,130,246,0.3)] transition ease-in size-[2.70rem]": 
+                "bg-transparent  hover:bg-blue-100/80 hover:text-gray-600"} 
+                `}>
+                 {n.icon}
+              </NavLink>
+            ))
+          }
         </div>
         </div>
         
 
         {/* Add Transaction & LogOut */}
-        <div className="hidden lg:flex flex-col gap-3 items-center fixed bottom-0">
+        <div className="hidden xl:flex flex-col gap-3 items-center fixed bottom-0">
           <span 
-            className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
+            className="h-12 w-12 flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-600 to-cyan-400 shadow-black/40 text-white active:scale-90"
             onClick={()=>setShowmodal(true)}
           >
-            <Plus className="size-6 "/>
+            <Plus className="size-7 "/>
           </span>
           <Link
             to='signin'
@@ -100,17 +104,17 @@ const Navbar = () => {
   );
 };
 
-const Plusbtn = ()=>{
-  return(
-    <div className="size-12 absolute -top-14 right-7 lg:hidden">
-      <span 
-            className="h-full w-full flex justify-center items-center rounded-xl shadow-sm  bg-blue-500 text-white"
-            onClick={()=>setShowmodal(true)}
-          >
-            <Plus className="size-6 "/>
-          </span>
-    </div>
-  )
-}
+// const Plusbtn = ()=>{
+//   return(
+//     <div className="size-12 absolute -top-14 right-7 xl:hidden">
+//       <span 
+//             className="h-full w-full flex justify-center items-center rounded-xl shadow-sm  bg-gradient-to-br from-blue-500 to-cyan-400 shadow-black/40 text-white active:scale-90"
+//             onClick={()=>setShowmodal(true)}
+//           >
+//             <Plus className="size-7 "/>
+//           </span>
+//     </div>
+//   )
+// }
 
 export default Navbar;

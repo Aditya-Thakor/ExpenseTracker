@@ -25,7 +25,7 @@ export default function Datacard({
 
   return (
     <div
-      className="h-full w-full flex gap-4 p-3 bg-white rounded-xl"
+      className="h-24 lg:h-full w-full flex gap-4 p-3 bg-white rounded-xl"
       style={styles.bg}
     >
       <div
@@ -35,15 +35,15 @@ export default function Datacard({
         <img src={icon} alt="icon" className="h-3/5" />
       </div>
       <div className="h-full w-3/4 flex flex-col justify-between font-medium ">
-        <span className="text-lg text-gray-500">{name}</span>
-        <span className="text-3xl text-gray-800"> {amount}</span>
-        {arrow? <p className="flex items-center text-xs font-normal text-red-500">
+        <span className="text-sm sm:text-md lg:text-lg text-gray-500">{name}</span>
+        <span className="text-xl sm:text-2xl lg:text-3xl text-gray-800"> {amount}</span>
+        {arrow? <p className="flex items-center text-[8px] sm:text-xs font-normal text-red-500">
             <span>
                 <img src={arrow} alt="arrow icon" />
             </span>
             <span>{subtag}</span>
         </p>
-        : <span className="text-xs font-normal flex gap-2 text-gray-600 ">
+        : <span className="text-[8px] sm:text-xs font-normal flex gap-2 text-gray-600 ">
            <span className="font-medium "> {save}</span>
             {subtag}
         </span> }

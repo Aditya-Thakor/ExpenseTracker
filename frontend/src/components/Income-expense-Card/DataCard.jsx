@@ -7,7 +7,7 @@ export default function DataCard({type,amount=0, stats}) {
 
   return(
     <div 
-        className={` h-full min-w-60 p-3 rounded-xl bg-gradient-to-br ${type=="expense"?
+        className={` h-full w-full  sm:min-w-48 lg:min-w-60 p-3 rounded-xl bg-gradient-to-br ${type=="expense"?
              " from-[#EF4444] to-[#EF8B44] " 
             : " from-[#22C55E] to-[#088E68] "}`
         }
@@ -31,7 +31,7 @@ export default function DataCard({type,amount=0, stats}) {
             </div>
             <div className='h-1/2 flex flex-col font-bold text-white text-3xl'>
                 <span>Rs.</span>
-                <span>{amount}</span>
+                <span>{amount.toLocaleString("en-IN")}</span>
             </div>
             <span className='h-1/5 text-xs text-white'> {stats}</span>
         </div>

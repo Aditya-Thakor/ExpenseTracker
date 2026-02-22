@@ -2,12 +2,15 @@ import Heading from "../../components/heading/Heading";
 import { NutIcon, Plus, Search, UserStar } from "lucide-react";
 import i from "../../assets/icons/index";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddTransactionModal from "../../components/addTransactions/modelDemoz/D1";
+import TransactionContext from "../../context/TransactionContext";
 
 export default function Transaction() {
   const localUser = JSON.parse(localStorage.getItem("user"));
   const userId = localUser._id;
+
+  const {crTotalEx,crTotalIn,thisYrTrans}= useContext(TransactionContext);
 
   const [user, setUser] = useState(null);
   const [trans, setTransactions] = useState([]);
@@ -93,7 +96,7 @@ export default function Transaction() {
           t.description.toLowerCase().includes(search)
         );
         allData = f33;
-        console.log(f33);
+        // console.log(f33);
 
         setFilterdTr(allData);
       }
@@ -114,9 +117,9 @@ export default function Transaction() {
   }, [user, filterType, filterCategory, search]);
 
   const netBalance = () => {
-    if (!totalIn && !totalEx) return;
+    if (!crTotalIn && !crTotalEx) return;
 
-    return totalIn - totalEx;
+    return crTotalIn - crTotalEx;
   };
   // console.log("filterBy-",filterType);
 
@@ -124,6 +127,8 @@ export default function Transaction() {
     if (!tr) return;
     return (
       <TransactionCard
+        key={tr._id}
+        trId={tr._id}
         icon={i[tr.type]}
         tag={tr.description}
         date={tr.date.replace("T00:00:00.000Z", "")}
@@ -139,6 +144,43 @@ export default function Transaction() {
     boxShadow: `0px 3px 10px rgba(59, 130, 246, 0.7)`,
   };
 
+  // DATA CARDS::::
+  const dataCards = [
+    {
+      name:"Total Expense",
+      amount:crTotalEx,
+      icon:i.expense,
+      bgfrom:"#F6D1D1",
+      bgto:"#F9DEC6",
+      border:"#F3BFBF",
+      shadow:"#F3BFBF",
+      ibgfrom:"#EF4444",
+      ibgto:"#F97316"
+    },
+    {
+      name:"Total Income",
+      amount:crTotalIn,
+      icon:i.income,
+      bgfrom:"#D2F9DE",
+      bgto:"#ACF6D3",
+      border:"#8EF5B2",
+      shadow:"#8EF5B2",
+      ibgfrom:"#22C55E",
+      ibgto:"#10B981"
+    },
+    {
+      name:"Net Balance",
+      amount:netBalance(),
+      icon:i.transaction,
+      bgfrom:"#CCE2FF",
+      bgto:"#CCFCFF",
+      border:"#C3DCFD",
+      shadow:"#C3DCFD",
+      ibgfrom:"#3B82F6",
+      ibgto:"#06B6D4"
+    }
+  ]
+
   return (
     <div className="h-auto w-full flex flex-col gap-5 p-5 ">
       {/* heading */}
@@ -148,7 +190,7 @@ export default function Transaction() {
           tagline="Track and manage all your transactions"
         />
         <button
-          className=" h-min flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB]  "
+          className=" h-min hidden lg:flex items-center gap-2 px-3 py-2 text-white rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#25baeb]  "
           style={styles}
           onClick={() => setShowmodal(true)}
         >
@@ -157,46 +199,29 @@ export default function Transaction() {
         </button>
       </div>
       {/* data cards */}
-      <div className="h-24 w-full grid grid-cols-3 gap-4 ">
+      <div className="h-auto lg:h-24 w-full grid grid-cols-1 lg:grid-cols-3 gap-4 ">
         {/* <div className="h-full w-full bg-white rounded-xl"></div> */}
-        <Datacard
-          name="Total Expense"
-          amount={totalEx}
-          icon={i.expense}
-          bgfrom="#F6D1D1"
-          bgto="#F9DEC6"
-          border="#F3BFBF"
-          shadow="#F3BFBF"
-          ibgfrom="#EF4444"
-          ibgto="#F97316"
-        />
-        <Datacard
-          name="Total Income"
-          amount={totalIn}
-          icon={i.income}
-          bgfrom="#D2F9DE"
-          bgto="#ACF6D3"
-          border="#8EF5B2"
-          shadow="#8EF5B2"
-          ibgfrom="#22C55E"
-          ibgto="#10B981"
-        />
-        <Datacard
-          name="Net Balance"
-          amount={netBalance()}
-          icon={i.transaction}
-          bgfrom="#CCE2FF"
-          bgto="#CCFCFF"
-          border="#C3DCFD"
-          shadow="#C3DCFD"
-          ibgfrom="#3B82F6"
-          ibgto="#06B6D4"
-        />
+      {
+        dataCards.map((d,ind)=>(
+          <Datacard
+              key={ind}
+              name={d.name}
+              amount={d.amount.toLocaleString("en-IN")}
+              icon={d.icon}
+              bgfrom={d.bgfrom}
+              bgto={d.bgto}
+              border={d.border}
+              shadow={d.shadow}
+              ibgfrom={d.ibgfrom}
+              ibgto={d.ibgto}
+          />
+        ))
+      } 
       </div>
 
       {/* data filtering  */}
-      <div className="h-20 w-full p-4 flex justify-between gap-4 bg-white rounded-xl">
-        <div className="h-full w-full relative flex items-center border rounded-lg">
+      <div className="h-auto lg:h-20 w-full p-4 flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-xl">
+        <div className="h-10 lg:h-full w-full relative flex items-center border rounded-lg">
           <Search
             onClick={() => console.log(search)}
             className="absolute left-2 size-5  text-gray-400"
@@ -213,9 +238,9 @@ export default function Transaction() {
             className="h-full w-full rounded-lg bg-gray-50 pl-10 focus:outline-[#C3DCFD] text-blue-500"
           />
         </div>
-        <div className="w-full">
+        <div className="h-auto w-full">
           <select
-            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
           >
@@ -225,9 +250,9 @@ export default function Transaction() {
           </select>
         </div>
         {showCateFilter ? (
-          <div className="w-full">
+          <div className="h-auto w-full">
             <select
-              className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+              className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -245,9 +270,9 @@ export default function Transaction() {
           ""
         )}
 
-        <div className="w-full">
+        <div className="h-auto w-full">
           <select
-            className="h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
+            className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
           >
@@ -264,15 +289,17 @@ export default function Transaction() {
 
       {/* transactions */}
       <div className="h-auto grid grid-cols-1 gap-3 p-4">
-        {!filteredTr
+         {/* NOTE: CHANGE "recentTransactions" —> CURRENT YEAR'S TRANSACTIONS DATA */}
+        {!filteredTr 
           ? recentTransactions.map((tr) => (
               <TransactionCard
+                key={tr._id}
                 icon={i[tr.type]}
                 tag={tr.description}
                 date={tr.date.replace("T00:00:00.000Z", "")}
                 amount={tr.amount}
                 type={tr.type}
-                key={tr._id}
+                trId={tr._id}
                 bg="whitebg"
                 category={tr.type === "expense" ? tr.category : tr.incomeFrom}
               />

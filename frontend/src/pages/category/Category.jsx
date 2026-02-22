@@ -35,63 +35,63 @@ export default function Category() {
   const [cate,setCate]=useState(null);
   // const userData = JSON.parse(localStorage.getItem("user"));
   // console.log("user-",userData.transactions);
-  const { totalExpense, expenses } = useContext(TransactionContext);
+  const { totalExpense, expenses,monthlyExpense,crTotalEx,currentMnEx,crExpenses } = useContext(TransactionContext);
   useEffect(() => {
     const filterCategories = async () => {
-      setFoodEx(expenses?.filter((e) => e.category === "food"));
+      setFoodEx(crExpenses?.filter((e) => e.category === "food"));
       setFoodTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "food")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setBillEx(expenses.filter((e) => e.category === "bills&utilities"));
+      setBillEx(crExpenses.filter((e) => e.category === "bills&utilities"));
       setBillsTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "bills&utilities")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setTravelEx(expenses.filter((e) => e.category === "travel"));
+      setTravelEx(crExpenses.filter((e) => e.category === "travel"));
       setTravelTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "travel")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setShoppingEx(expenses.filter((e) => e.category === "shopping"));
+      setShoppingEx(crExpenses.filter((e) => e.category === "shopping"));
       setShoppingTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "shopping")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setTransportEx(expenses.filter((e) => e.category === "transportation"));
+      setTransportEx(crExpenses.filter((e) => e.category === "transportation"));
       setTransportTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "transportation")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
       setEntertainmentEx(
-        expenses.filter((e) => e.category === "entertainment")
+        crExpenses.filter((e) => e.category === "entertainment")
       );
       setEntertainmentTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "entertainment")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setHealthEx(expenses.filter((e) => e.category === "healthcare"));
+      setHealthEx(crExpenses.filter((e) => e.category === "healthcare"));
       setHealthTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "healthcare")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setEducationEx(expenses.filter((e) => e.category === "education"));
+      setEducationEx(crExpenses.filter((e) => e.category === "education"));
       setEducationTotal(
-        expenses
+        crExpenses
           .filter((e) => e.category === "education")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
@@ -99,12 +99,15 @@ export default function Category() {
      
     };
     filterCategories();
-  }, [expenses,search]);
-
+  }, [expenses,search,crExpenses]);
+  useMemo(()=>{
+    // console.log("cryrexxx-", currentMnEx);
+    
+  },[monthlyExpense,crTotalEx])
   const SummeryCards = [
     {
       title: "Total categories",
-      data: "8",
+      data: 8,
       bgfrom: "#CCE2FF",
       bgto: "#CCFCFF",
       border: "#C3DCFD",
@@ -112,7 +115,7 @@ export default function Category() {
     },
     {
       title: "Total spending",
-      data: ` Rs. ${totalExpense}`,
+      data: ` Rs. ${crTotalEx.toLocaleString("en-IN")}`,
       bgfrom: "#E4D6FF",
       bgto: "#F5CDE2",
       border: "#D7C3F5",
@@ -120,7 +123,7 @@ export default function Category() {
     },
     {
       title: "Total transaction",
-      data: expenses.length,
+      data: crExpenses.length,
       bgfrom: "#D2F9DE",
       bgto: "#ACF6D3",
       border: "#8EF5B2",
@@ -140,7 +143,7 @@ export default function Category() {
       shadow: "#FFEDD5",
       pbgfrom: "#F97316",
       pbgto: "#F59E0B",
-      pr: (foodEx.length / expenses.length) * 100,
+      pr: (foodEx.length / crExpenses.length) * 100,
     },
     {
       name: "Bills & Utilities",
@@ -153,7 +156,7 @@ export default function Category() {
       shadow: "#F3E8FF",
       pbgfrom: "#A855F7",
       pbgto: "#EC4899",
-      pr: (billEx.length / expenses.length) * 100,
+      pr: (billEx.length / crExpenses.length) * 100,
     },
     {
       name: "Travel",
@@ -166,7 +169,7 @@ export default function Category() {
       shadow: "#DCFCE7",
       pbgfrom: "#22C55E",
       pbgto: "#10B981",
-      pr: (travelEx.length / expenses.length) * 100,
+      pr: (travelEx.length / crExpenses.length) * 100,
     },
     {
       name: "Transportation",
@@ -179,7 +182,7 @@ export default function Category() {
       shadow: "#DBEAFE",
       pbgfrom: "#3B82F6",
       pbgto: "#06B6D4",
-      pr: (transportEx.length / expenses.length) * 100,
+      pr: (transportEx.length / crExpenses.length) * 100,
     },
     {
       name: "Shopping",
@@ -192,7 +195,7 @@ export default function Category() {
       shadow: "#FCE7F3",
       pbgfrom: "#EC4899",
       pbgto: "#F43F5E",
-      pr: (shoppingEx.length / expenses.length) * 100,
+      pr: (shoppingEx.length / crExpenses.length) * 100,
     },
     {
       name: "Entertainment",
@@ -205,7 +208,7 @@ export default function Category() {
       shadow: "#E0E7FF",
       pbgfrom: "#6366F1",
       pbgto: "#A855F7",
-      pr: (entertainmentEx.length / expenses.length) * 100,
+      pr: (entertainmentEx.length / crExpenses.length) * 100,
     },
     {
       name: "Healthcare",
@@ -218,7 +221,7 @@ export default function Category() {
       shadow: "#FEE2E2",
       pbgfrom: "#EF4444",
       pbgto: "#F97316",
-      pr: (healthEx.length / expenses.length) * 100,
+      pr: (healthEx.length / crExpenses.length) * 100,
     },
     {
       name: "Education",
@@ -231,19 +234,25 @@ export default function Category() {
       shadow: "#FEF9C3",
       pbgfrom: "#F97316",
       pbgto: "#F59E0B",
-      pr: (educationEx.length / expenses.length) * 100,
+      pr: (educationEx.length / crExpenses.length) * 100,
     },
   ];
 
   useEffect(()=>{
     
       // setCate(CategoryCards);
-     if(search){
+      
+     if(search.trim().length>=1){
       // if(search.length===0) return CategoryCards;
       let cc = CategoryCards.filter((t) =>
-        t.name.toLowerCase().includes(search))
+        t.name.toLowerCase().includes(search));
+      
       setCate(cc);
     } 
+    else{
+      
+      setCate(null);
+    }
     // setCate(CategoryCards);
   },[search])
 
@@ -261,7 +270,7 @@ export default function Category() {
   // },[search])
 
   return (
-    <div className="h-auto w-full flex flex-col gap-5 p-5 ">
+    <div className="h-auto sm:min-h-screen w-full flex flex-col gap-5 p-5 ">
       <Heading
         title="Categories"
         tagline="Manage and track your expense categories"
@@ -279,30 +288,7 @@ export default function Category() {
               shadow={c.shadow}
             />
           ))}
-          {/* <SummaryCardTemp
-            title="Total categories"
-            data="8"
-            bgfrom="#CCE2FF"
-            bgto="#CCFCFF"
-            border="#C3DCFD"
-            shadow="#C3DCFD"
-          />
-          <SummaryCardTemp
-            title="Total spending"
-            data={`Rs. ${totalExpense}`}
-            bgfrom="#E4D6FF"
-            bgto="#F5CDE2"
-            border="#D7C3F5"
-            shadow="#D7C3F5"
-          />
-          <SummaryCardTemp
-            title="Total transaction"
-            data={expenses.length}
-            bgfrom="#D2F9DE"
-            bgto="#ACF6D3"
-            border="#8EF5B2"
-            shadow="#8EF5B2"
-          /> */}
+        
         </div>
         <div className="h-auto sm:h-2/5 w-full  relative">
           <label htmlFor="search" className="h-full w-full flex items-center">
@@ -322,7 +308,7 @@ export default function Category() {
           </label>
         </div>
       </div>
-      <div className="h-auto w-full mb-32 lg:mb-0 ">
+      <div className="h-auto xl:h-auto w-full mb-32 lg:mb-0 "> 
         <div className="h-full w-full grid grid-cols-2 sm:grid-cols-3 gap-5">
          {
           cate? cate.map((c, ind) =>
@@ -365,129 +351,7 @@ export default function Category() {
             )
           )
          } 
-          {/* <CategoryCard
-            name="Food & Dining"
-            amount={foodTotal}
-            icon={i.food}
-            transactions={foodEx.length}
-            bgfrom="#FFF7ED"
-            bgto="#FFFBEB"
-            border="#FFEDD5"
-            shadow="#FFEDD5"
-            pbgfrom="#F97316"
-            pbgto="#F59E0B"
-            pr={(foodEx.length / expenses.length) * 100}
-          /> */}
-          {/* <CategoryCard
-            name="Bills & Utilities"
-            amount={billsTotal}
-            icon={i.bill}
-            transactions={billEx.length}
-            bgfrom="#FAF5FF"
-            bgto="#FDF2F8"
-            border="#F3E8FF"
-            shadow="#F3E8FF"
-            pbgfrom="#A855F7"
-            pbgto="#EC4899"
-            pr={(billEx.length / expenses.length) * 100}
-          />
-          <CategoryCard
-            name="Travel"
-            amount={travelTotal}
-            icon={i.travel}
-            transactions={travelEx.length}
-            bgfrom="#F0FDF4"
-            bgto="#ECFDF5"
-            border="#DCFCE7"
-            shadow="#DCFCE7"
-            pbgfrom="#22C55E"
-            pbgto="#10B981"
-            pr={(travelEx.length / expenses.length) * 100}
-          />
-          {transportEx ? (
-            <CategoryCard
-              name="Transportation"
-              amount={transportTotal}
-              icon={i.transportation}
-              transactions={transportEx.length}
-              bgfrom="#EFF6FF"
-              bgto="#ECFEFF"
-              border="#DBEAFE"
-              shadow="#DBEAFE"
-              pbgfrom="#3B82F6"
-              pbgto="#06B6D4"
-              pr={(transportEx.length / expenses.length) * 100}
-            />
-          ) : (
-            ""
-          )}
-
-          <CategoryCard
-            name="Shopping"
-            amount={shoppingTotal}
-            icon={i.shopping}
-            transactions={shoppingEx.length}
-            bgfrom="#FDF2F8"
-            bgto="#FFF1F2"
-            border="#FCE7F3"
-            shadow="#FCE7F3"
-            pbgfrom="#EC4899"
-            pbgto="#F43F5E"
-            pr={(shoppingEx.length / expenses.length) * 100}
-          />
-
-          {entertainmentEx ? (
-            <CategoryCard
-              name="Entertainment"
-              amount={entertainmentTotal}
-              icon={i.entertainment}
-              transactions={entertainmentEx.length}
-              bgfrom="#EEF2FF"
-              bgto="#FAF5FF"
-              border="#E0E7FF"
-              shadow="#E0E7FF"
-              pbgfrom="#6366F1"
-              pbgto="#A855F7"
-              pr={(entertainmentEx.length / expenses.length) * 100}
-            />
-          ) : (
-            ""
-          )}
-          {healthEx ? (
-            <CategoryCard
-              name="Healthcare"
-              amount={healthTotal}
-              icon={i.healthcare}
-              transactions={healthEx.length}
-              bgfrom="#FEF2F2"
-              bgto="#FFF7ED"
-              border="#FEE2E2"
-              shadow="#FEE2E2"
-              pbgfrom="#EF4444"
-              pbgto="#F97316"
-              pr={(healthEx.length / expenses.length) * 100}
-            />
-          ) : (
-            ""
-          )}
-          {educationEx ? (
-            <CategoryCard
-              name="Education"
-              amount={educationTotal}
-              icon={i.education}
-              transactions={educationEx.length}
-              bgfrom="#FEFCE8"
-              bgto="#FFFBEB"
-              border="#FEF9C3"
-              shadow="#FEF9C3"
-              pbgfrom="#F97316"
-              pbgto="#F59E0B"
-              pr={(educationEx.length / expenses.length) * 100}
-            />
-          ) : (
-            ""
-          )} */}
-
+          
           <div className="sm:h-60 lg:h-64 w-full flex flex-col justify-center items-center gap-5  border border-[#BFDBFE] border-dashed bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE] rounded-xl p-3 shadow-md shadow-[#BFDBFE] text-center">
             <div
               onClick={() => setModalVisible(true)}

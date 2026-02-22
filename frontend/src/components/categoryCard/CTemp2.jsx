@@ -30,7 +30,7 @@ export default function CategoryCard({name,amount,icon,transactions, bgfrom, bgt
       <div className="h-1/4 w-full">
         <span className="text-sm lg:text-md font-sans font-medium text-slate-500">{name}</span>
         <h3 className="h-full sm:text-2xl lg:text-4xl text-slate-900 font-medium">
-          Rs. {amount}
+          Rs. {amount.toLocaleString("en-IN")}
         </h3>
       </div>
 
