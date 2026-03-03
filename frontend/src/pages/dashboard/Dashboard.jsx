@@ -7,6 +7,7 @@ import MonthlyExpenseBarChart from "../../components/charts/categoryCharts/Bar";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
+import { useTransactions } from "../../context/transactionContext/TransactionContext";
 export default function Dashboard() {
   const navigate = useNavigate();
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -17,8 +18,25 @@ export default function Dashboard() {
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const { transactions, lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,totalExpense,currentMnInTotal } =
+  const { transactions, lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,currentMnInTotal } =
     useContext(TransactionContext);
+
+    const {getCategories,getSummary}=useTransactions();
+    const {top5Categories,allCategories} =getCategories("currentMonth");
+    const top3 = top5Categories.slice(0,3); // adding top 3 categories
+    // console.log(top3);
+
+    const {totalExpense,totalIncome } = getSummary("currentMonth")
+    // console.log("summ");
+    // console.log(totalExpense);
+    // console.log(totalIncome);
+
+    const lastMonthData = getSummary("lastMonth");
+    const lastMnExpense = lastMonthData?.totalExpense;
+    const lastMnIncome = lastMonthData?.totalIncome;
+    // console.log("lastMnData::");    
+    // console.log(lastMnIncome);
+    
 
     const [inTotal,setInTotal]= useState(0);
     const [exTotal,setExTotal]= useState(0);
@@ -126,14 +144,14 @@ export default function Dashboard() {
   // inState();
 
   const labels = () => {
-    const topct = topExCategories.map((n) => n.category); 
-    const lbl = categories.length>3?[...topct, "other"] : [...topct,];
+    const topct = top3.map((n) => n.category); 
+    const lbl = allCategories.length>3?[...topct, "other"] : [...topct,];
     return lbl;
     // return topExCategories.map(n=>n.category) || "Other";
   };
   // const datas=["54511","34511","43222","55433"]
   const datas = () => {
-    const topstotal = topExCategories.map((n) => n.total);
+    const topstotal = top3.map((n) => n.total);
     const total = topstotal.reduce((sum, num) => {
       return sum + Number(num);
     }, 0);
@@ -160,13 +178,13 @@ export default function Dashboard() {
        <div className="h-full w-full xl:w-1/2 flex  gap-3"> 
         <DataCard
           type="expense"
-          amount={exTotal.toLocaleString("en-IN")}
+          amount={totalExpense?.toLocaleString("en-IN")}
           stats={`${exState()}% from last month`}
         />
         <DataCard
           type="Income"
           // amount={inTotal}
-          amount={currentMnInTotal.toLocaleString("en-IN")}
+          amount={totalIncome?.toLocaleString("en-IN")}
           stats={`${inState()}% from last month`}
         />
         </div>
@@ -184,7 +202,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 ">
-            {topExCategories.map((c, ind) => (
+            {top3.map((c, ind) => (
               <CategoryTempCard
                 key={ind}
                 icon={i[c.category]}
