@@ -411,10 +411,50 @@ export const TransactionProvider = ({ children }) => {
         };
     };
 
+    // CATEGORIES:::::
+
+        const getCategories = (type, value = null) => {
+
+        // Step 1: Filter by duration
+        const filtered = filterByDuration(type, value) || [];
+
+        // Step 2: Only expenses
+        const expenses = filtered?.filter((tx) => tx.type == "expense");
+
+        // Step 3: Group using reduce
+        const categoryMap = expenses?.reduce((acc, tx) => {
+            const category = tx.category || "Uncategorized";
+
+            acc[category] = (acc[category] || 0) + Number(tx.amount);
+
+            return acc;
+        }, {});
+
+        // Step 4: Convert to array
+        const categoriesArray = Object.entries(categoryMap)?.map(
+            ([category, total]) => ({
+                category,
+                total,
+            })
+        );
+
+        // Step 5: Sort highest first
+        const sortedCategories = categoriesArray?.sort(
+            (a, b) => b.total - a.total
+        );
+
+        return {
+            allCategories: sortedCategories,
+            top5Categories: sortedCategories.slice(0, 5),
+        };
+    };
+
+
     const value = useMemo(()=>(
         {
             transactions,
-            getSummary
+            getSummary,
+            getCategories
         }
     ),[transactions]);
 
