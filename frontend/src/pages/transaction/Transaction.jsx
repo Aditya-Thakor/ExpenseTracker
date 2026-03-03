@@ -2,9 +2,10 @@ import Heading from "../../components/heading/Heading";
 import { NutIcon, Plus, Search, UserStar } from "lucide-react";
 import i from "../../assets/icons/index";
 import TransactionCard from "../../components/Income-expense-Card/TransactionCard";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import AddTransactionModal from "../../components/addTransactions/modelDemoz/D1";
 import TransactionContext from "../../context/TransactionContext";
+import { useTransactions } from "../../context/transactionContext/TransactionContext";
 
 export default function Transaction() {
   const localUser = JSON.parse(localStorage.getItem("user"));
@@ -30,6 +31,12 @@ export default function Transaction() {
   const [search, setSearch] = useState("");
 
   const [showmodal, setShowmodal] = useState(false);
+
+  const {getSummary} = useTransactions();
+
+  //  useMemo(()=>{
+      
+  // },[getSummary])
 
   useEffect(() => {
     async function fetchUser() {
@@ -206,7 +213,7 @@ export default function Transaction() {
           <Datacard
               key={ind}
               name={d.name}
-              amount={d.amount.toLocaleString("en-IN")}
+              amount={d.amount?.toLocaleString("en-IN")}
               icon={d.icon}
               bgfrom={d.bgfrom}
               bgto={d.bgto}
@@ -274,15 +281,19 @@ export default function Transaction() {
           <select
             className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
             value={filterDate}
-            onChange={(e) => setFilterDate(e.target.value)}
+            // onChange={(e) => setFilterDate(e.target.value)}
+            onChange={(e) => {
+              let tr= getSummary(e.target.value,null,'all')
+              console.log("new Context Data::", tr); 
+            }}
           >
-            <option value="all">Sort by Duration</option>
+            <option onClick={()=>getSummary('currentYear',null,'all')} value="currentYear">Sort by Duration</option>
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
-            <option value="1m"> 1 month</option>
+            <option value="currentMonth"> 1 month</option>
             <option value="3m"> 3 months</option>
             <option value="6m"> 6 months</option>
-            <option value="1y"> 1 year</option>
+            <option value="currentYear"> 1 year</option>
           </select>
         </div>
       </div>
