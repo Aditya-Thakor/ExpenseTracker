@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useContext } from "react";
+import { useContext, useMemo, useState } from "react";
 import TransactionContext from "../../../context/TransactionContext";
 
 ChartJS.register(
@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 export default function InEx() {
-  const {manualFilter,monthlyExpense,monthlyExpense1,monthlyIncome, monthlyIncome1}=useContext(TransactionContext)
+  const {manualFilter,monthlyExpense,monthlyExpense1,monthlyIncome, monthlyIncome1,lastMnEx}=useContext(TransactionContext)
   
   // const handleExpense = ()=>{
   //   let ex = monthlyExpense;
@@ -32,6 +32,35 @@ export default function InEx() {
   // console.log("manual filter,", manualFilter)
 // console.log("mnt main");
 // console.log(monthlyExpense);
+ const [thisMnEx,setThisMnEx]=useState([]);
+ const [thisMnIn,setThisMnIn]=useState([]);
+useMemo(()=>{
+    const mn = monthlyExpense.reduce((mn, t) => {
+      const month = t.month;
+      mn[month] = (mn[month] || 0) + t.total;
+      return mn;
+    }, {});
+
+    const sortMn = Object.entries(mn).sort();
+    const mnArr= sortMn.map((mn)=>({month:mn[0],total:mn[1]}));
+
+    setThisMnEx(mnArr);
+
+    const mnIn = monthlyIncome.reduce((mn,t)=>{
+      const month = t.month;
+      mn[month]= (mn[month] || 0 )+ t.total;
+      return mn;
+    },{})
+
+    const sortIn = Object.entries(mnIn).sort();
+    const inArr = sortIn.map((mn)=>(
+      {month:mn[0],total:mn[1]}
+    ));
+
+    setThisMnIn(inArr);
+
+  },[monthlyExpense,monthlyIncome])
+
   const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   
   const labels1=[];
@@ -62,7 +91,8 @@ export default function InEx() {
       {
         label: "Income",
         // data: [0,0,0,0,0,0,80000, 50000, 30000, 70000, 60000, totalIncome],
-        data:monthlyIncome?.map(i=>i.total) ,
+        // data:monthlyIncome?.map(i=>i.total) ,
+        data:thisMnIn?.map(i=>i.total) ,
         borderColor: "green",
         backgroundColor: "rgba(0, 128, 0, 0.1)",
         tension: 0.3,
@@ -71,7 +101,9 @@ export default function InEx() {
       {
         label: "Expense",
         // data: [0,0,0,0,0,0,90000, 38000, 21000, 60000, 58000, totalExpense],
-        data:monthlyExpense?.map(e=>e.total),  //monthlyExpense?.map(e=>e.total) ,
+        // data:monthlyExpense?.map(e=>e.total),  //monthlyExpense?.map(e=>e.total) ,
+        // data:data1,  //monthlyExpense?.map(e=>e.total) ,
+        data:thisMnEx.map(e=>e.total),  
         borderColor: "red",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
         tension: 0.3,
