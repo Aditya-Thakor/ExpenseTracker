@@ -77,61 +77,61 @@ export default function Dashboard() {
 
   // console.log("monthlyEx", monthlyExpense);
 
-  useEffect(() => {
-    async function fetchUser() {
-      await fetch("http://localhost:5000/usersdata/")
-        .then((res) => res.json())
-        .then((data) => {
-          let usr = data.find((i) => i._id === userId);
-          // console.log(user);
-          setUser(usr);
-        })
-        .catch((error) => {
-          console.log("error at fetching userdata at dashboard", error);
-        });
-    }
-    fetchUser();
-  }, [userId]);
+  // useEffect(() => {
+  //   async function fetchUser() {
+  //     await fetch("http://localhost:5000/usersdata/")
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         let usr = data.find((i) => i._id === userId);
+  //         // console.log(user);
+  //         setUser(usr);
+  //       })
+  //       .catch((error) => {
+  //         console.log("error at fetching userdata at dashboard", error);
+  //       });
+  //   }
+  //   fetchUser();
+  // }, [userId]);
 
-  useEffect(() => {
-    console.log("user updated!!!", user);
-    if (user === null) return;
+  // useEffect(() => {
+  //   console.log("user updated!!!", user);
+  //   if (user === null) return;
 
-    const getTransactions = () => {
-      const tr = user?.transactions;
-      // console.log("tr-",tr);
-      // setTransactions(tr);
-      if (!tr) {
-        return;
-      }
-      const recentT = [...tr]
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 5);
-      // console.log("recents", recentT);
-      setRecent5tr(recentT);
+  //   const getTransactions = () => {
+  //     const tr = user?.transactions;
+  //     // console.log("tr-",tr);
+  //     // setTransactions(tr);
+  //     if (!tr) {
+  //       return;
+  //     }
+  //     const recentT = [...tr]
+  //       .sort((a, b) => new Date(b.date) - new Date(a.date))
+  //       .slice(0, 5);
+  //     // console.log("recents", recentT);
+  //     setRecent5tr(recentT);
 
-      // const ct = transactions.reduce((cate, tex) => {
-      //   if (tex.type === "expense") {
-      //     cate[tex.category] = (cate[tex.category] || 0) + tex.amount;
-      //   }
-      //   return cate;
-      // }, {});
-      // console.log("ct- ", ct);
-      // const sortCate = Object.entries(ct)
-      //   .sort((a, b) => b[1] - a[1])
-      //   .slice(0, 3);
-      // // console.log(sortCate); // <- get overall category and total
+  //     // const ct = transactions.reduce((cate, tex) => {
+  //     //   if (tex.type === "expense") {
+  //     //     cate[tex.category] = (cate[tex.category] || 0) + tex.amount;
+  //     //   }
+  //     //   return cate;
+  //     // }, {});
+  //     // console.log("ct- ", ct);
+  //     // const sortCate = Object.entries(ct)
+  //     //   .sort((a, b) => b[1] - a[1])
+  //     //   .slice(0, 3);
+  //     // // console.log(sortCate); // <- get overall category and total
 
-      const sortCate = Object.entries(crntMnCate)
-        ?.sort((a, b) => b[1] - a[1])
-        .slice(0, 3);
-      //   console.log("****",sortCate);
-      const top3 = sortCate.map(([category, total]) => ({ category, total }));
-      // // console.log(top3);
-      setTopExCate(top3);
-    };
-    getTransactions();
-  }, [user,crntMnCate]);
+  //     const sortCate = Object.entries(crntMnCate)
+  //       ?.sort((a, b) => b[1] - a[1])
+  //       .slice(0, 3);
+  //     //   console.log("****",sortCate);
+  //     const top3 = sortCate.map(([category, total]) => ({ category, total }));
+  //     // // console.log(top3);
+  //     setTopExCate(top3);
+  //   };
+  //   getTransactions();
+  // }, [user,crntMnCate]);
 
   const exState=()=>{
   //  let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
