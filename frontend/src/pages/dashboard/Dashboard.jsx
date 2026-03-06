@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const { transactions, lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,currentMnInTotal } =
+  const {  lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,currentMnInTotal } =
     useContext(TransactionContext);
 
     const {getCategories,getSummary}=useTransactions();
@@ -26,7 +26,7 @@ export default function Dashboard() {
     const top3 = top5Categories.slice(0,3); // adding top 3 categories
     // console.log(top3);
 
-    const {totalExpense,totalIncome } = getSummary("currentMonth")
+    const {totalExpense,totalIncome,transactions } = getSummary("currentMonth")
     // console.log("summ");
     // console.log(totalExpense);
     // console.log(totalIncome);
@@ -34,8 +34,10 @@ export default function Dashboard() {
     const lastMonthData = getSummary("lastMonth");
     const lastMnExpense = lastMonthData?.totalExpense;
     const lastMnIncome = lastMonthData?.totalIncome;
-    console.log("lastMnData::");    
-    console.log(lastMnIncome);
+
+    const recentTransactions = transactions?.reverse().slice(0,5);
+    // console.log("lastMnData::");    
+    // console.log(recentTransactions);
     
 
     const [inTotal,setInTotal]= useState(0);
@@ -237,7 +239,9 @@ export default function Dashboard() {
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-2 sm:gap-4 pb-2 sm:pb-0">
-            {recent5tr.map((tr) => (
+            {
+            // recent5tr.map((tr) => (
+            recentTransactions?.map((tr) => (
               <TransactionCard
                 key={tr._id}
                 trId={tr._id}
