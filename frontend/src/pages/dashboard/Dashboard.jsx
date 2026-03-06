@@ -10,15 +10,15 @@ import TransactionContext from "../../context/TransactionContext";
 import { useTransactions } from "../../context/transactionContext/TransactionContext";
 export default function Dashboard() {
   const navigate = useNavigate();
-  const localUser = JSON.parse(localStorage.getItem("user"));
-  const userId = localUser._id;
+  // const localUser = JSON.parse(localStorage.getItem("user"));
+  // const userId = localUser._id;
   // console.log(userId);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   // const [trans, setTransactions] = useState([]);
-  const [recent5tr, setRecent5tr] = useState([]);
+  // const [recent5tr, setRecent5tr] = useState([]);
   const [topExCategories, setTopExCate] = useState([]);
 
-  const {  lastMnExTotal,crTotalEx,crTotalIn, lastMnInTotal, crntMnCate, monthlyExpense,currentMnEx, monthlyIncome,currentMnInTotal } =
+  const {  crntMnCate, monthlyExpense,currentMnEx, monthlyIncome } =
     useContext(TransactionContext);
 
     const {getCategories,getSummary}=useTransactions();
