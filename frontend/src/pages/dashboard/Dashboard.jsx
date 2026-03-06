@@ -34,8 +34,8 @@ export default function Dashboard() {
     const lastMonthData = getSummary("lastMonth");
     const lastMnExpense = lastMonthData?.totalExpense;
     const lastMnIncome = lastMonthData?.totalIncome;
-    // console.log("lastMnData::");    
-    // console.log(lastMnIncome);
+    console.log("lastMnData::");    
+    console.log(lastMnIncome);
     
 
     const [inTotal,setInTotal]= useState(0);
@@ -132,12 +132,14 @@ export default function Dashboard() {
   }, [user,crntMnCate]);
 
   const exState=()=>{
-   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+  //  let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+   let state = ((totalExpense-lastMnExpense)/lastMnExpense)*100;
   //  console.log("state---",state.toFixed(1));
    return Number(state.toFixed(1));
   } 
   const inState=()=>{
-   let state = ((crTotalIn-lastMnInTotal)/lastMnInTotal)*100;
+  //  let state = ((crTotalIn-lastMnInTotal)/lastMnInTotal)*100;
+   let state = ((totalIncome-lastMnIncome)/lastMnIncome)*100;
   //  console.log("state---",state.toFixed(1));
    return state.toFixed(1);
   } 
