@@ -34,9 +34,15 @@ export default function Transaction() {
 
   const {getSummary} = useTransactions();
 
-  //  useMemo(()=>{
-      
-  // },[getSummary])
+  const {transactions,totalExpense,totalIncome,balance}=getSummary("currentMonth");
+  const todayData = getSummary("today");
+  const todayTr= todayData?.transactions;
+
+  // console.log("data ::::");
+  // console.log(transactions);
+  
+  //  useMemo(()=>{  
+  // },[])
 
   useEffect(() => {
     async function fetchUser() {
@@ -56,14 +62,16 @@ export default function Transaction() {
 
   useEffect(() => {
     console.log("user updated!!!", user);
+    
     if (user === null) return;
 
     const getTransactions = () => {
-      const tr = user?.transactions;
+      // const tr = user?.transactions;
+      const tr = transactions;
       setTransactions(tr);
       if (!tr) return;
 
-      const recentT = [...trans].sort(
+      const recentT = [...transactions].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
       setRecentTrans(recentT);
@@ -155,7 +163,8 @@ export default function Transaction() {
   const dataCards = [
     {
       name:"Total Expense",
-      amount:crTotalEx,
+      // amount:crTotalEx,
+      amount:totalExpense,
       icon:i.expense,
       bgfrom:"#F6D1D1",
       bgto:"#F9DEC6",
@@ -166,7 +175,8 @@ export default function Transaction() {
     },
     {
       name:"Total Income",
-      amount:crTotalIn,
+      // amount:crTotalIn,
+      amount:totalIncome,
       icon:i.income,
       bgfrom:"#D2F9DE",
       bgto:"#ACF6D3",
@@ -177,7 +187,8 @@ export default function Transaction() {
     },
     {
       name:"Net Balance",
-      amount:netBalance(),
+      // amount:netBalance(),
+      amount:balance,
       icon:i.transaction,
       bgfrom:"#CCE2FF",
       bgto:"#CCFCFF",
@@ -283,11 +294,11 @@ export default function Transaction() {
             value={filterDate}
             // onChange={(e) => setFilterDate(e.target.value)}
             onChange={(e) => {
-              let tr= getSummary(e.target.value,null,'all')
+              let tr= getSummary(e.target.value,null,'all') //fields: transactions, totalExpense, totalIncome, balance
               console.log("new Context Data::", tr); 
             }}
           >
-            <option onClick={()=>getSummary('currentYear',null,'all')} value="currentYear">Sort by Duration</option>
+            <option value="currentYear">Sort by Duration</option>
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
             <option value="currentMonth"> 1 month</option>
@@ -302,7 +313,8 @@ export default function Transaction() {
       <div className="h-auto grid grid-cols-1 gap-3 p-4">
          {/* NOTE: CHANGE "recentTransactions" —> CURRENT YEAR'S TRANSACTIONS DATA */}
         {!filteredTr 
-          ? recentTransactions.map((tr) => (
+          // ? recentTransactions.map((tr) => (
+          ? transactions.map((tr) => (
               <TransactionCard
                 key={tr._id}
                 icon={i[tr.type]}
