@@ -8,11 +8,29 @@ import Barchart from "../../components/charts/analyticsCharts/Barchart";
 import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
 import { Link } from "react-router-dom";
+import { useTransactions } from "../../context/transactionContext/TransactionContext";
 
 export default function Analytics() {
-  const { totalExpense, expenses, totalIncome, setManualFilter,monthlyExpense,crTotalEx, lastMnExTotal,currentMnInTotal,currentMnExTotal} =
+  const { 
+    // totalExpense,
+    expenses, 
+    // totalIncome, 
+    setManualFilter,monthlyExpense,crTotalEx, lastMnExTotal,currentMnInTotal,currentMnExTotal} =
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
+
+  const {getSummary} = useTransactions();
+  
+  const {transactions,  totalExpense, totalIncome, balance}=getSummary("currentMonth");
+  
+  const lastMnTr = getSummary('lastMonth');
+  const lMnEx = lastMnTr?.totalExpense;
+
+  const todayTr = getSummary('today');
+  const todayEx = todayTr?.totalExpense;
+
+  // console.log("transactions:::");
+  // console.log(lMnEx);  
 
   const [exTotal,setExTotal]= useState(0);
   useMemo(()=>{
@@ -33,7 +51,8 @@ export default function Analytics() {
   //  dailyEx();
 
   const savingRate = () => {
-    const sr = ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
+    // const sr = ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
+    const sr = (balance / totalIncome) * 100;
     // console.log(sr.toFixed(2));
     // console.log("saving rate",Math.floor(sr).toFixed(2));
     return sr.toFixed(2);
@@ -66,7 +85,7 @@ export default function Analytics() {
 
   // console.log(top5);
  const exState=()=>{
-   let state = ((crTotalEx-lastMnExTotal)/lastMnExTotal)*100;
+   let state = ((totalExpense-lMnEx)/lMnEx)*100;
   //  console.log("state---",state.toFixed(1));
    return Number(state.toFixed(1));
   }
@@ -76,7 +95,8 @@ export default function Analytics() {
     {
       name:"This month's spending",
       icon:i.aupWhite,
-      amount:`Rs. ${exTotal.toLocaleString("en-IN")}`,
+      // amount:`Rs. ${exTotal.toLocaleString("en-IN")}`,
+      amount:`Rs. ${totalExpense?.toLocaleString("en-IN")}`,
       bgfrom:"#E7D1FF",
       bgto:"#FAD6EB",
       shadow:"#DFC2FF",
@@ -89,7 +109,8 @@ export default function Analytics() {
     {
       icon:i.calendar,
       name:"Average Daily Expense",
-      amount:`Rs. ${dailyEx()}`,
+      // amount:`Rs. ${dailyEx()}`,
+      amount:`Rs. ${todayEx}`,
       bgfrom:"#CCE2FF",
       bgto:"#CCFCFF",
       border:"#C3DCFD",
