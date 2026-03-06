@@ -389,7 +389,7 @@ export const TransactionProvider = ({ children }) => {
         let filteredTransactions = filtered;
 
         if(txType!=='all'){
-            filteredTransactions = filtered.filter((tx)=>tx.type===txType);
+            filteredTransactions = filtered?.filter((tx)=>tx.type===txType);
         }
 
         const incomes = filtered?.filter((tx)=>tx.type==="income");
