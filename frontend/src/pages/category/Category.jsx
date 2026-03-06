@@ -42,10 +42,7 @@ export default function Category() {
 
   const {totalExpense}=getSummary("currentMonth");
   const {transactions}= getSummary("currentMonth", null ,"expense")
-  const {top5Categories,allCategories} =getCategories("currentMonth");
 
-  console.log("The data:::");
-  console.log(transactions);
   
   useEffect(() => {
     const filterCategories = async () => {
@@ -56,54 +53,54 @@ export default function Category() {
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setBillEx(crExpenses.filter((e) => e.category === "bills&utilities"));
+      setBillEx(transactions?.filter((e) => e.category === "bills&utilities"));
       setBillsTotal(
-        crExpenses
-          .filter((e) => e.category === "bills&utilities")
+        transactions
+          ?.filter((e) => e.category === "bills&utilities")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setTravelEx(crExpenses.filter((e) => e.category === "travel"));
+      setTravelEx(transactions?.filter((e) => e.category === "travel"));
       setTravelTotal(
-        crExpenses
-          .filter((e) => e.category === "travel")
+        transactions
+          ?.filter((e) => e.category === "travel")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setShoppingEx(crExpenses.filter((e) => e.category === "shopping"));
+      setShoppingEx(transactions?.filter((e) => e.category === "shopping"));
       setShoppingTotal(
-        crExpenses
-          .filter((e) => e.category === "shopping")
+        transactions
+          ?.filter((e) => e.category === "shopping")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setTransportEx(crExpenses.filter((e) => e.category === "transportation"));
+      setTransportEx(transactions?.filter((e) => e.category === "transportation"));
       setTransportTotal(
-        crExpenses
-          .filter((e) => e.category === "transportation")
+        transactions
+          ?.filter((e) => e.category === "transportation")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
       setEntertainmentEx(
-        crExpenses.filter((e) => e.category === "entertainment")
+        transactions?.filter((e) => e.category === "entertainment")
       );
       setEntertainmentTotal(
-        crExpenses
-          .filter((e) => e.category === "entertainment")
+        transactions
+          ?.filter((e) => e.category === "entertainment")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setHealthEx(crExpenses.filter((e) => e.category === "healthcare"));
+      setHealthEx(transactions?.filter((e) => e.category === "healthcare"));
       setHealthTotal(
-        crExpenses
-          .filter((e) => e.category === "healthcare")
+        transactions
+          ?.filter((e) => e.category === "healthcare")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
-      setEducationEx(crExpenses.filter((e) => e.category === "education"));
+      setEducationEx(transactions?.filter((e) => e.category === "education"));
       setEducationTotal(
-        crExpenses
-          .filter((e) => e.category === "education")
+        transactions
+          ?.filter((e) => e.category === "education")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
@@ -155,98 +152,98 @@ export default function Category() {
       shadow: "#FFEDD5",
       pbgfrom: "#F97316",
       pbgto: "#F59E0B",
-      pr: (foodEx?.length / crExpenses.length) * 100,
+      pr: (foodEx?.length / transactions?.length) * 100,
     },
     {
       name: "Bills & Utilities",
       amount:  billsTotal ,
       icon: i.bill,
-      transactions: billEx.length,
+      transactions: billEx?.length,
       bgfrom: "#FAF5FF",
       bgto: "#FDF2F8",
       border: "#F3E8FF",
       shadow: "#F3E8FF",
       pbgfrom: "#A855F7",
       pbgto: "#EC4899",
-      pr: (billEx.length / crExpenses.length) * 100,
+      pr: (billEx?.length / transactions?.length) * 100,
     },
     {
       name: "Travel",
       amount: travelTotal ,
       icon: i.travel,
-      transactions: travelEx.length,
+      transactions: travelEx?.length,
       bgfrom: "#F0FDF4",
       bgto: "#ECFDF5",
       border: "#DCFCE7",
       shadow: "#DCFCE7",
       pbgfrom: "#22C55E",
       pbgto: "#10B981",
-      pr: (travelEx.length / crExpenses.length) * 100,
+      pr: (travelEx?.length / transactions?.length) * 100,
     },
     {
       name: "Transportation",
       amount:  transportTotal ,
       icon: i.transportation,
-      transactions: transportEx.length,
+      transactions: transportEx?.length,
       bgfrom: "#EFF6FF",
       bgto: "#ECFEFF",
       border: "#DBEAFE",
       shadow: "#DBEAFE",
       pbgfrom: "#3B82F6",
       pbgto: "#06B6D4",
-      pr: (transportEx.length / crExpenses.length) * 100,
+      pr: (transportEx?.length / transactions?.length) * 100,
     },
     {
       name: "Shopping",
       amount: shoppingTotal ,
       icon: i.shopping,
-      transactions: shoppingEx.length,
+      transactions: shoppingEx?.length,
       bgfrom: "#FDF2F8",
       bgto: "#FFF1F2",
       border: "#FCE7F3",
       shadow: "#FCE7F3",
       pbgfrom: "#EC4899",
       pbgto: "#F43F5E",
-      pr: (shoppingEx.length / crExpenses.length) * 100,
+      pr: (shoppingEx?.length / transactions?.length) * 100,
     },
     {
       name: "Entertainment",
       amount: entertainmentTotal,
       icon: i.entertainment,
-      transactions: entertainmentEx.length,
+      transactions: entertainmentEx?.length,
       bgfrom: "#EEF2FF",
       bgto: "#FAF5FF",
       border: "#E0E7FF",
       shadow: "#E0E7FF",
       pbgfrom: "#6366F1",
       pbgto: "#A855F7",
-      pr: (entertainmentEx.length / crExpenses.length) * 100,
+      pr: (entertainmentEx?.length / transactions?.length) * 100,
     },
     {
       name: "Healthcare",
       amount: healthTotal,
       icon: i.healthcare,
-      transactions: healthEx.length,
+      transactions: healthEx?.length,
       bgfrom: "#FEF2F2",
       bgto: "#FFF7ED",
       border: "#FEE2E2",
       shadow: "#FEE2E2",
       pbgfrom: "#EF4444",
       pbgto: "#F97316",
-      pr: (healthEx.length / crExpenses.length) * 100,
+      pr: (healthEx?.length / transactions?.length) * 100,
     },
     {
       name: "Education",
       amount: educationTotal,
       icon: i.education,
-      transactions: educationEx.length,
+      transactions: educationEx?.length,
       bgfrom: "#FEFCE8",
       bgto: "#FFFBEB",
       border: "#FEF9C3",
       shadow: "#FEF9C3",
       pbgfrom: "#F97316",
       pbgto: "#F59E0B",
-      pr: (educationEx.length / crExpenses.length) * 100,
+      pr: (educationEx?.length / transactions?.length) * 100,
     },
   ];
 
