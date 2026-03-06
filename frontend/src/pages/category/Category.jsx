@@ -6,6 +6,7 @@ import i from "../../assets/icons/index";
 import AddCategoryModal from "../../components/addCategory/AddCategoryModal";
 import { useContext, useEffect, useMemo, useState } from "react";
 import TransactionContext from "../../context/TransactionContext";
+import { useTransactions } from "../../context/transactionContext/TransactionContext";
 // import { data } from "react-router-dom";
 export default function Category() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,13 +36,23 @@ export default function Category() {
   const [cate,setCate]=useState(null);
   // const userData = JSON.parse(localStorage.getItem("user"));
   // console.log("user-",userData.transactions);
-  const { totalExpense, expenses,monthlyExpense,crTotalEx,currentMnEx,crExpenses } = useContext(TransactionContext);
+  const { expenses,monthlyExpense,crTotalEx,currentMnEx,crExpenses } = useContext(TransactionContext);
+
+  const {getCategories,getSummary}=useTransactions();
+
+  const {totalExpense}=getSummary("currentMonth");
+  const {transactions}= getSummary("currentMonth", null ,"expense")
+  const {top5Categories,allCategories} =getCategories("currentMonth");
+
+  console.log("The data:::");
+  console.log(transactions);
+  
   useEffect(() => {
     const filterCategories = async () => {
-      setFoodEx(crExpenses?.filter((e) => e.category === "food"));
+      setFoodEx(transactions?.filter((e) => e.category === "food"));
       setFoodTotal(
-        crExpenses
-          .filter((e) => e.category === "food")
+        transactions
+          ?.filter((e) => e.category === "food")
           .reduce((sum, e) => sum + Number(e.amount), 0)
       );
 
@@ -115,7 +126,7 @@ export default function Category() {
     },
     {
       title: "Total spending",
-      data: ` Rs. ${crTotalEx.toLocaleString("en-IN")}`,
+      data: ` Rs. ${totalExpense?.toLocaleString("en-IN")}`,
       bgfrom: "#E4D6FF",
       bgto: "#F5CDE2",
       border: "#D7C3F5",
@@ -123,7 +134,8 @@ export default function Category() {
     },
     {
       title: "Total transaction",
-      data: crExpenses.length,
+      // data: crExpenses.length,
+      data: transactions?.length,
       bgfrom: "#D2F9DE",
       bgto: "#ACF6D3",
       border: "#8EF5B2",
@@ -136,14 +148,14 @@ export default function Category() {
       name: "Food & Dining",
       amount:  foodTotal ,
       icon: i.food,
-      transactions: foodEx.length,
+      transactions: foodEx?.length,
       bgfrom: "#FFF7ED",
       bgto: "#FFFBEB",
       border: "#FFEDD5",
       shadow: "#FFEDD5",
       pbgfrom: "#F97316",
       pbgto: "#F59E0B",
-      pr: (foodEx.length / crExpenses.length) * 100,
+      pr: (foodEx?.length / crExpenses.length) * 100,
     },
     {
       name: "Bills & Utilities",
