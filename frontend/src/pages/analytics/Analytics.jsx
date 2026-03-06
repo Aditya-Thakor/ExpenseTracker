@@ -19,9 +19,11 @@ export default function Analytics() {
     useContext(TransactionContext);
   //add Fn that count the current month's expenses
 
-  const {getSummary} = useTransactions();
+  const {getSummary, getCategories} = useTransactions();
   
   const {transactions,  totalExpense, totalIncome, balance}=getSummary("currentMonth");
+
+  const {top5Categories}= getCategories('currentMonth')
   
   const lastMnTr = getSummary('lastMonth');
   const lMnEx = lastMnTr?.totalExpense;
@@ -29,8 +31,8 @@ export default function Analytics() {
   const todayTr = getSummary('today');
   const todayEx = todayTr?.totalExpense;
 
-  // console.log("transactions:::");
-  // console.log(lMnEx);  
+  console.log("transactions:::");
+  console.log(top5Categories);  
 
   const [exTotal,setExTotal]= useState(0);
   useMemo(()=>{
@@ -246,7 +248,7 @@ export default function Analytics() {
             </span>
           </div>
           <div className="h-[90%] w-full flex flex-col gap-2 p-1 ">
-            {top5.map((cate, ind) => (
+            {top5Categories.map((cate, ind) => (
               <SpendingCard
                 key={ind}
                 icon={i[cate.category + "light"]}
