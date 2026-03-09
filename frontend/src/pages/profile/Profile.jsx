@@ -19,6 +19,7 @@ import Userdata from "./Data";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TransactionContext from "../../context/TransactionContext";
+import { useTransactions } from "../../context/transactionContext/TransactionContext";
 
 // Main function-----------------------------------------------------------------
 export default function Profile() {
@@ -55,7 +56,16 @@ export default function Profile() {
     fetchUser();
   }, []);
 
-  console.log("et-", etUser);
+  // console.log("et-", etUser);
+
+  const {getSummary}=useTransactions();
+
+  const {totalExpense, totalIncome, balance}= getSummary("currentMonth");
+
+  const lastMnTr = getSummary('lastMonth');
+  const lastMnExpense = lastMnTr.totalExpense;
+  const lastMnIncome = lastMnTr.totalIncome;
+  const lastMnBalance = lastMnTr.balance;  
 
   // password hide&show ----------------------------------------------------
   const [hide, setHide] = useState(false);
@@ -114,37 +124,49 @@ export default function Profile() {
   //---------------------------------------------------------------------
 
   const exState = () => {
-    let state = ((crTotalEx - lastMnExTotal) / lastMnExTotal) * 100;
+    // let state = ((crTotalEx - lastMnExTotal) / lastMnExTotal) * 100;
+    let state = ((totalExpense - lastMnExpense) / lastMnExpense) * 100;
     //  console.log("state---",state.toFixed(1));
     return Number(state.toFixed(1));
   };
   const inState = () => {
-    let state = ((crTotalIn - lastMnInTotal) / lastMnInTotal) * 100;
+    // let state = ((crTotalIn - lastMnInTotal) / lastMnInTotal) * 100;
+    let state = ((totalIncome - lastMnIncome) / lastMnIncome) * 100;
     // console.log("state---", state.toFixed(1));
     return state.toFixed(1);
   };
 
   const saving = () => {
     let state =
-      ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
+      // ((currentMnInTotal - currentMnExTotal) / currentMnInTotal) * 100;
+      ((balance) / totalIncome) * 100;
     return Number(state.toFixed(1));
   };
+
+  const balanceState =()=>{
+    let state = ((balance-lastMnBalance)/lastMnBalance)*100;
+    return Number(state.toFixed(1));
+  }
 
   // DATA CARD :::
   const dataCards = [
     {
       name: "Total balance",
-      amount: crTotalIn - crTotalEx,
+      // amount: crTotalIn - crTotalEx,
+      amount: balance,
       icon: i.transaction,
-      pr: "12.5",
-      prcolor: "#16A34A",
+      // pr: "12.5",
+      pr: balanceState(),
+      // prcolor: "#16A34A",
+      prcolor: balanceState()>0? "#16A34A":"#DC2626",
     },
     {
       name: "Total expense",
-      amount: crTotalEx,
+      // amount: crTotalEx,
+      amount: totalExpense,
       icon: i.expense,
       pr: exState(),
-      prcolor: inState() > 0 ? "#DC2626" : "#16A34A", // DC2626-red || 16A34A-green
+      prcolor: exState() > 0 ? "#DC2626" : "#16A34A", // DC2626-red || 16A34A-green
       bgfrom: "#FEF2F2",
       bgto: "#FFF7ED",
       ibgfrom: "#EF4444",
@@ -154,7 +176,8 @@ export default function Profile() {
     },
     {
       name: "Total income",
-      amount: crTotalIn,
+      // amount: crTotalIn,
+      amount: totalIncome,
       icon: i.income,
       pr: inState(),
       prcolor: inState() < 0 ? "#DC2626" : "#16A34A",
@@ -167,7 +190,8 @@ export default function Profile() {
     },
     {
       name: "Saving this month",
-      amount: crTotalIn - crTotalEx,
+      // amount: crTotalIn - crTotalEx,
+      amount: balance,
       icon: i.savingIcon,
       pr: saving(),
       prcolor: "#16A34A",
@@ -320,6 +344,7 @@ export default function Profile() {
            {
             userData.map((u,ind)=>(
               <Userdata
+                key={ind}
                 title={u.title}
                 data={u.data}
               />
