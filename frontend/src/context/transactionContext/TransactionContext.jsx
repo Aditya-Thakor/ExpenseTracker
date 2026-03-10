@@ -459,12 +459,45 @@ export const TransactionProvider = ({ children }) => {
         };
     };
 
+    const getMonthlyExSum=(type='currentYear',value=null)=>{
+        const filtered = filterByDuration(type,value) || [];
+        const expenses = filtered?.filter((tx) => tx.type == "expense");
+
+        const monthlyExpense = expenses?.reduce((mn, t) => {
+            const month = t.date.slice(0, 10);
+                // console.log('mn--',month);
+                mn[month] = (mn[month] || 0) + t.amount;
+                return mn;
+        }, {});
+
+        const sortEx = Object.entries(monthlyExpense).sort();
+        const monthlyArr = sortEx.map(([month, total]) => ({
+                day: month.split("-")[2],
+                month: month.split("-")[1],
+                year: Number(month.split("-")[0]),
+                total,
+        }));
+
+        const summary= monthlyArr.reduce((mn, t) => {
+                const month = t.month;
+                mn[month] = (mn[month] || 0) + t.total;
+                return mn;
+        }, {});
+        const sortMn = Object.entries(summary).sort();
+        const mnArr= sortMn.map((mn)=>({month:mn[0],total:mn[1]}));
+
+        return {
+            monthlyExpenseSummary: mnArr
+        }
+    }
+
 
     const value = useMemo(()=>(
         {
             transactions,
             getSummary,
-            getCategories
+            getCategories,
+            getMonthlyExSum
         }
     ),[transactions]);
 
