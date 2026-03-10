@@ -27,9 +27,7 @@ export default function Dashboard() {
     // console.log(top3);
 
     const {totalExpense,totalIncome,transactions } = getSummary("currentMonth")
-    // console.log("summ");
-    // console.log(totalExpense);
-    // console.log(totalIncome);
+
 
     const lastMonthData = getSummary("lastMonth");
     const lastMnExpense = lastMonthData?.totalExpense;
