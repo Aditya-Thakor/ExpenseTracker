@@ -10,12 +10,16 @@ import {
 import { useContext, useEffect, useState } from "react";
 import TransactionContext from "../../../context/TransactionContext";
 import { data } from "react-router-dom";
+import { useTransactions } from "../../../context/transactionContext/TransactionContext";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function Barchart() {
   const { expenses, monthlyExpense, manualFilter } =
     useContext(TransactionContext);
+
+    const {getMonthlyExSum}=useTransactions();
+  const {monthlyExpenseSummary} = getMonthlyExSum();
 
   const [mnEx,setMnEx]=useState([]);
   const [monthlyEx, setMonthlyEx] = useState([]);
@@ -49,6 +53,7 @@ export default function Barchart() {
   const labels = ["Jan", "Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   // const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const slice = labels.slice(labels.length-manualFilter, labels.length);
+  // const slice = labels.slice(0,monthlyExpenseSummary.length);
   
   const data = {
     labels:slice,
@@ -56,7 +61,8 @@ export default function Barchart() {
       {
         label: "Expense",
         // data: [90000, 110000, 100000, 130000, 120000, totalExpense],
-        data: monthlyExpense.map((e) => e.total),
+        // data: monthlyExpense.map((e) => e.total),
+        data: monthlyExpenseSummary.map((e) => e.total),        
         backgroundColor: "rgba(255, 0, 0, 0.3)",
         borderColor: "red",
         borderWidth: 1,
