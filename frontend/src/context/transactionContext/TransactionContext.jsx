@@ -364,8 +364,18 @@ export const TransactionProvider = ({ children }) => {
 
                 case "lastMonth":
                     const lm = new Date(now.getFullYear(), now.getMonth() - 1)
-                    return (txDate.getMonth() === lm.getMonth() && txDate.getFullYear() === lm.getFullYear())
-
+                    return (txDate.getMonth() === lm.getMonth() && txDate.getFullYear() === lm.getFullYear());
+                
+                case "last3":
+                    const l3 = new Date(now.getFullYear(), now.getMonth()-3, now.getDate());
+                    
+                    return (txDate>=l3 && txDate<=now );
+                    // return (txDate.getMonth()>=l3.getMonth() && txDate.getMonth() );//&& txDate.getFullYear() === l3.getFullYear()
+                
+                case "last6":
+                    const l6 = new Date(now.getFullYear(), now.getMonth()-6, now.getDate());
+                    return (txDate>=l6 && txDate<=now);
+                
                 case "currentYear":
                     return txDate.getFullYear() === now.getFullYear();
 
