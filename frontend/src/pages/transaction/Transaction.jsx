@@ -31,18 +31,16 @@ export default function Transaction() {
   const [search, setSearch] = useState("");
 
   const [showmodal, setShowmodal] = useState(false);
+  const [duration,setDuration]=useState('currentMonth');
 
   const {getSummary} = useTransactions();
 
-  const {transactions,totalExpense,totalIncome,balance}=getSummary("currentMonth");
-  const todayData = getSummary("today");
-  const todayTr= todayData?.transactions;
+  const {transactions,totalExpense,totalIncome,balance}=getSummary(duration);
+  
 
   // console.log("data ::::");
   // console.log(transactions);
   
-  //  useMemo(()=>{  
-  // },[])
 
   useEffect(() => {
     async function fetchUser() {
@@ -130,6 +128,63 @@ export default function Transaction() {
     };
     getTransactions();
   }, [user, filterType, filterCategory, search]);
+
+//  filter data by durations::::::::::::::::::::::::::::::::::::::::::
+  let currMn = getSummary('currentMonth');
+  const crrMnTr = currMn?.transactions?.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );;
+
+  const todayData = getSummary("today");
+  const todayTr= todayData?.transactions?.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );;
+  
+  const yesterDay = getSummary("yesterday");
+  const yestTr = yesterDay?.transactions?.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+  
+  const threeMnData = getSummary('last3');
+  const threeMnTr = threeMnData?.transactions?.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  const sixMnData = getSummary('last6');
+  const sixMnTr = sixMnData?.transactions?.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const currYr = getSummary('currentYear');
+  const crrYrTr = currYr?.transactions?.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+   useMemo(()=>{  
+    switch (duration) {
+      case 'currentMonth':
+             setFilterdTr(crrMnTr); 
+        break;
+      
+      case 'today':
+        setFilterdTr(todayTr)
+        break;
+
+      case 'yesterday':
+        setFilterdTr(yestTr)
+        break;
+      
+      case '3m':
+        setFilterdTr(threeMnTr)
+        break;
+
+      case '6m':
+        setFilterdTr(sixMnTr)
+        break;
+      
+      case 'currentYear':
+        setFilterdTr(crrYrTr)
+        break;
+    
+      default:
+        console.log(duration,"data not found..."); 
+        break;
+    }
+  },[duration,filterType])
 
   const netBalance = () => {
     if (!crTotalIn && !crTotalEx) return;
@@ -291,11 +346,12 @@ export default function Transaction() {
         <div className="h-auto w-full">
           <select
             className="h-10 lg:h-full w-full px-3 border rounded-lg focus:outline-[#C3DCFD]"
-            value={filterDate}
+            // value={filterDate}
+            value={duration}
             // onChange={(e) => setFilterDate(e.target.value)}
-            onChange={(e) => {
-              let tr= getSummary(e.target.value,null,'all') //fields: transactions, totalExpense, totalIncome, balance
-              console.log("new Context Data::", tr); 
+            onChange={(e) => { setDuration(e.target.value)
+              // let tr= getSummary(e.target.value,null,'all') //fields: transactions, totalExpense, totalIncome, balance
+              // console.log("new Context Data::", tr); 
             }}
           >
             <option value="currentYear">Sort by Duration</option>
@@ -314,7 +370,7 @@ export default function Transaction() {
          {/* NOTE: CHANGE "recentTransactions" —> CURRENT YEAR'S TRANSACTIONS DATA */}
         {!filteredTr 
           // ? recentTransactions.map((tr) => (
-          ? transactions.map((tr) => (
+          ? transactions?.map((tr) => (
               <TransactionCard
                 key={tr._id}
                 icon={i[tr.type]}
