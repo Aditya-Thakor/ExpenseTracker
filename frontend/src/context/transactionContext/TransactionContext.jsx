@@ -459,36 +459,82 @@ export const TransactionProvider = ({ children }) => {
         };
     };
 
-    const getMonthlyExSum=(type='currentYear',value=null)=>{
-        const filtered = filterByDuration(type,value) || [];
+    const getMonthlyTrends = (type = 'currentMonth', value = null, forceGroupType = null) => {
+        const filtered = filterByDuration(type, value) || [];
         const expenses = filtered?.filter((tx) => tx.type == "expense");
+        const incomes = filtered?.filter((tx) => tx.type == "income");
 
-        const monthlyExpense = expenses?.reduce((mn, t) => {
-            const month = t.date.slice(0, 10);
-                // console.log('mn--',month);
-                mn[month] = (mn[month] || 0) + t.amount;
-                return mn;
-        }, {});
+        const groupData = (txs) => {
+            const groupMode = forceGroupType || 
+                             (type === 'thisWeek' ? 'daily' : 
+                             (type === 'currentMonth' ? 'weekly' : 'monthly'));
 
-        const sortEx = Object.entries(monthlyExpense).sort();
-        const monthlyArr = sortEx.map(([month, total]) => ({
-                day: month.split("-")[2],
-                month: month.split("-")[1],
-                year: Number(month.split("-")[0]),
-                total,
-        }));
+            const formatDateStr = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            const formatMonthStr = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 
-        const summary= monthlyArr.reduce((mn, t) => {
-                const month = t.month;
-                mn[month] = (mn[month] || 0) + t.total;
-                return mn;
-        }, {});
-        const sortMn = Object.entries(summary).sort();
-        const mnArr= sortMn.map((mn)=>({month:mn[0],total:mn[1]}));
+            if (groupMode === 'daily') {
+                let initialDaily = {};
+                if (type === 'thisWeek') {
+                    const now = new Date();
+                    const start = new Date(now);
+                    start.setDate(now.getDate() - now.getDay());
+                    for (let i = 0; i < 7; i++) {
+                        const d = new Date(start);
+                        d.setDate(start.getDate() + i);
+                        initialDaily[formatDateStr(d)] = 0;
+                    }
+                } else if (type === 'currentMonth') {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = now.getMonth();
+                    const lastDay = now.getDate(); // Stop at today instead of end of month
+                    for(let i = 1; i <= lastDay; i++) {
+                        initialDaily[formatDateStr(new Date(year, month, i))] = 0;
+                    }
+                }
+
+                const daily = txs?.reduce((acc, t) => {
+                    const dateStr = formatDateStr(new Date(t.date));
+                    acc[dateStr] = (acc[dateStr] || 0) + Number(t.amount);
+                    return acc;
+                }, initialDaily);
+
+                if (!daily) return [];
+                return Object.entries(daily).sort().map(([dateStr, total]) => {
+                    const d = new Date(dateStr);
+                    const label = type === 'thisWeek' ? d.toLocaleDateString('en-US', { weekday: 'short' }) : d.getDate().toString() + " " + d.toLocaleString('en-US', { month: 'short' });
+                    return { key: dateStr, label, total };
+                });
+            } else if (groupMode === 'weekly') {
+                const initialWeekly = { "Week 1": 0, "Week 2": 0, "Week 3": 0, "Week 4": 0 };
+                const weekly = txs?.reduce((acc, t) => {
+                    const day = new Date(t.date).getDate();
+                    const weekNum = Math.ceil(day / 7);
+                    const weekLabel = `Week ${weekNum > 4 ? 4 : weekNum}`;
+                    acc[weekLabel] = (acc[weekLabel] || 0) + Number(t.amount);
+                    return acc;
+                }, initialWeekly);
+                if (!weekly) return [];
+                return Object.entries(weekly).sort().map(([label, total]) => ({ key: label, label, total }));
+            } else {
+                const monthly = txs?.reduce((acc, t) => {
+                    const yearMonth = formatMonthStr(new Date(t.date));
+                    acc[yearMonth] = (acc[yearMonth] || 0) + Number(t.amount);
+                    return acc;
+                }, {});
+                if (!monthly) return [];
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                return Object.entries(monthly).sort().map(([yearMonth, total]) => {
+                    const monthIdx = parseInt(yearMonth.split("-")[1], 10) - 1;
+                    return { key: yearMonth, label: `${monthNames[monthIdx]} '${yearMonth.slice(2,4)}`, total };
+                });
+            }
+        };
 
         return {
-            monthlyExpenseSummary: mnArr
-        }
+            monthlyExpenseSummary: groupData(expenses),
+            monthlyIncomeSummary: groupData(incomes)
+        };
     }
 
 
@@ -497,7 +543,8 @@ export const TransactionProvider = ({ children }) => {
             transactions,
             getSummary,
             getCategories,
-            getMonthlyExSum
+            getMonthlyExSum: getMonthlyTrends, // backwards compatibility
+            getMonthlyTrends
         }
     ),[transactions]);
 
