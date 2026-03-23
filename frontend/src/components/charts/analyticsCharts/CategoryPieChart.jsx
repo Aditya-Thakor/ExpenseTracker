@@ -6,14 +6,11 @@ import { useTransactions } from "../../../context/transactionContext/Transaction
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function CategoryPieChart() {
-  // const income = 5000; // total monthly income
-  // const { categories, totalIncome } = useContext(TransactionContext);
-
+export default function CategoryPieChart({ durationFilter, yearCount }) {
   const {getCategories, getSummary} = useTransactions();
 
-  const {allCategories} = getCategories("currentMonth");
-  const {totalIncome, totalExpense}=getSummary("currentMonth");
+  const {allCategories} = getCategories(durationFilter, yearCount);
+  const {totalIncome, totalExpense}=getSummary(durationFilter, yearCount);
 
   console.log("cate------");
   console.log(allCategories);

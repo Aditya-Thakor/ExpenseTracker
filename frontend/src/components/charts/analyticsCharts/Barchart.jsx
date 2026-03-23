@@ -14,15 +14,18 @@ import { useTransactions } from "../../../context/transactionContext/Transaction
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-export default function Barchart() {
+export default function Barchart({ durationFilter, yearCount }) {
   const { expenses, monthlyExpense, manualFilter } =
     useContext(TransactionContext);
 
-    const {getMonthlyExSum}=useTransactions();
-  const {monthlyExpenseSummary} = getMonthlyExSum();
+  const {getMonthlyExSum}=useTransactions();
+  const {monthlyExpenseSummary} = getMonthlyExSum(durationFilter, yearCount);
+  console.log("monthly expense summary");
+  console.log(monthlyExpenseSummary);
+  
 
-  const [mnEx,setMnEx]=useState([]);
-  const [monthlyEx, setMonthlyEx] = useState([]);
+  const dynamicLabels = monthlyExpenseSummary?.map(e => e.label) || [];
+  const dynamicData = monthlyExpenseSummary?.map(e => e.total) || [];
   // const dailyTr = dailyTransactions
   // console.log("dttt",dailyTr);
   // const labels = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -49,20 +52,12 @@ export default function Barchart() {
 
   
 
-  // const labels = mnEx.map((d) => d.month);
-  const labels = ["Jan", "Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-  // const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const slice = labels.slice(labels.length-manualFilter, labels.length);
-  // const slice = labels.slice(0,monthlyExpenseSummary.length);
-  
   const data = {
-    labels:slice,
+    labels: dynamicLabels,
     datasets: [
       {
         label: "Expense",
-        // data: [90000, 110000, 100000, 130000, 120000, totalExpense],
-        // data: monthlyExpense.map((e) => e.total),
-        data: monthlyExpenseSummary.map((e) => e.total),        
+        data: dynamicData,        
         backgroundColor: "rgba(255, 0, 0, 0.3)",
         borderColor: "red",
         borderWidth: 1,

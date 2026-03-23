@@ -20,10 +20,12 @@ export default function Analytics() {
   //add Fn that count the current month's expenses
 
   const {getSummary, getCategories} = useTransactions();
+  const { count, setCount } = useContext(TransactionContext);
+  const [durationFilter, setDurationFilter] = useState("currentMonth");
   
-  const {transactions,  totalExpense, totalIncome, balance}=getSummary("currentMonth");
+  const {transactions,  totalExpense, totalIncome, balance}=getSummary(durationFilter, count);
 
-  const {top5Categories}= getCategories('currentMonth')
+  const {top5Categories}= getCategories(durationFilter, count);
   
   const lastMnTr = getSummary('lastMonth');
   const lMnEx = lastMnTr?.totalExpense;
@@ -139,16 +141,16 @@ export default function Analytics() {
   // FILTER BUTTONS DATA::::
     const filterBtns = [
       {
-        name:"This week"
+        name:"This week", clickEvent:()=>{setDurationFilter("thisWeek"); setManualFilter(1);}
       },
       {
-        name:"1 Month", clickEvent:()=>setManualFilter(1)
+        name:"1 Month", clickEvent:()=>{setDurationFilter("currentMonth"); setManualFilter(1);}
       },
       {
-        name:"3 Month", clickEvent:()=>setManualFilter(3)
+        name:"3 Month", clickEvent:()=>{setDurationFilter("last3"); setManualFilter(3);}
       },
       {
-        name:"6 Month", clickEvent:()=>setManualFilter(6)
+        name:"6 Month", clickEvent:()=>{setDurationFilter("last6"); setManualFilter(6);}
       },
     ]
 
@@ -158,17 +160,17 @@ export default function Analytics() {
     {
       title:"Income vs Expenses Trend",
       subtag:"Last  6 months overview",
-      chart:<InEx />
+      chart:<InEx durationFilter={durationFilter} yearCount={count}/>
     },
     {
       title:"Expense by Category",
       subtag:"Current month distribution",
-      chart:<CategoryPieChart  />
+      chart:<CategoryPieChart durationFilter={durationFilter} yearCount={count} />
     },
     {
       title:"Monthly Spending Pattern",
       subtag:"Expense trend over time",
-      chart:<Barchart  />
+      chart:<Barchart durationFilter={durationFilter} yearCount={count} />
     },
   ]
 
@@ -222,7 +224,7 @@ export default function Analytics() {
               <FilterBtn key={ind} name={fl.name} clickEvent={fl.clickEvent} />
             ))
           }
-          <YearBtn/>
+          <YearBtn setDurationFilter={setDurationFilter} />
         </div>
       </div>
 
@@ -273,26 +275,26 @@ const FilterBtn = ({ name, clickEvent }) => {
   );
 };
 
-const YearBtn = () => {
+const YearBtn = ({ setDurationFilter }) => {
   const {count,setCount, setManualFilter}=useContext(TransactionContext);
   return (
     <div className="h-auto lg:h-full w-full py-1.5 bg-gray-50 text-gray-600 flex items-center justify-between rounded-xl border px-5">
       <span>
         <ChevronLeft
           className="hover:text-neutral-800"
-          onClick={() => setCount(count - 1)}
+          onClick={() => { setCount(count - 1); setDurationFilter('yearly'); setManualFilter(12); }}
         />
       </span>
       <p 
         className="text-neutral-600 text-shadow-sm font-sans font-medium transition ease-in hover:text-neutral-800 cursor-default"
-        onClick={()=>setManualFilter(12)}
+        onClick={()=>{ setDurationFilter('yearly'); setManualFilter(12); }}
       >
         {count}
       </p>
       <span>
         <ChevronRight
           className="hover:text-neutral-800"
-          onClick={() => setCount(count + 1)}
+          onClick={() => { setCount(count + 1); setDurationFilter('yearly'); setManualFilter(12); }}
         />
       </span>
     </div>

@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { useContext, useMemo, useState } from "react";
 import TransactionContext from "../../../context/TransactionContext";
+import { useTransactions } from "../../../context/transactionContext/TransactionContext";
 
 ChartJS.register(
   CategoryScale,
@@ -20,79 +21,41 @@ ChartJS.register(
   Legend
 );
 
-export default function InEx() {
-  const {manualFilter,monthlyExpense,monthlyExpense1,monthlyIncome, monthlyIncome1,lastMnEx}=useContext(TransactionContext)
+export default function InEx({ durationFilter, yearCount }) {
+  const { getMonthlyTrends } = useTransactions();
   
-  // const handleExpense = ()=>{
-  //   let ex = monthlyExpense;
-  //   // let dt= ex?.filter(e=>e.month)
-  //   // console.log("exedxdex",monthlyExpense);
-  // }
-  // handleExpense();
-  // console.log("manual filter,", manualFilter)
-// console.log("mnt main");
-// console.log(monthlyExpense);
- const [thisMnEx,setThisMnEx]=useState([]);
- const [thisMnIn,setThisMnIn]=useState([]);
-useMemo(()=>{
-    const mn = monthlyExpense.reduce((mn, t) => {
-      const month = t.month;
-      mn[month] = (mn[month] || 0) + t.total;
-      return mn;
-    }, {});
+  // Line chart demands daily granularity for 'currentMonth' instead of default weekly bars.
+  const groupTypeOverride = durationFilter === 'currentMonth' ? 'daily' : null;
+  const { monthlyExpenseSummary, monthlyIncomeSummary } = getMonthlyTrends(durationFilter, yearCount, groupTypeOverride);
 
-    const sortMn = Object.entries(mn).sort();
-    const mnArr= sortMn.map((mn)=>({month:mn[0],total:mn[1]}));
-
-    setThisMnEx(mnArr);
-
-    const mnIn = monthlyIncome.reduce((mn,t)=>{
-      const month = t.month;
-      mn[month]= (mn[month] || 0 )+ t.total;
-      return mn;
-    },{})
-
-    const sortIn = Object.entries(mnIn).sort();
-    const inArr = sortIn.map((mn)=>(
-      {month:mn[0],total:mn[1]}
-    ));
-
-    setThisMnIn(inArr);
-
-  },[monthlyExpense,monthlyIncome])
-
-  const labels =  ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  // Merge unique keys across both expenses and incomes correctly.
+  const allKeys = new Set();
+  monthlyExpenseSummary.forEach(e => allKeys.add(e.key));
+  monthlyIncomeSummary.forEach(i => allKeys.add(i.key));
   
-  const labels1=[];
-  const data1=[];
-  monthlyExpense.forEach(element => {
-    console.log("eleexp",element);
-    labels1.push(element.day + "-"+ element.month+"-" +element.year)
-    data1.push(element.total);
+  const sortedKeys = Array.from(allKeys).sort();
+  
+  const labels = sortedKeys.map(k => {
+    const found = monthlyExpenseSummary.find(e => e.key === k) || monthlyIncomeSummary.find(i => i.key === k);
+    return found ? found.label : k;
   });
-  const inData = [];
-  monthlyIncome.forEach(e => {
-    inData.push(e.amount)
-  });
-  console.log("innn",inData);
-  
 
-  // console.log("lbl1",labels1);
-  // console.log("data1");
-  // console.log(data1);
-  const slice = labels.slice(labels.length-manualFilter, labels.length);
-  // console.log("sliced data->", slice);
-  
-  
+  const expenseData = sortedKeys.map(m => {
+    const found = monthlyExpenseSummary.find(e => e.key === m);
+    return found ? found.total : 0;
+  });
+
+  const incomeData = sortedKeys.map(m => {
+    const found = monthlyIncomeSummary.find(i => i.key === m);
+    return found ? found.total : 0;
+  });
+
   const data = {
-    // labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    labels:slice, //lbl2,
+    labels: labels,
     datasets: [
       {
         label: "Income",
-        // data: [0,0,0,0,0,0,80000, 50000, 30000, 70000, 60000, totalIncome],
-        // data:monthlyIncome?.map(i=>i.total) ,
-        data:thisMnIn?.map(i=>i.total) ,
+        data: incomeData,
         borderColor: "green",
         backgroundColor: "rgba(0, 128, 0, 0.1)",
         tension: 0.3,
@@ -100,10 +63,7 @@ useMemo(()=>{
       },
       {
         label: "Expense",
-        // data: [0,0,0,0,0,0,90000, 38000, 21000, 60000, 58000, totalExpense],
-        // data:monthlyExpense?.map(e=>e.total),  //monthlyExpense?.map(e=>e.total) ,
-        // data:data1,  //monthlyExpense?.map(e=>e.total) ,
-        data:thisMnEx.map(e=>e.total),  
+        data: expenseData,
         borderColor: "red",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
         tension: 0.3,
