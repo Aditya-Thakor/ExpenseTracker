@@ -17,8 +17,40 @@ export default function MonthlyExpenseBarChart() {
   const chartRef = useRef();
   const [gradient, setGradient] = useState(null);
 
-  const {getMonthlyExSum}=useTransactions();
+  const {getMonthlyExSum,getSummary}=useTransactions();
   const {monthlyExpenseSummary} = getMonthlyExSum();
+
+  let year = new Date().getFullYear()
+  const monthlyExpenses=getSummary('yearly',year,'expense');
+  const expenseTr  = monthlyExpenses?.transactions;
+
+  const monthlySum = expenseTr?.reduce((mn,tr)=>{
+      const month = tr.date.slice(0, 10);
+        mn[month] = (mn[month] || 0) + tr.amount;
+        return mn;
+    },{});
+    
+    const sortEx = Object.entries(monthlySum? monthlySum: {});
+
+    const mnExArr = sortEx?.map(([month, total]) => ({
+      day: month.split("-")[2],
+      month: month.split("-")[1],
+      year: Number(month.split("-")[0]),
+      total,
+    }));
+
+    const monthlyexSum= mnExArr.reduce((mn,t)=>{
+      mn[t.month]= (mn[t.month] || 0) + t.total
+      return mn;
+    },[]);
+
+    const MonthlyExpenses = Object.entries(monthlyexSum).map(([month,total])=>({
+      month:month,
+      total: total
+    }));
+
+    console.log("monthly expenses:: ");
+    console.log(MonthlyExpenses);
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -39,12 +71,14 @@ export default function MonthlyExpenseBarChart() {
 
   const data = {
     // labels: lbls.slice(0,thisMnEx.length),
-    labels: lbls.slice(0,monthlyExpenseSummary.length),
+    // labels: lbls.slice(0,monthlyExpenseSummary.length),
+    labels: lbls.slice(0,MonthlyExpenses.length),
     datasets: [
       {
         label: "Monthly Expenses",
         // data:thisMnEx.map(e=>e.total),
-        data:monthlyExpenseSummary.map(e=>e.total),
+        // data:monthlyExpenseSummary.map(e=>e.total),
+        data:MonthlyExpenses.map(e=>e.total),
         backgroundColor: gradient || "#3B82F6",
         borderRadius: 5,
         borderSkipped: false, 
